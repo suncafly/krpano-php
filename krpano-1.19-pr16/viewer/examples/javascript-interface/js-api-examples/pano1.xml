@@ -1,9 +1,0 @@
-﻿<krpano>
-
-	<image>
-		<cubestrip url="pano1.jpg" />
-	</image>
-	
-	<view hlookat="0" vlookat="-5" fov="100" distortion="0" />
-	
-</krpano>
