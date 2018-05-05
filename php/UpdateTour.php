@@ -19,6 +19,7 @@ $sceneList = $tourDom->getElementsByTagName("scene");
 
 foreach ($data as $key => $value) {
     $sceneIndex = $value->index;
+//    property_exists($value, "welcomeFlag")?
     $welcomeFlag = $value->welcomeFlag;
     $sceneName = $value->name;
     $autorotate = $value->autorotate;
@@ -66,7 +67,7 @@ foreach ($data as $key => $value) {
         $actionItem->nodeValue =
             "if(startscene === null OR !scene[get(startscene)], 
             copy(startscene,scene[" . $sceneIndex . "].name); );
-            loadscene(get(startscene), null, MERGE);if(startactions !== null, startactions() );js('onready');";
+            loadscene(get(startscene), null, MERGE);if(startactions !== null, startactions() );js('onready(" . $sceneIndex . ")');";
     }
 
     if ($sceneIndex != $scene_index) continue;

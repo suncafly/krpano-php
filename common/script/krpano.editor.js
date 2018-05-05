@@ -84,7 +84,8 @@ $(function () {
 });
 
 //noinspection JSUnusedGlobalSymbols
-function onready() {
+function onready(value) {
+    scene_index = value;
     //隐藏下方自带控制条
     krpano.set("layer[skin_control_bar].visible", false);
     krpano.set("layer[skin_splitter_bottom].visible", false);
@@ -148,7 +149,6 @@ function onready() {
 
 //场景切换，重命名模块
 function changeScene(index) {
-    scene_index = index;
     krpano.call("loadscene(" + krpano.get("scene").getItem(index).name + ")");
     //当前存储对象展示
     var currentScene = sceneList[index];
@@ -189,7 +189,7 @@ function changeScene(index) {
             krpano.set("startscene", scene.name);
         }
     });
-    onready();
+    onready(index);
 }
 
 function rename(prevButton) {
@@ -253,6 +253,7 @@ function doRename(thisInput) {
 }
 
 function selectWelcomeScene(index) {
+    scene_index = index;
     $(".circle").css("background-color", "#292827");
     $(".circle:eq(" + index + ")").css("background-color", "#FF9800");
     sceneList.forEach(function (scene) {

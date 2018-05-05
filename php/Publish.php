@@ -57,7 +57,7 @@ function updateTourXml($_uuid)
         "if(startscene === null OR !scene[get(startscene)],
 		copy(startscene,scene[0].name); );
 		loadscene(get(startscene), null, MERGE);
-	    if(startactions !== null, startactions() );js('onready');";
+	    if(startactions !== null, startactions() );js('onready(0)');";
 
     $sceneList = $dom->getElementsByTagName("scene");
     foreach ($sceneList as $sceneItem){
