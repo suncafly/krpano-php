@@ -1,2 +1,4 @@
 
-krpano-1.19-pr16/docu/xml_syntax.html
+krpano-1.19-pr16/*
+data/
+.idea/
