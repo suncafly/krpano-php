@@ -1,0 +1,116 @@
+﻿<krpano>
+
+	<!-- include the corfu tour -->
+	<include url="../demotour-corfu/tour.xml" />
+
+
+	<style name="button" type="text"
+	       css="text-align:center;"
+	       padding="4 8"
+	       mergedalpha="false"
+	       bgborder="4 0xFFFFFF 1"
+	       bgroundedge="1"
+	       bgshadow="0 1 4 0x000000 1.0"
+	       onover="set(bgcolor, 0xC7E4FC);"
+	       onout="calc(bgcolor, pressed ? 0x90CAF9 : 0xFFFFFF);"
+	       ondown="set(bgcolor, 0x90CAF9);"
+	       onup="calc(bgcolor, hovering ? 0xC7E4FC : 0xFFFFFF);"
+	       />
+
+
+	<layer name="makescreenshot" keep="true" style="button" align="top" x="0" y="40" padding="4 8"
+	       html="Make Screenshot"
+	       onclick="makescreenshot();"
+	       />
+
+
+	<action name="makescreenshot_init" type="Javascript" autorun="onstart"><![CDATA[
+
+		// Load the FileSaver.js script for saving files locally cross browser.
+		// Source: https://github.com/eligrey/FileSaver.js/
+		krpano.loadFile("%CURRENTXML%/FileSaver.js", function(file)
+		{
+			eval(file.data.replace("export ",""));
+			krpano.screenshotSaveAs = saveAs;
+		});
+
+
+		// count the screenshots (for the filenames)
+		krpano.makescreenshot_count = 1;
+
+
+		// add a 'makescreenshot' action to krpano
+		krpano.makescreenshot = function()
+		{
+			// if there is already a screenshot layer, remove it now
+			krpano.call("removelayer(screenshot,true)");
+
+			// create an empty Object as makeScreenshot cache
+			krpano.makeScreenshotCache = {};
+
+			// make a screenshot as canvas
+			var sizeinfo = {w:0, h:0};
+			var screenshotcanvas = krpano.webGL.makeScreenshot(0, 0, true, "canvas", 0, null, sizeinfo, krpano.makeScreenshotCache);
+
+			if (screenshotcanvas)
+			{
+				// example - draw something on the canvas
+				if (0)
+				{
+					var ctx = screenshotcanvas.getContext("2d");
+					ctx.font = "25px Times";
+					ctx.fillStyle = "#FFFFFF";
+					ctx.fillText("krpano makeScreenshot() API Test", 50, screenshotcanvas.height-50);
+				}
+
+				// add some krpano layers that show the screenshot and allow saving it
+				var container = krpano.addlayer("screenshot");
+				container.type = "container";
+				container.align="center";
+				container.registercontentsize(sizeinfo.w+20, sizeinfo.h+20);
+				container.width  = sizeinfo.w > sizeinfo.h ? "70%" : "prop";
+				container.height = sizeinfo.w > sizeinfo.h ? "prop" : "70%";
+				container.bgcolor = 0xFFFFFF;
+				container.bgalpha = 1.0;
+				container.bgshadow = "0 5 40 0x000000 1.0";
+				container.bgroundedge = 3;
+				container.bgcapture = true;
+				container.zorder = 99;
+				container.onclick = "set(enabled,false);tween(alpha,0,0.2,default,removelayer(get(name),true));";
+				container.onover = "tween(layer[screenshotsaveasbutton].alpha,1,0.2)";
+				container.onout = "tween(layer[screenshotsaveasbutton].alpha,0,0.2)";
+
+				var image = krpano.addlayer("screenshotimage");
+				image.url = screenshotcanvas.toDataURL();
+				image.parent = "screenshot";
+				image.align = "center";
+				image.width = -20;
+				image.height = -20;
+				image.zorder = 1;
+				image.enabled = false;
+
+				// saving screenshots will be only possible when Blob and canvas.toBlob is supported by the browser (for more browser support add polyfills)
+				if (screenshotcanvas.toBlob)
+				{
+					var saveasbutton = krpano.addlayer("screenshotsaveasbutton");
+					saveasbutton.loadstyle("button");
+					saveasbutton.parent = "screenshot";
+					saveasbutton.align = "bottom";
+					saveasbutton.y = 25;
+					saveasbutton.zorder = 2;
+					saveasbutton.autoalpha = true;
+					saveasbutton.alpha = 0;
+					saveasbutton.html = "Save Image";
+					saveasbutton.onclick = function()
+					{
+						// save as JPEG with 92% quality
+						screenshotcanvas.toBlob(function(blob){ krpano.screenshotSaveAs(blob,"screenshot" + (krpano.makescreenshot_count++) + ".jpg"); }, "image/jpeg", 0.92);
+					};
+				}
+			}
+		}
+
+	]]></action>
+
+
+</krpano>

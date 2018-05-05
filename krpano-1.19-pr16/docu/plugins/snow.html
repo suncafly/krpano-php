@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Snow / Rain Plugin
+		<span class="pluginfilename">snow.swf / snow.js</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>A weather effect plugin that adds snow or rain to the pano.</li>
+			<li>The snow flakes can be made out of pixels (default) or individual images.</li>
+			
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+
+		Usage example with all attributes and their default values:
+		<pre class="xmlpre">&lt;<a href="../xml.html#plugin">plugin</a> <a href="../xml.html#plugin.name">name</a>="snow"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="snow.swf"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="snow.js"
+        <a href="../xml.html#plugin.blendmode">blendmode</a>="normal"
+        <a href="#mode" class="pluginattrib">mode</a>="snow"
+        <a href="#imageurl" class="pluginattrib">imageurl</a>=""
+        <a href="#imagescale" class="pluginattrib">imagescale</a>="1.0"
+        <a href="#flakes" class="pluginattrib">flakes</a>="4000"
+        <a href="#color" class="pluginattrib">color</a>="0xFFFFFF"
+        <a href="#floor" class="pluginattrib">floor</a>="0.3"
+        <a href="#speed" class="pluginattrib">speed</a>="1.0"
+        <a href="#spreading" class="pluginattrib">spreading</a>="4.0"
+        <a href="#shake" class="pluginattrib">shake</a>="4.0"
+        <a href="#speedvariance" class="pluginattrib">speedvariance</a>="2.0"
+        <a href="#wind" class="pluginattrib">wind</a>="0.0"
+        <a href="#winddir" class="pluginattrib">winddir</a>="0.0"
+        <a href="#rainwidth" class="pluginattrib">rainwidth</a>="0.5"
+        <a href="#rainalpha" class="pluginattrib">rainalpha</a>="0.5"
+        /&gt;</pre>
+	</div>
+
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+	
+		<div class="subparagraph2">	
+			All attributes of the snow plugin can also be set or changed dynamically.
+		</div>
+
+		<ul>
+			<li class="lidd">
+				<a name="mode" href="#mode" class="selflink">mode</a>
+				<ul>
+					<li>
+						Weather effect mode.<br/>
+						Possible settings:
+						<ul>
+							<li><b>snow</b> &nbsp; <span class="smallcomment">(default)</span><br/>
+								The snow flakes will be made out of small pixels. The color of the pixels
+								can adjusted by the <a href="#color">color</a> settings.
+							</li>
+							
+							<li><b>rain</b><br/>
+								Instead of snow flakes there are falling down lines to simulate raining. The style of the rain lines
+								can be adjusted by the <a href="#color">color</a>, <a href="#rainwidth">rainwidth</a> and <a href="#rainalpha">rainalpha</a>
+								settings.
+							</li>
+							<li><b>image</b><br/>
+								The snow flakes will be made out of images. The image must be set by <a href="#imageurl">imageurl</a> setting.
+								And the scaling of the image can adjusted the <a href="#imagescale">imagescale</a> setting.
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="imageurl" href="#imageurl" class="selflink">imageurl</a>&nbsp; <span class="smallcomment">(needed for mode="image")</span>
+				<ul>
+					<li>Set the url / path for the snow flake image.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="imagescale" href="#imagescale" class="selflink">imagescale</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The scaling of the <a href="#imageurl">imageurl</a> flake images, default=1.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="flakes" href="#flakes" class="selflink">flakes</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The number of the snow flakes or rain drops, default=4000.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="color" href="#color" class="selflink">color</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The color of the snow flakes or rain drops, defaul=0xFFFFFF.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="floor" href="#floor" class="selflink">floor</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The floor setting defines a virtual floor where the snow flakes are hitting the floor and stop falling.
+					Possible settings are in the range from 0.0 to 1.0. The setting 0.0 would define the floor to be the middle 
+					of the pano/screen. The default setting is 0.3.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="speed" href="#speed" class="selflink">speed</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The falling speed of the snow flakes, default=1.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="spreading" href="#spreading" class="selflink">spreading</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The spreading setting defines the range / depth of the snow field in the virtual 3D world, default=4.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="shake" href="#shake" class="selflink">shake</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The random shaking range of the snow flakes, default=4.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="speedvariance" href="#speedvariance" class="selflink">speedvariance</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>How much can the falling speed vary randomly, default=2.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="wind" href="#wind" class="selflink">wind</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The wind strength that changes the falling directing of the snow flakes, default=0.0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="winddir" href="#winddir" class="selflink">winddir</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The direction of the wind in degrees, 0-360, default=0.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="rainwidth" href="#rainwidth" class="selflink">rainwidth</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The line-width of the rain drop lines, default=0.5.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="rainalpha" href="#rainalpha" class="selflink">rainalpha</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>The alpha of the rain drop lines, default=0.5.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

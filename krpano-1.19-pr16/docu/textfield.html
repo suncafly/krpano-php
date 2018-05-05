@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Textfield Plugin
+		<span class="pluginfilename">internal / build-in plugin</span>
+		
+	</h1>
+	
+	<div class="paragraph">
+		<ul>
+			<li>A plugin for displaying HTML/CSS formatted text.</li>
+			<li>The position and size of the plugin can by adjusted with the standard <a href="xml.html#layer">layer</a> attributes.</li>
+			<li>When no custom width/height size will be set, the plugin will resize itself to fit the text.</li>
+			<li>For formating the text, a few HTML-tags, simple CSS-styles or BBCode-like tags can be used.
+				<i>But please note that only a small subset of HTML and CSS is supported by the Flashplayer!
+					Don't try to use real HTML / CSS code! CSS-classes are not supported!
+				</i>
+			</li>
+			<li>Since version 1.19 the the textfield plugin is directly integrated into the viewer and can be used
+				by using <a href="xml.html#layer.type">type="text"</a>.
+				For backward-compatibility the plugin will be also used automatically when trying to load a <span class="presyntax_inline">textfield.swf</span> file (regardless of the path).
+			</li>
+		</ul>
+	</div>
+
+	
+	<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#attributes">Plugin Attributes</a></li>
+			<li><a href="#events">Plugin Events</a></li>
+			
+		</ul>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+
+		As layer:
+		<pre class="xmlpre">&lt;<a href="xml.html#layer">layer</a> <a href="xml.html#layer.name">name</a>="mytext"
+       <a href="xml.html#layer.type">type</a>="text"
+       <a href="xml.html#layer.align">align</a>="lefttop" <a href="xml.html#layer.x">x</a>="10" <a href="xml.html#layer.y">y</a>="10"
+       <a href="#html" class="pluginattrib">html</a>="Text...[br][b]Bold Text...[/b]"
+       <a href="#css" class="pluginattrib">css</a>="font-family:Arial; font-size:16px; color:#000000;"
+       <a href="#vcenter" class="pluginattrib">vcenter</a>="false"
+       <a href="#padding" class="pluginattrib">padding</a>="2"
+       <a href="#wordwrap" class="pluginattrib">wordwrap</a>="true"
+       <a href="#bg" class="pluginattrib">bg</a>="true"
+       <a href="#bgcolor" class="pluginattrib">bgcolor</a>="0xFFFFFF"
+       <a href="#bgalpha" class="pluginattrib">bgalpha</a>="1.0"
+       <a href="#bgborder" class="pluginattrib">bgborder</a>="0"
+       <a href="#bgroundedge" class="pluginattrib">bgroundedge</a>="0"
+       <a href="#bgshadow" class="pluginattrib">bgshadow</a>=""
+       <a href="#txtshadow" class="pluginattrib">txtshadow</a>=""
+       <a href="#mergedalpha" class="pluginattrib">mergedalpha</a>="true"
+       <a href="#interactivecontent" class="pluginattrib">interactivecontent</a>="false"
+       <a href="#onautosized" class="pluginattrib">onautosized</a>=""
+       /&gt;</pre>
+       <br>
+       As hotspot:
+         <pre class="xmlpre">&lt;<a href="xml.html#hotspot">hotspot</a> <a href="xml.html#hotspot.name">name</a>="mytext"
+         <a href="xml.html#hotspot.type">type</a>="text"
+         <a href="xml.html#hotspot.ath">ath</a>="0" <a href="xml.html#hotspot.atv">atv</a>="0" <a href="xml.html#hotspot.edge">edge</a>="center" <a href="xml.html#hotspot.distorted">distorted</a>="true" <a href="xml.html#hotspot.renderer">renderer</a>="webgl"
+         <a href="#html" class="pluginattrib">html</a>="Text...[br][b]Bold Text...[/b]"
+         <a href="#css" class="pluginattrib">css</a>="font-family:Arial; font-size:16px; color:#000000;"
+         <a href="#vcenter" class="pluginattrib">vcenter</a>="false"
+         <a href="#padding" class="pluginattrib">padding</a>="2"
+         <a href="#wordwrap" class="pluginattrib">wordwrap</a>="true"
+         <a href="#bg" class="pluginattrib">bg</a>="true"
+         <a href="#bgcolor" class="pluginattrib">bgcolor</a>="0xFFFFFF"
+         <a href="#bgalpha" class="pluginattrib">bgalpha</a>="1.0"
+         <a href="#bgborder" class="pluginattrib">bgborder</a>="0"
+         <a href="#bgroundedge" class="pluginattrib">bgroundedge</a>="0"
+         <a href="#bgshadow" class="pluginattrib">bgshadow</a>=""
+         <a href="#txtshadow" class="pluginattrib">txtshadow</a>=""
+         <a href="#mergedalpha" class="pluginattrib">mergedalpha</a>="true"
+         <a href="#oversampling" class="pluginattrib">oversampling</a>="1.0"
+         <a href="#mipmapping" class="pluginattrib">mipmapping</a>="false"
+         <a href="#onautosized" class="pluginattrib">onautosized</a>=""
+         /&gt;</pre>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+	
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="html"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#html" class="selflink">html</a></th><th>String</th><th>""</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li class="uldd">Set the HTML / CSS / BBCode formated text.</li>
+						<li class="uldd">The HTML / CSS code will be rendered by the Flashplayer (Flash-viewer) or by the Browser (HTML5-viewer)!
+							The Flashplayer itself supports only a very small subset of HTML4!
+							For equal results in Flash and HTML5 only very simple html formating code should be used.
+							Using images inside the html code is not recommended, the Flashplayer was very bad and buggy support here.<br>
+						</li>
+						<li class="uldd">	
+							<i>Here a link to the Flashplayer documentation about the HTML support:
+							<a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/text/TextField.html#htmlText" target="_blank">http://help.adobe.com/.../TextField.html#htmlText</a>
+							</i><br>
+						</li>
+						<li class="uldd">
+							When using the <span class="presyntax_inline">&lt;</span> and <span class="presyntax_inline">&gt;</span> characters is not possible (e.g. inside xml attributes),
+							then the <span class="presyntax_inline">[</span> and <span class="presyntax_inline">]</span> characters or
+							the tags <span class="presyntax_inline">[lt]</span> and <span class="presyntax_inline">[gt]</span> could be used instead.<br>
+						</li>
+						<li class="uldd">
+							When using the single-quote <span class="presyntax_inline">'</span> 
+							or double-quote  <span class="presyntax_inline">"</span> characters is not possible (e.g. because of xml syntax limitations or the usage as escape character),
+							then <span class="presyntax_inline">[sq]</span> for the 'single-quote' character and <span class="presyntax_inline">[dq]</span> for the 'double-quote' character can be used instead.
+						</li>
+						<li class="uldd">
+							To get the <span class="presyntax_inline">[</span> and <span class="presyntax_inline">]</span> characters itself,
+							use them twice as <span class="presyntax_inline">[[</span> and <span class="presyntax_inline">]]</span>.<br>
+						</li>
+						<li class="uldd">There are two possiblites to set the html text:
+							<ol>
+								<li>Either directly in the html attribute:
+									<pre>html="[b]Bold Text[/b]"</pre>
+								</li>
+								<li>Or by referring to a <a href="xml.html#data" class="selflink">&lt;data&gt;</a> xml element and via <b>data:name</b>:
+									<pre>html="data:htmltext"</pre>
+								</li>
+							</ol>
+						</li>
+						<li class="uldd">It is possible to create links in the html code that can call krpano actions, by using <b>event:actions</b> as link target:
+							<pre>&lt;a href="event:showlog(); trace('link clicked');"&gt;link&lt;/a&gt;</pre>
+						</li>
+						
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="css"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#css" class="selflink">css</a></th><th>String</th><th>""</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li class="uldd">Set the CSS styles for the HTML text.</li>
+						
+						<li class="uldd">The HTML / CSS code will be rendered by the Flashplayer (Flash-viewer) or by the Browser (HTML5-viewer)!
+							The Flashplayer itself supports only a very small subset of CSS1!
+							For equal results in Flash and HTML5 only very simple css styles code should be used.
+							The usage of CSS classes is not supported<br>
+						</li>
+						<li class="uldd">	
+							<i>Here a link to the Flashplayer documentation about the CSS support:
+							<a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/text/StyleSheet.html" target="_blank">http://help.adobe.com/.../StyleSheet.html</a>
+							</i><br>
+						</li>
+						
+						<li class="uldd">There are two possiblites to set the css style:
+							<ol>
+								<li>Either directly in the css attribute:
+									<pre>css="text-align:center; color:#FFFFFF; font-family:Arial;"</pre>
+								</li>
+								<li>Or by referring to a <a href="xml.html#data" class="selflink">&lt;data&gt;</a> xml element and via <b>data:name</b>:
+									<pre>css="data:cssstyles"</pre>
+								</li>
+							</ol>
+						</li>
+						
+						<li class="uldd">
+							When setting font-sizes, it is important to use 'px' as entity to get the same results in Flash and HTML5.
+						</li>
+						
+						<li class="uldd">
+							Any occurrence of <span class="presyntax_inline">0x</span> in the css value will be automatically 
+							converted to <span class="presyntax_inline">#</span>
+							to allow using the same color value syntax as in the krpano xml.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="vcenter"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#vcenter" class="selflink">vcenter</a></th><th>Boolean</th><th>false</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Vertically center the text within the given plugin height.</li>
+						<li>Tip - for horizontal centering use the css style <span class="presyntax_inline">text-align:center;</span></li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="padding"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#padding" class="selflink">padding</a></th><th>String</th><th>"2"</th></tr>
+			<tr>
+				<td colspan="4">
+					Padding / space in pixels around the text. Can be individually for each side.<br>
+					<br>
+					There are 4 different ways to set the paddings (same as in CSS):
+					<ul>
+						<li><b>padding="25"</b>
+							<ul>
+								<li class="lisd">all four paddings are 25px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50"</b>
+							<ul>
+								<li class="lisd">top and bottom paddings are 25px</li>
+								<li class="lisd">right and left paddings are 50px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50 75"</b>
+							<ul>
+								<li class="lisd">top padding is 25px</li>
+								<li class="lisd">right and left paddings are 50px</li>
+								<li class="lisd">bottom  padding is 75px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50 75 100"</b>
+							<ul>
+								<li class="lisd">top padding is 25px</li>
+								<li class="lisd">right padding is 50px</li>
+								<li class="lisd">bottom padding is 75px</li>
+								<li class="lisd">left padding is 100px</li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="wordwrap"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#wordwrap" class="selflink">wordwrap</a></th><th>Boolean</th><th>true</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Set if the text should automatically wrap around (line-break) to new lines when the text doesn't fit into the current line.</li>
+						<li>This setting was only an effect when using / setting a custom <a href="xml.html#layer.width">width</a>.</li>
+						<li>When disabled the text could get cut-off when it is larger than the given width.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bg"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bg" class="selflink">bg</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr><td colspan="4">
+				Draw a background shape behind the text.
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bgcolor"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bgcolor" class="selflink">bgcolor</a></th>
+				<th>int</th>
+				<th>0xFFFFFF</th>
+			</tr>
+			<tr><td colspan="4">
+				Background color of the textfield.
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bgalpha"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bgalpha" class="selflink">bgalpha</a></th>
+				<th>Number</th>
+				<th>1.0</th>
+			</tr>
+			<tr><td colspan="4">
+				Transparency / alpha of the background color of the textfield.
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bgborder"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bgborder" class="selflink">bgborder</a></th>
+				<th>String</th>
+				<th>"0"</th>
+			</tr>
+			<tr><td colspan="4">
+				Add borders around the textfield.<br>
+				<br>
+				Syntax:
+				<pre>bgborder="width color alpha"</pre>
+				<br>
+				Parameters:
+				<ul>
+					<li><b>width</b><br>
+						The border line-width.
+					</li>
+					
+					<li><b>color</b> <span class="smallcomment">(optionally)</span><br>
+						The color of the border lines. The default is 0x000000 (black).
+					</li>
+					
+					<li><b>alpha</b> <span class="smallcomment">(optionally)</span><br>
+						Transparency / alpha of the border lines (0.0 to 1.0, default=1.0). 
+					</li>
+				</ul>
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bgroundedge"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bgroundedge" class="selflink">bgroundedge</a></th>
+				<th>String</th>
+				<th>"0"</th>
+			</tr>
+			<tr><td colspan="4">
+				Define rounded edges of the textfield background color shape. <br>
+				A value sets the edge rounding radius in pixels.<br>
+				<br>
+				Four values can be set, one for each edge (separated by space characters).
+				They are given in the order: top-left, top-right, bottom-right, bottom-left.
+				If bottom-left is omitted, it is the same as top-right.
+				If bottom-right is omitted, it is the same as top-left.
+				If top-right is omitted, it is the same as top-left.
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="bgshadow"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#bgshadow" class="selflink">bgshadow</a></th>
+				<th>String</th>
+				<th>""</th>
+			</tr>
+			<tr><td colspan="4">
+				Add a shadow behind the textfield background shape.<br>
+				<br>
+				Syntax:
+				<pre>bgshadow="xoffset yoffset blur color alpha"</pre>
+				<br>
+				Parameters:
+				<ul>
+					<li><b>xoffset</b>,	<b>yoffset</b><br>
+						The offset / distance of the shadow in pixels.
+					</li>
+					
+					<li><b>blur</b><br>
+						The blur radius / range in pixels - defines how strong the shadow will be blurred.<br>
+						0 = no blur &rArr; sharp edges.
+					</li>
+					
+					<li><b>color</b><br>
+						The color of the shadow.
+					</li>
+					
+					<li><b>alpha</b><br>
+						The alpha / transparency of the shadow.
+					</li>
+				</ul>
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="txtshadow"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#txtshadow" class="selflink">txtshadow</a></th>
+				<th>String</th>
+				<th>""</th>
+			</tr>
+			<tr><td colspan="4">
+				Add a shadow behind the text.<br>
+				<br>
+				Syntax:
+				<pre>txtshadow="xoffset yoffset blur color alpha"</pre>
+				<br>
+				Parameters:
+				<ul>
+					<li><b>xoffset</b>,	<b>yoffset</b><br>
+						The offset / distance of the shadow in pixels.
+					</li>
+					
+					<li><b>blur</b><br>
+						The blur radius / range in pixels - defines how strong the shadow will be blurred.<br>
+						0 = no blur &rArr; sharp edges.
+					</li>
+					
+					<li><b>color</b><br>
+						The color of the shadow.
+					</li>
+					
+					<li><b>alpha</b><br>
+						The alpha / transparency of the shadow.
+					</li>
+				</ul>
+			</td></tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="mergedalpha"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#mergedalpha" class="selflink">mergedalpha</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr><td colspan="4">
+				By default the alpha transparency of the background will be applied also to the border and shadow,
+				but by disabling that setting, it would be possible to render the border and shadow with their own 
+				and independent alpha transparency.
+			</td></tr>
+			
+			
+			<tr class="xmlattrdocdesc"><td><a name="oversampling"></a>Attribute name <span class="html5only">(only for WebGL-Hotspots usage)</span></td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#oversampling" class="selflink">oversampling</a></th>
+				<th>Number</th>
+				<th>1.0</th>
+			</tr>
+			<tr><td colspan="4">
+				Upscale the internal bitmap rendering target by the given oversampling factor for a higher-resolution (sharper) text.<br>
+				<br>
+				Settings larger 1.0 are improving the text-rendering-quality, but also requiring more memory- and rendering-resources.
+			</td></tr>
+			
+			
+			<tr class="xmlattrdocdesc"><td><a name="mipmapping"></a>Attribute name <span class="html5only">(only for WebGL-Hotspots usage)</span></td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#mipmapping" class="selflink">mipmapping</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr><td colspan="4">
+				Enable mipmapping - this reduces aliasing effects when displaying the text as scaled-down element.<br>
+				<br>
+				Mipmapping works by automatically upscaling the internal bitmap rendering target to the next power-of-two size (because that's required for mipmapping).
+				Because of this scaling, it would be recommended to use additionally also <a href="#oversampling">oversampling</a> for a better image/text quality -  
+				e.g. mipmapping="true" and oversampling="2.0".
+			</td></tr>
+			
+			
+			<tr class="xmlattrdocdesc"><td><a name="interactivecontent"></a>Attribute name <span class="html5only">(HTML5 only)</span></td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#interactivecontent" class="selflink">interactivecontent</a></th><th>Boolean</th><th>false</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>By default krpano doesn't pass mouse events to the inner textfield html content to avoid event tracking conflicts.</li>
+						<li>By enabling this setting this can be disabled, then the mouse events will be also sent
+							also to the textfield html content.
+						</li>
+						<li>When the html content contains &lt;a&gt; or &lt;iframe&gt; elements, then this setting will be automatically enabled.</li>
+					</ul>
+				</td>
+			</tr>
+
+		</table>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="events" href="#events" class="selflink">Plugin Events</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+	
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="onautosized"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#onautosized" class="selflink">onautosized</a></th><th>String</th><th>""</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+					<li>This event will be called when the textfield will resize itself automatically.
+						This happens when no custom <a href="xml.html#layer.width">width</a> and <a href="xml.html#layer.height">height</a> settings will be set.
+					</li>
+					<li><i>Note - due the automatic word-breaking, there can be more than one onautosized event when the width or the html content will be changed. The number of events can differ between Flash and HTML5.</i></li>
+				</ul>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+	
+
+
+	
+	
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

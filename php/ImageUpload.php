@@ -5,8 +5,6 @@
  * Date: 2018/4/29
  * Time: 8:21 PM
  */
-
-
 $result = array();
 $result['status'] = "success";
 $title = $_POST["title"];

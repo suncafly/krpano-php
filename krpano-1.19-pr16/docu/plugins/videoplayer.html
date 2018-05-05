@@ -1,0 +1,1087 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Videoplayer Plugin
+		<span class="pluginfilename">videoplayer.swf / videoplayer.js</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>
+				The Videoplayer plugin can be used to play videos inside krpano...
+				<ul>
+					<li>as normal flat video via the <a href="../xml.html#layer">&lt;layer&gt;</a> element,</li>
+					<li>or as flat or 3d-distorted hotspot via the <a href="../xml.html#hotspot">&lt;hotspot&gt;</a> element,</li>
+					<li>or as pano when referring to the video via the <a href="../xml.html#image">&lt;image&gt;</a> element.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#attributes">Plugin Attributes</a></li>
+			<li><a href="#events">Plugin Events</a></li>
+			<li><a href="#stateattributes">Plugin State Attributes</a></li>
+			<li><a href="#actions">Plugin Actions</a></li>
+			<li><a href="#mobilelimitations">Mobile Limitations </a> / <a href="#html5.knownbrowserbugs">Known browser bugs</a></li>
+			
+			<li><a href="#opensource">Open Source Plugin</a></li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+
+		As flat layer element on the screen:
+		<pre class="xmlpre">&lt;<a href="../xml.html#layer">layer</a> <a href="../xml.html#layer.name">name</a>="video"
+       <a href="../xml.html#layer.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="videoplayer.swf"
+       <a href="../xml.html#layer.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="videoplayer.js"
+       <a href="#videourl" class="pluginattrib">videourl</a>="video.m4v|video.webm"
+       <a href="#posterurl" class="pluginattrib">posterurl</a>="videoposter.jpg"
+       <a href="../xml.html#layer.align">align</a>="center" <a href="../xml.html#layer.x">x</a>="0" <a href="../xml.html#layer.y">y</a>="0"
+       <a href="#pausedonstart" class="pluginattrib">pausedonstart</a>="false"
+       <a href="#loop" class="pluginattrib">loop</a>="false"
+       <a href="#volume" class="pluginattrib">volume</a>="1.0"
+       <a href="#onvideoready" class="pluginattrib">onvideoready</a>=""
+       <a href="#onvideoplay" class="pluginattrib">onvideoplay</a>=""
+       <a href="#onvideopaused" class="pluginattrib">onvideopaused</a>=""
+       <a href="#onvideocomplete" class="pluginattrib">onvideocomplete</a>=""
+       <a href="#onerror" class="pluginattrib">onerror</a>=""
+       /&gt;</pre>
+		<br/>
+        As 3d-distorted hotspot:
+		<pre class="xmlpre">&lt;<a href="../xml.html#hotspot">hotspot</a> <a href="../xml.html#hotspot.name">name</a>="video"
+         <a href="../xml.html#hotspot.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="videoplayer.swf"
+         <a href="../xml.html#hotspot.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="videoplayer.js"
+         <a href="#videourl" class="pluginattrib">videourl</a>="video.m4v|video.webm"
+         <a href="#posterurl" class="pluginattrib">posterurl</a>="videoposter.jpg"
+         <a href="../xml.html#hotspot.ath">ath</a>="0.0" <a href="../xml.html#hotspot.atv">atv</a>="0.0"
+         <a href="../xml.html#hotspot.distorted">distorted</a>="true"
+         <a href="../xml.html#hotspot.scale">scale</a>="1.0" 
+         <a href="../xml.html#hotspot.rx">rx</a>="0.0" 
+         <a href="../xml.html#hotspot.ry">ry</a>="0.0" 
+         <a href="../xml.html#hotspot.rz">rz</a>="0.0" 
+         <a href="#pausedonstart" class="pluginattrib">pausedonstart</a>="false"
+         <a href="#loop" class="pluginattrib">loop</a>="false"
+         <a href="#volume" class="pluginattrib">volume</a>="1.0"
+         <a href="#directionalsound" class="pluginattrib">directionalsound</a>="true"
+         <a href="#range" class="pluginattrib">range</a>="90.0"
+         <a href="#rangefalloff" class="pluginattrib">rangefalloff</a>="1.0"
+         <a href="#outofrangevolume" class="pluginattrib">outofrangevolume</a>="0.0"
+         <a href="#onvideoready" class="pluginattrib">onvideoready</a>=""
+         <a href="#onvideoplay" class="pluginattrib">onvideoplay</a>=""
+         <a href="#onvideopaused" class="pluginattrib">onvideopaused</a>=""
+         <a href="#onvideocomplete" class="pluginattrib">onvideocomplete</a>=""
+         <a href="#onerror" class="pluginattrib">onerror</a>=""
+         /&gt;</pre>
+         <br/>
+		As panoramic image:
+		<pre class="xmlpre">&lt;<a href="../xml.html#plugin">plugin</a> <a href="../xml.html#plugin.name">name</a>="<span class="redtext">video</span>"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="videoplayer.swf"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="videoplayer.js"
+        <a href="#videourl" class="pluginattrib">videourl</a>="video.m4v|video.webm"
+        <a href="#posterurl" class="pluginattrib">posterurl</a>="videoposter.jpg"
+        <a href="#panovideo" class="pluginattrib">panovideo</a>="true"
+        <a href="#pausedonstart" class="pluginattrib">pausedonstart</a>="false"
+        <a href="#loop" class="pluginattrib">loop</a>="false"
+        <a href="#volume" class="pluginattrib">volume</a>="1.0"
+        <a href="#onvideoready" class="pluginattrib">onvideoready</a>=""
+        <a href="#onvideoplay" class="pluginattrib">onvideoplay</a>=""
+        <a href="#onvideopaused" class="pluginattrib">onvideopaused</a>=""
+        <a href="#onvideocomplete" class="pluginattrib">onvideocomplete</a>=""
+        <a href="#onerror" class="pluginattrib">onerror</a>=""
+        /&gt;
+
+&lt;<a href="../xml.html#image.video">image</a> <a href="../xml.html#image.hfov">hfov</a>="360" <a href="../xml.html#image.vfov">vfov</a>="180"&gt;
+   &lt;<a href="../xml.html#image.video">sphere</a> <a href="../xml.html#image.sphere.url">url</a>="plugin:<span class="redtext">video</span>" /&gt;
+&lt;/<a href="../xml.html#image.video">image</a>&gt;</pre>
+	</div>
+
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="videourl"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#videourl" class="selflink">videourl</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>The url of the video file.<br/>
+	
+						<li>The Flashplayer and the HTML5 browsers are having a different level of video format / codecs support.
+							To make the video playable in all browsers on all systems, it is necessary to provide the video in several formats.
+						</li>
+						<li>Supported video formats are:
+							<ul>
+								<li><b>MPEG4 / H264</b> (.mp4, .m4v, .mov) - Flashplayer / Firefox (Windows 7+) / Safari / Chrome / IE / iOS / Android</li>
+								<li><b>WebM</b> (.webm) - Firefox / Chrome</li>
+								<li><b>Ogg Theora</b> (.ogg, .ogv) - Firefox / Chrome</li>
+								<li><b>Flash Video</b> (.flv, .f4v) - Flashplayer only</li>
+								<li><b>RTMP Video Streaming</b> (<span class="presyntax_inline">rtmp://</span> urls) - Flashplayer only</li>
+								<li><b>HTTP Live Streaming</b> (.m3u, .m3u8) - iOS, Mac Safari only - and only for &lt;layer&gt; usage, not for pano videos - because of this <a href="#html5.knownbrowserbugs">iOS bug</a>!</li>
+							</ul>
+						</li>
+						<li>To provide several video formats and let the plugin automatically choose the appropriate one, 
+							set the paths to all video files at once and separate them by a pipe <span class="presyntax_inline">|</span> character.
+						</li>
+						<li>
+							When several formats of the given videos are supported, the plugin will select the videos in order from left to right.
+							For example when MP4 and WebM are supported and MP4 should be used preferably, 
+							then write <span class="presyntax_inline">videourl="video.mp4|video.webm"</span>.
+						</li>
+						<li>A custom format preference can be defined by the <a href="#preferredformat">preferredformat</a> setting.</li>
+						<li>By providing at least a baseline-MP4 and a WebM video, it should be possible to cover almost all today systems.
+						</li>
+						<li>Consider also using the <a href="../xml.html#devicechecksforattributes">device checks for attributes</a> to specify different video files for different devices.</li>
+						<li>Transparent videos with alpha-channel are possible <span class="flashonly">(Flash and VP6 codec only)</span>.</li>
+						<li>Once the video is loaded, the value of the <a href="#videourl" class="selflink">videourl</a> attribute will be replaced by the url of the video file that was loaded.</li>
+						<li>
+							<i class="html5only">
+								HTML5 mobile notes - the MP4 format itself is supported by the most mobile devices, but 
+								the <a class="html5only" href="http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC#Levels" target="_blank">MP4-profile-level</a> support can be depending on the device and its OS version.
+							</i>
+						</li>
+						<li>
+							<i class="html5only">
+								<a class="html5only" href="#mobilelimitations.iphone">iPhone notes (before iOS 10)</a> - for getting sound for videos
+								on the iPhone add an additional .m4a (HE-AAC) or .mp3 sound file to the list of available file formats.
+								<br>
+								Example: <span class="presyntax_inline" style="color:black;font-style:normal;">videourl="video.mp4|video.webm|<b>video-iphone-audio.m4a</b>"</span><br>
+								<a class="html5only" href="#mobilelimitations.iphone">iPhone with iOS 10</a> - with iOS 10 this is not necessary anymore, 
+								iOS 10 supports inline videos on the iPhone directly. No need for an additional sound file.
+							</i>
+						</li>
+						<li>
+							<i class="flashonly">
+								Flash notes - when <u>not</u> embedding the krpano Flash viewer with the default 
+								<a class="flashonly" href="../embedpano.html#top">krpano&nbsp;embedding&nbsp;script</a>, then the video url path 
+								need to be either absolute or relative to the root swf file!
+							</i>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="posterurl"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#posterurl" class="selflink">posterurl</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This is the url to an image (typical a screenshot of the first video frame) that should be shown
+							until the video is loaded and ready to play.</li>
+						<li><b>Adding the poster image is highly recommended!</b></li>
+						<li>The poster image needs to have the same pixel-size as the video itself!</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="panovideo"></a><a name="use_as_videopano"></a>Attribute name <span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#panovideo" class="selflink">panovideo</a><br>
+					<a href="#use_as_videopano" class="selflink" style="color:gray;">use_as_videopano</a> <span class="smallcomment">(old Pre-Release name)</span>
+				</th>
+				<th>Boolean<br><span style="color:gray;">Boolean</span></th>
+				<th>false<br><span style="color:gray;">false</span></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Should the video be used as panoramic video?</li>
+						<li>This settings prepares the video for a 'later' (e.g. in an other scene) usage as pano video.</li>
+						<li>Without that setting the video would become visible as normal 2d layer/plugin element until the 
+							video will be used as pano.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="pausedonstart"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#pausedonstart" class="selflink">pausedonstart</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Should the video be paused at the start.</li>
+						<li><i>Note - on some devices (e.g. on iOS) the video will be always paused on start!</i></li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="loop"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#loop" class="selflink">loop</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Should the video loop or stop at the playback end.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="volume"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#volume" class="selflink">volume</a></th>
+				<th>Number</th>
+				<th>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Volume of video sound (0.0 - 1.0)</li>
+						<li><i>Note - on iOS controlling the volume of the video is not possible!</i></li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="muted"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#muted" class="selflink">muted</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Mute the video.</li>
+						<li>When enabled (set to true) this allows automatic playing the video on iOS 10 (without the need for a touch).</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="playbackrate"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#playbackrate" class="selflink">playbackrate</a></th>
+				<th>Number</th>
+				<th>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Set the video playback-rate/speed (HTML5-only).</li>
+						<li>Examples:
+							<ul>
+								<li>1.0 is normal speed</li>
+								<li>0.5 is half speed (slower)</li>
+								<li>2.0 is double speed (faster)</li>
+							</ul>
+						</li>
+						<li>Negative values for inverse playback are currently not supported or working probably in any browser.</li>
+						<li>
+							HTML5 documenations:
+							<ul>
+								<li><a href="http://www.w3schools.com/tags/av_prop_playbackrate.asp" target="_blank">W3 Schools</a></li>
+								<li><a href="https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery/HTML5_playbackRate_explained">Mozilla MDN</a></li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="directionalsound"></a>Attribute name &nbsp;<span class="as3only">(Flash only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#directionalsound" class="selflink">directionalsound</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Use directional 3d-sound when the video is played as hotspot.</li>
+						<li>The panning (left/right channel volume) will be automatically adjusted depending on the hotspot position and the viewing direction.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="range"></a><a name="rangefalloff"></a><a name="outofrangevolume"></a>Attribute name &nbsp;<span class="as3only">(Flash only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#range" class="selflink">range</a><br>
+					<a href="#rangefalloff" class="selflink">rangefalloff</a><br>
+					<a href="#outofrangevolume" class="selflink">outofrangevolume</a>
+				</th>
+				<th>Number<br>Number<br>Number</th>
+				<th>90.0<br>1.0<br>0.0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Range of the directional sound, distance from the viewing direction to the sound position, the sound volume will fall off
+							within this distance from volume to outofrangevolume.
+						</li>
+						<li>The <a href="#rangefalloff" class="selflink">rangefalloff</a> factor, defines the volume falloff curve (e.g. ~0.01 to ~10.0), default=1.0.</li>
+						<li>The <a href="#outofrangevolume" class="selflink">outofrangevolume</a> setting defines the volume outside the range.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="preferredformat"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#preferredformat" class="selflink">preferredformat</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Set the preferred video file format to use when several formats are available.</li>
+						<li>When not set, the available video formats will be selected from left to right.</li>
+						<li>This could be used to prefer a specfic format for a specfic browser. 
+							For example - to prefer the usage of <b>webm</b> for Firefox set:
+							<pre>preferredformat<a href="../xml.html#devicechecksforattributes" style="color:red;font-weight:normal;text-decoration:none;">.firefox</a>="webm"</pre>
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+			<tr class="xmlattrdocdesc"><td><a name="autopause"></a><a name="autoresume"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#autopause" class="selflink">autopause</a><br>
+					<a href="#autoresume" class="selflink">autoresume</a>
+				</th>
+				<th>Boolean<br>Boolean</th>
+				<th>true<br>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li><a href="#autopause" class="selflink">autopause</a> - Automatically pause the video when the browser tab / window gets hidden.</li>
+						<li><a href="#autoresume" class="selflink">autoresume</a> - Automatically resume the video when it was paused before by hiding the browser tab / window.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="html5controls"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#html5controls" class="selflink">html5controls</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>When enabled (set to true), show the browsers build-in video controls.</li>
+						<li>Also see: <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/video#attr-controls" target="_blank">HTML5 Video - controls</a>.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="html5preload"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#html5preload" class="selflink">html5preload</a></th>
+				<th>String</th>
+				<th>"auto"</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Set the HTML5 Video <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/video#attr-preload" target="_blank">preload</a> setting.</li>
+						<li>Also see: <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/video#attr-preload" target="_blank">HTML5 Video - preload</a>.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="buffertime"></a>Attribute name &nbsp;<span class="as3only">(Flash only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#buffertime" class="selflink">buffertime</a></th>
+				<th>Number</th>
+				<th>0.1</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>The time in seconds that the video should be preloaded / buffered before starting to play, default=0.1 (=Flashplayer default).</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="ignoremetadata"></a>Attribute name &nbsp;<span class="as3only">(Flash only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#ignoremetadata" class="selflink">ignoremetadata</a></th>
+				<th>Boolean</th>
+				<th>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>The videoplayer uses the size information from the meta-data that was stored in the video file to determine 
+							the size/resolution of the video by default.
+							But there are some videos and video-converter tools that will store wrong size information in the meta-data and this can
+							cause distorted or wrong sized videos.
+							With that setting, this meta-data information can be ignored / skipped.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			
+			<tr class="xmlattrdocdesc"><td><a name="playsinline"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#playsinline" class="selflink">playsinline</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Play the video inline in krpano on mobile devices (iPhone, iPad, Android).</li>
+						<li>When disabled, then the browser could eventually play the video in its own internal videoplayer.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="iphoneworkarounds"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#iphoneworkarounds" class="selflink">iphoneworkarounds</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Enable workarounds for iPhone video support (for iOS versions before iOS 10).</li>
+						<li>Normally videos on the iPhone will be always played fullscreen in the iOS internal videoplayer,
+							but this hack allows 'inline'-usage as part of the layout or as pano-video.
+						</li>
+						<li>For sound support in this case, a separate .m4a (HE-AAC) or .mp3 sound file need to be provided in the <a href="#videourl">videourl</a> setting.</li>
+						<li>See also here: <a href="#mobilelimitations.iphone">Mobile Limitations</a>.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="touchworkarounds"></a>Attribute name &nbsp;<span class="readonly">(HTML5 only)</span></td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#touchworkarounds" class="selflink">touchworkarounds</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Enable autoplay by touch workarounds for mobile and tablet devices.</li>
+						<li>Normally videos on mobile or tablet devices can't start playing without user interaction,
+							but with that workaround, the krpano videoplayer plugin will automatically take the
+							first touch anywhere on the screen to start the video.
+						</li>
+						<li>See also here: <a href="#mobilelimitations.autoplay">Mobile Limitations</a>.</li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+
+	<div class="paragraph">
+		<h2><a name="events" href="#events" class="selflink">Plugin Events</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="onvideoready"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onvideoready" class="selflink">onvideoready</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when the video is ready for playing.</li>
+						<li>At this time the video <a href="#videowidth">frame size</a> and the playback length (<a href="#totaltime">totaltime</a>) is known.</li>
+						<li>When no plugin size (width, height) was set in the xml, then the plugin will resize itself to pixel-size of the video now.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onvideoplay"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onvideoplay" class="selflink">onvideoplay</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when the video will start playing.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onvideopaused"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onvideopaused" class="selflink">onvideopaused</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when the video will be paused (a pause at the startup through <a href="#pausedonstart">pausedonstart=true</a> will be ignored).</li>
+						<li><i class="html5only">HTML5 notes - in HTML5 this event will be also called when the video has ended, just before the 
+							<a class="html5only" href="#onvideocomplete">onvideocomplete</a> event.</i>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onvideocomplete"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onvideocomplete" class="selflink">onvideocomplete</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when the video was played completely.</li>
+						<li>This happens only when <a href="#loop">loop</a> is set to "false".</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onerror"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onerror" class="selflink">onerror</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when there was an error during loading or playing.</li>
+						<li>The error message itself will be set in the <a href="#videoerror">videoerror</a> attribute.</li>
+						<li>When this event will be set, no default error message will appear.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onneedtouch"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#onneedtouch" class="selflink">onneedtouch</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when a touch from the user will be required to play the video.</li>
+						<li>This can be a necessity from several mobile and tablet browsers.</li>
+						<li>When the <a href="#touchworkarounds">touchworkarounds</a> setting is enabled, the videoplayer plugin
+							will automatically wait for the next touch anywhere on the screen to start playing the video.
+						</li>
+						<li>The <a href="#onneedtouch">onneedtouch</a> event could be used to show a 
+							play button or to inform the user to touch the screen for playing the video.
+						</li>
+						<li>Once the user had touched the screen the <a href="#ongottouch">ongottouch</a> event will be sent.
+						</li>
+						<li>The <a href="#needtouch">needtouch</a> state attribute will be set to true on this event.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="ongottouch"></a>Attribute name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#ongottouch" class="selflink">ongottouch</a></th>
+				<th>Action Event</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>This event will be called when the user had touched the screen to start playing the video.</li>
+						<li>The <a href="#ongottouch">ongottouch</a> event could be used to hide the 
+							play button or the user information that was previously shown on the <a href="#onneedtouch">onneedtouch</a> event.
+						</li>
+						<li>The <a href="#needtouch">needtouch</a> state attribute will be set to false on this event.</li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+		
+	<div class="paragraph">
+		<h2><a name="stateattributes" href="#stateattributes" class="selflink">Plugin State Attributes</a> (read only)</h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="isvideoready"></a><a name="ispaused"></a><a name="isseeking"></a><a name="iswaiting"></a><a name="iscomplete"></a><a name="isautopaused"></a><a name="needtouch"></a>Attribute name</td><td>Type</td><td>Initial&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#isvideoready" class="selflink">isvideoready</a><br>
+					<a href="#ispaused" class="selflink">ispaused</a><br>
+					<a href="#isseeking" class="selflink">isseeking</a><br>
+					
+					<a href="#iscomplete" class="selflink">iscomplete</a><br>
+					<a href="#isautopaused" class="selflink">isautopaused</a><br>
+					<a href="#needtouch" class="selflink">needtouch</a>
+				</th>
+				<th>Boolean<br>Boolean<br>Boolean<br>Boolean<br>Boolean<br>Boolean</th>
+				<th>false<br>false<br>false<br>false<br>false<br>false</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					Variables to check dynamically the playback state of the video:
+					<ul>
+						<li><a href="#isvideoready" class="selflink">isvideoready</a> - check if the video is ready for playing.</li>
+						<li><a href="#ispaused" class="selflink">ispaused</a> - check if the video is currently paused.</li>
+						<li><a href="#isseeking" class="selflink">isseeking</a> - check if the video is currently seeking.</li>
+						
+						<li><a href="#iscomplete" class="selflink">iscomplete</a> - check if the video has ended.</li>
+						<li><a href="#isautopaused" class="selflink">isautopaused</a> - check if the video has been paused by hiding the browser tab / window (see <a href="#autopause">autopause</a> and <a href="#autoresume">autoresume</a>).</li>
+						<li><a href="#needtouch" class="selflink">needtouch</a> - an user touch is required for playing the video (see <a href="#onneedtouch">onneedtouch</a> and <a href="#ongottouch">ongottouch</a>).</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="videoerror"></a>Attribute name</td><td>Type</td><td>Initial&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#videoerror" class="selflink">videoerror</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>The last error message.</li>
+						<li>Will be only set when using the <a href="#onerror">onerror</a> event for a custom error handling.</li>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="time"></a><a name="totaltime"></a>Attribute name</td><td>Type</td><td>Initial&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#time" class="selflink">time</a><br>
+					<a href="#totaltime" class="selflink">totaltime</a>
+				</th>
+				<th>Number<br>Number</th>
+				<th>0.0<br>0.0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					Playback time information:
+					<ul>
+						<li><a href="#time" class="selflink">time</a> - the current video playback position in seconds.</li>
+						<li><a href="#totaltime" class="selflink">totaltime</a> - the length / totaltime of the video in seconds.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="videowidth"></a><a name="videoheight"></a>Attribute name</span></td><td>Type</td><td>Initial&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#videowidth" class="selflink">videowidth</a><br>
+					<a href="#videoheight" class="selflink">videoheight</a>
+				</th>
+				<th>int<br>int</th>
+				<th>0<br>0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<ul>
+						<li>Pixel size of the source video frame.</li>
+						<li>Available after the <a href="#onvideoready">onvideoready</a> event.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="loadedbytes"></a><a name="totalbytes"></a>Attribute name</span></td><td>Type</td><td>Initial&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#loadedbytes" class="selflink">loadedbytes</a><br>
+					<a href="#totalbytes" class="selflink">totalbytes</a>
+				</th>
+				<th>int<br>int</th>
+				<th>0<br>0</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					Loading information:<br>
+					<ul>
+						<li><a href="#loadedbytes" class="selflink">loadedbytes</a> - the currently loaded bytes of the video file.</li>
+						<li><a href="#totalbytes" class="selflink">totalbytes</a> - the total bytes of the video file.</li>
+					</ul>
+					<br>
+					<i class="flashonly">
+						Flash notes - the number of loaded bytes don't correlate directly with the number of loaded seconds when the video is 
+						encoded with a variable bitrate.
+					</i><br><br>
+					<i class="html5only">
+						HTML5 notes - in HTML5 it's not possible to determine the real byte sizes.
+						Therefore in HTML5 these values represent the currently buffered data in seconds multiplied by 1048576 (=1024*1024, =1 MB).
+					</i>
+				</td>
+			</tr>
+		
+		</table>
+		</div>
+	</div>
+
+
+	<div class="paragraph">
+		<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+		
+		<a name="playvideo" href="#playvideo" class="selflink"><pre>playvideo(url, posterurl, pausedonstart, starttime)</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Open a new video url and start playing it.</li>
+				<li>A currently playing video will be stopped and closed.</li>
+			</ul>
+			Parameters:<br>
+			<ul>
+				<li><a name="playvideo.url" href="#playvideo.url" class="selflink">url</a><br>
+					<ul>
+						<li>The url of the video file.</li>
+						<li>The same as the <a href="#videourl">videourl</a> setting.</li>
+					</ul>
+				</li>
+				
+				<li><a name="playvideo.posterurl" href="#playvideo.posterurl" class="selflink">posterurl</a> <span class="smallcomment">(optionally)</span><br> 
+					<ul>
+						<li>The url of the poster image.</li>
+						<li>The same as the <a href="#posterurl">posterurl</a> setting.</li>
+						<li><b>Adding the poster image is highly recommended!</b></li>
+						<li><i class="html5only">The poster image will be used only in HTML5.</i>
+							<i class="flashonly">In Flash this setting will be ignored.</i>
+						</li>
+					</ul>
+				</li>
+				
+				<li><a name="playvideo.pausedonstart" href="#playvideo.pausedonstart" class="selflink">pausedonstart</a> <span class="smallcomment">(optionally)</span><br> 
+					<ul>
+						<li>Should the video be paused at the start.</li>
+						<li>The same as the <a href="#pausedonstart">pausedonstart</a> setting.</li>
+					</ul>
+				</li>
+				
+				<li><a name="playvideo.starttime" href="#playvideo.starttime" class="selflink">starttime</a> <span class="smallcomment">(optionally)</span><br> 
+					<ul>
+						<li>Set the start time of the video.</li>
+						<li>This works by directly seeking to the given time once the video is ready.</li>
+						<li><i class="html5only">Only supported in HTML5.</i></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		
+		
+		<br>
+		<a name="play"></a><a name="resume"></a>
+		<a href="#play" class="selflink"><pre>play()</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Play or resume a paused video.</li>
+			</ul>
+		</div>
+		
+		<br>
+		<a name="pause" href="#pause" class="selflink"><pre>pause()</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Pause the video.</li>
+				<li>The video can be resumed by calling the <a href="#play">play()</a> action.</li>
+			</ul>
+		</div>
+		
+		<br>
+		<a name="togglepause" href="#togglepause" class="selflink"><pre>togglepause()</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Either pause or resume the video depending on the current playback state.</li>
+			</ul>
+		</div>
+		
+		<br>
+		<a name="stop" href="#stop" class="selflink"><pre>stop()</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Stop the video &rArr; move to the first frame and pause there.</li>
+				<li>The video can be resumed by calling the <a href="#play">play()</a> action.</li>
+			</ul>
+		</div>
+		
+		<br>
+		<a name="seek" href="#seek" class="selflink"><pre>seek(time)</pre></a>
+		<div class="preinfo">
+			<ul>
+				<li>Seek to the given time / playback position.</li>
+				<li>Depending on the video encoding (codec and keyframe-interval) the video will seek only 'near' to the given position.</li>
+			</ul>
+			Parameters:<br>
+			<ul>
+				<li><a name="seek.time" href="#seek.time" class="selflink">time</a><br>
+					<ul>
+						<li>The intended playback position.</li>
+						<li>Either in seconds.</li>
+						<li>Or as percent value (0% - 100%).</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+	
+	<div class="paragraph">
+		<h2>
+			<a name="html5"></a>
+			<a name="html5.ios"></a>
+			<a name="html5.mobile"></a>
+			<a name="mobilelimitations" href="#mobilelimitations" class="selflink">Mobile Limitations</a>
+		</h2>
+	
+		<div class="subparagraph">
+			There are several system limitations on mobile Android and iOS devices:
+		</div>
+
+		<ul>
+			<li>
+				<a name="mobilelimitations.autoplay" href="#mobilelimitations.autoplay" class="selflink">No Autoplay / Autostart</a><br/>
+				<ul>
+					<li>A video can't start playing automatically!</li>
+					<li>The user would need to touch the video to start loading and playing it.</li>
+					<li><u>iOS 10</u> - with iOS 10 autoplay would be possible when using a video without sound or when enabling the <a href="#muted">muted</a> setting.</li>
+					<li><b>Automatic workaround by krpano:</b>
+						<ul>
+							<li>In such case the krpano videoplayer plugin will automatically take the
+								first touch anywhere on the screen to start the video.
+							</li>
+							<li>See also the <a href="#touchworkarounds">touchworkarounds</a> setting.</li>
+						</ul>
+					</li>
+					<li><b>Recommended solution:</b>
+						<ul>
+							<li>Use <a href="#pausedonstart">pausedonstart=true</a>
+								and a custom UI/UX for mobile usage to start playing the video (e.g. an initial play button 
+								or a kind of intro image/button).
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="mobilelimitations.iosvolume" href="#mobilelimitations.iosvolume" class="selflink">iOS - No volume change</a><br/>
+				<ul>
+					<li>Changing the sound volume of a video is not possible on iOS devices.</li>
+					<li>The only way to change the volume is to use the device volume buttons.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="mobilelimitations.iosonemedia" href="#mobilelimitations.iosonemedia" class="selflink">iOS - Only one video / sound at one time</a><br/>
+				<ul>
+					<li>On iOS only one video or sound can be played at one time.</li>
+					<li>When an other video or sound will be started, the previous one will be automatically stopped by the system.</li>
+				</ul>
+			</li>
+			<li><a name="iphonepanovideo"></a><a name="mobilelimitations.iphone" href="#mobilelimitations.iphone" class="selflink">iPhone - No 'inline'-videos on the iPhone / Panoramic Videos on the iPhone</a><br/>
+				<ul>
+					<li>On the iPhone (update: <u>before iOS 10</u>) normally all videos will be automatically played fullscreen in an iOS-internal videoplayer!
+						This was a system limitation by Apple!
+					</li>
+					<li>That means playing videos 'inline' as normal element of the webpage or as panoramic video is normally not possible on the iPhone.</li>
+					<li><b>Automatic workaround by krpano:</b>
+						<ul>
+							<li>The krpano videoplayer plugin uses a trick to bypass this limitation:<br>
+								Instead of playing the video, the video will kept paused and krpano constantly seeks
+								through the video to simulate the playblack. All video events/interactions will be simulated.
+							</li>
+							<li>That trick works in the iOS versions from 7 to 9, since iOS 10 inline video on the iPhone are directly supported, 
+								there this workaround is automatically disabled.
+							</li>
+							<li>See also the <a href="#iphoneworkarounds">iphoneworkarounds</a> setting.</li>
+							<li><b>No Sound?</b>
+								<ul>
+									<li>With this trick it's only possible to play the video itself, but not the sound of the video (because the video itself keeps paused)</li>
+									<li>To get a video-sound even with the iPhone limitations, 
+										the videoplayer plugin provides adding an additional .m4a (HE-AAC) or .mp3 sound file to the <a href="#videourl">videourl</a> setting.
+										Then this sound file will be played automatically as sound for the video.
+										The video itself will be synchronized to the playback of the sound file.
+									</li>
+									<li>Note - when a sound is added, a touch is required to start playing the video and the sound - see at - <a href="#mobilelimitations.autoplay" class="selflink">No Autoplay / Autostart</a>!</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+		
+		
+	<div class="paragraph">
+		<h2><a name="html5.knownbrowserbugs" href="#html5.knownbrowserbugs" class="selflink">Known browser bugs / issues</a> (state: 2017)</h2>
+
+		<div class="subparagraph">
+			Here a list of all currently known browser bugs, including test cases and bug reports:
+		</div>			
+			
+			<ul>
+				<li><b>iOS and Mac Safari - WebGL CORS bugs</b><br>
+					<ul>
+						<li><span class="redtext">It's currently not possible to load panoramic video files <u>from other domains</u> because of an iOS / Safari / Webkit bug!</span></li>
+						<li>Testcase: <a href="http://krpano.com/ios/bugs/ios8-webgl-video-cors/">http://krpano.com/ios/bugs/ios8-webgl-video-cors/</a></li>
+						<li>Bugreport: <a target="_blank" href="https://bugs.webkit.org/show_bug.cgi?id=135379">https://bugs.webkit.org/show_bug.cgi?id=135379</a></li>
+					</ul>
+				</li>
+				
+				<li><b>iOS and Mac Safari - Bad video to WebGL performance</b><br>
+					<ul>
+						<li>The performance of the video image to WebGL transfer is way too slow!</li>
+						<li>This kind of performance only depends on the <u>pixel-size</u> of a video frame, the bitrate or the video filesize don't matter here - 
+							e.g. a 1024x512 video will be smoother and faster than a 2048x1024 video because fewer pixels need to be transfered between the CPU and the GPU.
+						</li>
+						<li>As workaround for the moment, videos with smaller pixel sizes should be used for iOS until Apple would fix / improve this.</li>
+						<li>Testcase: <a href="http://krpano.com/ios/bugs/ios8-webgl-video-performance">http://krpano.com/ios/bugs/ios8-webgl-video-performance</a></li>
+						<li>Bugreport: <a target="_blank" href="https://bugs.webkit.org/show_bug.cgi?id=135387">https://bugs.webkit.org/show_bug.cgi?id=135387</a></li>
+					</ul>
+				</li>
+				
+				
+				
+				<li><b>Chrome (Desktop) - Flickering when using hardware accelerated video decoding</b><br>
+					<ul>
+						<li>On some systems there is sometimes an annoying flickering during the panormaic video rendering in the Chrome Desktop browser.
+						</li>
+						<li>
+							As workaround the hardware accelerated video decoding can be deactivated in Chrome by
+							entering this url in Chrome:
+							<pre>chrome://flags/#disable-accelerated-video-decode</pre>
+							and activating the given setting there and restarting Chrome.
+						</li>
+					</ul>
+				</li>
+				
+				<li><b>Windows Phone - No WebGL Video Texture support</b><br>
+					<ul>
+						<li>The IE11 on Windows Phone 8.x devices supports WebGL but no videos as textures.
+							Without that feature it's not possible to show panoramic videos or video hotspots on these devices.
+						</li>
+					</ul>
+				</li>
+			</ul>
+	</div>
+	
+	
+	
+	<div class="paragraph">
+		<h2><a name="source"></a><a name="opensource" href="#opensource" class="selflink">Open Source Plugin</a></h2>
+		
+		<div class="subparagraph">
+			If you are a Javascript developer and want to work directly with the HTML5 video object,
+			e.g. for experimenting with HTML5 video streaming technologies like 
+			<a href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP" targer="_blank">DASH</a> or 
+			<a href="https://en.wikipedia.org/wiki/HTTP_Live_Streaming" target="_blank">HLS</a>,
+			here is an open-source version of the krpano HTML5 videoplayer plugin.<br>
+			<br>
+			The plugin source itself is reduced and provides only the basic interfaces (no state management, no iPhone support, no poster support), but 
+			it shows how the <a href="../plugin_api.html#top">krpano Plugin Interface</a> and the 
+			krpano <a href="../plugin_api.html#plugin.videoDOM">video internals</a> are working and how to use them.
+		</div>
+
+		Files:
+		<ul>
+			<li><a href="https://krpano.com/viewsource.html?plugins/videoplayer/source/videoplayer_basic_source.js">videoplayer_basic_source.js</a> (view) - <a href="https://krpano.com/plugins/videoplayer/source/videoplayer_basic_source.js" download>download</a></li>
+			<li><a href="https://krpano.com/plugins/videoplayer/source/example.html">Full Example</a> (view) - <a href="https://krpano.com/plugins/videoplayer/source/krpano_basic_videoplayer_source_119pr4.zip" download>download</a></li>
+		</ul>
+	</div>
+	
+	<br><br>
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

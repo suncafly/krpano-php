@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>krpano Javascript Interface
+		
+	</h1>
+
+	<div class="paragraph">
+		To get access to krpano from Javascript the <a href="#interfaceobject">krpano Javascript-Interface object</a>
+		will be required.<br>
+		<br>
+		This object can be get either:
+		<ul>
+			<li>by using the <a href="embedpano.html#onready">onready</a> callback-function of 
+				the <a href="embedpano.html#syntax">embedding&nbsp;script</a> - <u>the recommended way</u>!
+			</li>
+			<li>or by using the Javascript call:
+				<span class="presyntax_inline">document.getElementById(id)</span>.<br>
+				The <a href="embedpano.html#id">id</a> parameter is the unique id of the viewer 
+				(which is "krpanoSWFObject" by default) and which can be set
+				in the <a href="embedpano.html#embeddingparameters">embedding&nbsp;script</a>.
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a class="selflink" name="interfaceobject" href="#interfaceobject">The krpano Javascript-Interface object</a></h2>
+		The interface object provides these Javascript functions:<br>
+		<ul>
+			<li><span class="presyntax_inline">set(variable,value)</span> - set the given krpano variable to the given value.</li>
+			<li><span class="presyntax_inline">get(variable)</span> - return the value of the given krpano variable.</li>
+			<li><span class="presyntax_inline">call(action)</span> - call and execute any <a href="actions.html#top">krpano action code</a>.</li>
+			<li><span class="presyntax_inline">spheretoscreen(h,v)</span> - directly call the <a href="actions.html#screentosphere">spheretoscreen</a> action.</li>
+			<li><span class="presyntax_inline">screentosphere(x,y)</span> - directly call the <a href="actions.html#screentosphere">screentosphere</a> action.</li>
+		</ul>
+		
+		The spheretoscreen / screentosphere functions will return an object with x, y properties.
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="usage" href="#usage" class="selflink">Usage Example</a></h2>
+		
+		Get the krpano HTML DOM Element - either by the onready callback (recommended):
+		<pre>var <span class="bluetext">krpano</span> = null;
+
+embedpano({..., onready:krpano_onready_callback});
+
+function krpano_onready_callback(krpano_interface)
+{
+  <span class="bluetext">krpano</span> = krpano_onready_callback;
+}</pre>
+or by using document.getElementById (but note - that would only work when the embedding itself is already finished):
+		<pre>var <span class="bluetext">krpano</span> = document.getElementById(<span class="codestring">"krpanoSWFObject"</span>);</pre>
+		<br>
+		Get and set a variable:
+<pre>var <span class="bluetext">fov</span> = Number( <span class="bluetext">krpano</span>.get(<span class="codestring">"view.fov"</span>) );
+<span class="bluetext">fov</span> += 10.0;
+<span class="bluetext">krpano</span>.set(<span class="codestring">"view.fov"</span>, <span class="bluetext">fov</span>);</pre>
+		<br>
+		Call a krpano action, e.g. to load an other pano.
+		<pre><span class="bluetext">krpano</span>.call(<span class="codestring">"loadpano('pano2.xml',null,MERGE,BLEND(1));"</span>);</pre>
+		<br>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="examples" href="#examples" class="selflink">Examples</a></h2>
+		
+		
+		<ul>
+			<li><a href="https://krpano.com/examples/119/examples/javascript-interface/js-api-examples/index.html">Javascript API Examples </a><br>
+				Several examples that show the usage the Javascript API of the krpano viewer:
+				loading other panos, loading xml strings, setting the view, lookto animation, getting the current view, 
+				adding and removing hotspots, callback from hotspot event to JS, tracking the mouse at spherical pano coordinates. 
+			</li>
+			
+			<li><a href="https://krpano.com/examples/119/examples/javascript-interface/js-add-remove-panos/index.html">Add and remove panos via Javascript</a><br>
+				This example shows how to dynamically add (=embedpano call) either Flash or HTML5 viewer elements 
+				and then remove (=removepano call) them again from the webpage.
+			</li>
+		</ul>
+		
+		These examples are also included in the krpano <a href="https://krpano.com/download/">download</a> package 
+		in the folder <span class="presyntax_inline">viewer/examples/javascript-interface/</span>.<br>
+		
+	</div>
+	
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+						
+
+<h1>Basic XML Syntax Rules</h1>
+
+<div class="paragraph">
+	krpano uses simple xml text files for storing the settings for the krpano viewer.
+	These files can be written or edited with any usual texteditor,
+	but when writting the xml code, it is important that the xml-syntax-rules will be respected!
+	These basic rules are the same for all xml files and not specific to krpano.
+</div>
+
+The syntax rules of xml files are simple, logical, easy to learn and easy to use.<br/>
+So here now the rules:
+
+<h2><a href="#basicxmlstructure" name="basicxmlstructure" class="selflink">The Basic XML Structure</a></h2>
+<div class="paragraph">
+	<ul>
+		<li class="uldd">A xml file is structured by several xml-elements, also called xml-nodes or xml-tags.</li>
+		
+		<li class="uldd">The name of a xml-element is enclosed by &lt; &gt; brackets:
+			<pre>&lt;element&gt;</pre>
+		</li>
+		
+		<li class="uldd">Each xml-element needs to closed.<br/>
+			This can be written in two forms - either with start- and end-elements:
+			<pre>&lt;element&gt; ... &lt;/element&gt;</pre>
+			or for simple-cases just this way:
+			<pre>&lt;element /&gt;</pre>
+		</li>
+		
+		<li class="uldd">A xml-element can contain additional children xml-elements inside it.<br/>
+			In this case, the xml-element need to be written in that form:
+			<pre>&lt;parentelement&gt;
+   &lt;childrenelement /&gt;
+&lt;/parentelement&gt;
+</pre>
+		</li>
+		
+		<li class="uldd">A xml-element can have one or more attributes.
+			Each attribute is build out of an attribute-name and an attribue-value.
+			The attribute-value must be written inside single or double quotes.
+			<pre>&lt;element attribute="value"&gt;
+   &lt;childrenelement test1="value1" test2="value2" /&gt;
+&lt;/element&gt;
+</pre>
+			<i>Note - duplicate attributes on one element are not allowed and will cause a syntax error!</i>
+		</li>
+		
+		<li class="uldd">There must be always one, so called 'root-element', in the xml. 
+			This is the hierarchically top-most xml-element. All other xml-elements need to be within it.<br/>
+			For the krpano viewer this element is always the <a href="../#krpano" class="selflink">&lt;krpano&gt;</a> element - e.g.:
+			<pre>&lt;krpano onstart="..."&gt;
+   ...
+   &lt;preview url="..." /&gt;
+   &lt;image&gt;
+     &lt;cube url="..." /&gt;
+   &lt;/image&gt;
+   ...
+&lt;/krpano&gt;
+</pre>
+		</li>
+		
+		<li class="uldd">Comments - comments are parts of the xml that will be ignored when reading/parsing the xml.
+			A xml-comment starts with:
+			<pre>&lt;!--</pre>
+			and ends with:
+			<pre>--&gt;</pre>
+			The string '--' (double-hyphen) is not allowed inside comments - this means comments can not be nested.<br/>
+			Example:
+			<pre>&lt;krpano ...&gt;
+   &lt;!-- this is a krpano example --&gt;
+   ...
+&lt;/krpano&gt;</pre>
+		</li>
+		
+	</ul>
+</div>
+
+<h2><a href="#characters" name="characters" class="selflink">Case / Character Encoding / Whitespaces / Not allowed Characters</a></h2>
+<div class="paragraph">
+	<ul>
+		<li class="uldd">The names of xml-elements and xml-attributes are case-sensitive.
+			That means the name of start- and end-elements need to be written in the same case.<br/>
+			<i>
+				Note - for the xml syntax rules the case is very important, but for the krpano viewer itself, 
+				the case of the krpano xml elements doesn't matter - the krpano viewer will automatically convert
+				all element and attribute names to lower case to make their krpano-usage case-insensitive.
+			</i>
+		</li>
+		
+		<li class="uldd">To avoid character encoding problems all xml files should be saved as Unicode UTF-8 or UTF-16 files.
+			The text-editor will add a small hidden header (called <a href="http://en.wikipedia.org/wiki/Byte_order_mark" target="_blank">UTF-BOM</a>) at the beginning of the xml file in this case.
+		</li>
+		
+		<li class="uldd">Whitespace characters like blanks, tabs and line-breaks between xml-elements and between the xml-attributes will be ignored.
+			But inside attribute-values they will be respected.<br/>
+			This allows to freely write and structurate the xml in many ways.
+			But for better readability it often makes sense to indent elements 
+			in a way that make their hierarchical structure more clear.
+		</li>
+		
+		<li class="uldd">
+			Some characters are reserved by the xml syntax itself, so they can't be used directly.<br/>
+			To use them anyway there are some replacement-entities that can be used:
+			<table class="krpano_apitable" style="width:100%;text-align:center;font-size:12px;">
+				<tr><td style="width:30%;">not allowed character</td><td style="width:30%;">replacement-entity</td><td>character description</td></tr>
+				<tr><td class="presyntax">&lt;</td><td class="presyntax">&amp;lt;</td><td>less than</td></tr>
+				<tr><td class="presyntax">&gt;</td><td class="presyntax">&amp;gt;</td><td>greater than</td></tr>
+				<tr><td class="presyntax">&amp;</td><td class="presyntax">&amp;amp;</td><td>ampersand</td></tr>
+				<tr><td class="presyntax">&apos;</td><td class="presyntax">&amp;apos;</td><td>apostrophe</td></tr>
+				<tr><td class="presyntax">&quot;</td><td class="presyntax">&amp;quot;</td><td>quotation mark</td></tr>
+			</table>
+		</li>
+	</ul>
+</div>
+
+<h2><a href="#errorchecking" name="errorchecking" class="selflink">XML Error Checking / Checklist</a></h2>
+<div class="paragraph">
+	<ul>
+		<li class="uldd">To check the syntax of a xml file, just open it directly in the browser.
+			The most modern browsers are directly showing the location and the type of the error when there is one.
+		</li>
+		<li class="uldd">Here a quick checklist for xml errors:
+			<ol>
+				<li class="lidd">Is there a root xml-element?
+					<pre>&lt;krpano&gt;
+    ...
+&lt;/krpano&gt;</pre>
+						</li>
+				<li class="lidd">Are all xml-elements correctly closed?
+					<table style="width:100%;border-collapse:collapse;border-spacing:0;">
+						<tr>
+							<td style="text-align:center;font-style:italic;padding:0;">wrong</td>
+							<td style="text-align:center;font-style:italic;padding:0;">correct</td>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>&lt;element&gt; ... <span class="redtext">&lt;element&gt;</span></pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>&lt;element&gt; ... <span class="bluetext">&lt;/element&gt;</span></pre></td>
+						</tr>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>&lt;element ... <span class="redtext">&gt;</span></pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>&lt;element ... <span class="bluetext">/&gt;</span></pre></td>
+						</tr>
+					</table>
+				</li>
+				
+				<li class="lidd">Are all xml-comments correctly? (begin with &lt;!-- and end with --&gt; and no -- between)
+					<pre>&lt;!-- <span class="redtext">&lt;!-- nested comment --&gt;</span> --&gt;</pre>
+					<pre>&lt;!--<span class="redtext">------</span>--&gt;</pre>
+				</li>
+				
+				<li class="lidd">Are there some reserved-characters? (e.g. &amp;, &lt; or &gt)
+					<table style="width:100%;border-collapse:collapse;border-spacing:0;">
+						<tr>
+							<td style="text-align:center;font-style:italic;">wrong</td>
+							<td style="text-align:center;font-style:italic;">correct</td>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>text="krpano <span class="redtext">&amp;</span> xml"</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>text="krpano <span class="bluetext">&amp;amp;</span> xml"</pre></td>
+						</tr>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>text="<span class="redtext">&lt;xml&gt;</span>"</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>text="<span class="bluetext">&amp;lt;xml&amp;gt;</span>"</pre></td>
+						</tr>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>if(x <span class="redtext">&lt;</span> 10, ...)</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>if(x <span class="bluetext">LT</span> 10, ...)</pre></td>
+						</tr>
+					</table>
+				</li>
+				
+				<li class="lidd">Are all attribute values within quotes?
+					<table style="width:100%;border-collapse:collapse;border-spacing:0;">
+						<tr>
+							<td style="text-align:center;font-style:italic;">wrong</td>
+							<td style="text-align:center;font-style:italic;">correct</td>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>&lt;element x=<span class="redtext">123</span> ... /&gt;</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>&lt;element x=<span class="bluetext">"123"</span> ... /&gt;</pre></td>
+						</tr>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>&lt;element x=<span class="redtext">123</span> ... /&gt;</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>&lt;element x=<span class="bluetext">'123'</span> ... /&gt;</pre></td>
+						</tr>
+					</table>
+				</li>
+				
+				<li class="lidd">Are there duplicated attributes on one element?
+					<pre>&lt;element <span class="redtext">x=</span>"123" <span class="redtext">x=</span>"456" ... /&gt;</pre>
+				</li>
+				
+				<li class="lidd">Are there missing whitespaces between two attributes?
+					<table style="width:100%;border-collapse:collapse;border-spacing:0;">
+						<tr>
+							<td style="text-align:center;font-style:italic;">wrong</td>
+							<td style="text-align:center;font-style:italic;">correct</td>
+						<tr>
+							<td style="padding:0px 2px 2px 0px;"><pre>&lt;element x="123"<span class="redtext">y</span>="456"</pre></td>
+							<td style="padding:0px 0px 2px 2px;"><pre>&lt;element x="123" <span class="bluetext">y</span>="456"</pre></td>
+						</tr>
+					</table>
+				</li>
+			</ol>
+		</li>
+	</ul>
+</div>
+
+
+<h2><a href="#errorchecking" name="errorchecking" class="selflink">Flash - HTML5 Differences</a></h2>
+<div class="paragraph">
+	<ul>
+		<li class="uldd">
+			There is sometimes the case that a xml file is working fine in the Flashplayer,
+			but is showing an error message in the HTML5 version.
+		</li>
+		
+		<li class="uldd">
+			The reason for that behavior is that the xml-parser of the Flashplayer is much more tolerant
+			to xml syntax errors than the xml-parsers of the HTML5-browsers.
+		</li>
+		
+		<li class="uldd">
+			The solution to make it working everything is simple - just make sure that there are no xml syntax errors
+			and it will automatically work in Flash and in HTML5.
+		</li>
+	</ul>
+</div>
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

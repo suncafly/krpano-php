@@ -1,0 +1,60 @@
+﻿<krpano>
+	
+	<!--
+		This example shows how to place hotspots on a cylinder surface
+		by using pixel-sizes as offsets (calc_spherical_offset).
+	-->
+	
+	<preview type="grid" />
+	
+	<action name="calc_spherical_offset" scope="local" args="px_offset, ret_varname">
+		Math.atan2(a, get(px_offset), 500);
+		parentscopeset(get(ret_varname), calc(a * 180.0 / Math.PI));
+	</action>
+		
+	<action name="yuv_to_rgb_color" scope="local" args="ret_varname, y, u ,v">
+		calc(cr, (y*1.164 + 1.596*(v-128)) BOR 0);
+		calc(cg, (y*1.164 - 0.813*(v-128) - 0.391*(u-128)) BOR 0);
+		calc(cb, (y*1.164 + 2.018*(u-128)) BOR 0);
+		clamp(cr, 0, 255);
+		clamp(cg, 0, 255);
+		clamp(cb, 0, 255);
+		parentscopeset(get(ret_varname), calc((cr LSHT 16) BOR (cg LSHT 8) BOR cb));
+	</action>
+	
+	<action name="build_spot" scope="parent">
+		calc(hs_name, 'hs_' + x + '/' + y);
+		addhotspot(get(hs_name));
+		copy(hs, hotspot[get(hs_name)]);
+		set(hs.type, text);
+		calc(hs.ath, (x - cnt/2) * wo + wo/2);
+		calc(hs.oy, (y - cnt/2) * h + h/2);
+		set(hs.distorted,true);
+		calc(hs.html, '' + (1 + y*cnt + x));
+		set(hs.css, 'text-align:center; color:#FFFFFF; font-weight:bold;');
+		set(hs.txtshadow, '0 0 3 0x000000 1');
+		copy(hs.width, w);
+		copy(hs.height, h);
+		set(hs.vcenter, true);
+		set(hs.capture, false);
+		set(hs.bgroundedge, 11);
+		set(hs.oversampling, 2);
+		set(hs.mipmapping, true);
+		yuv_to_rgb_color(hs.backgroundcolor, calc((((x*2/cnt - 1)^2 + (y*2/cnt - 1)^2) ^ 0.5) / 1.414 * 255), calc(x * 255/cnt), calc(y * 255/cnt));
+		set(hs.onover, tween(ry, -360, 0.5, default, set(ry,0)); );
+	</action>
+		
+	<action name="add_spots" autorun="onstart" scope="local">
+		set(cnt, 10);
+		set(w, 50);
+		set(h, 50);
+		calc_spherical_offset(get(w), wo);
+		for(set(y,0), y LT cnt, inc(y),
+			for(set(x,0), x LT cnt, inc(x),
+				build_spot();
+			);
+		);
+	</action>
+
+</krpano>
+

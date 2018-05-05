@@ -1,0 +1,1458 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="../plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="../plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="../plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="../plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="../plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="../plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="../plugins/radar.html#top">Radar</a></li>
+						<li><a href="../plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="../plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="../plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="../plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="../plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="../plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+	
+<h1>krpanotools Config File Reference
+	
+</h1>
+
+<div class="paragraph">
+	The krpanotools makepano tool (and the droplets derived from it like MAKE PANO, MAKE VTOUR) will be configured by external 
+	configuration (.config) files.
+	When calling the krpanotools makepano tool, it is necessary to specify a path to such .config file. 
+	The config files itself are just simple text files and can be editing with any text editor.
+</div>
+
+
+<h2><a href="#syntax" name="syntax" class="selflink">Syntax</a></h2>
+
+<div class="paragraph">
+	The syntax of the config files is pretty simple. The config files are read line-by-line. 
+	Each line can be either a setting or a comment or an include. Empty or whitespace lines will be ignored.
+	<ul>
+		<li class="uldd"><a href="#set" name="set" class="selflink">Settings</a><br/>
+			To set a setting just write:
+			<pre>setting=value</pre>
+			Each line start with the name of setting, then follows an assignment character (=) and the value for this setting.
+		</li>
+	
+		<li class="uldd"><a href="#comments" name="comments" class="selflink">Comments</a><br/>
+			When a line begins with a # character, then this line is treated as comment and will be ignored.
+			<pre># this line is a comment and will be ignored</pre>
+		</li>
+		
+		<li class="uldd"><a href="#include" name="include" class="selflink">Includes</a><br/>
+			It's possible to include other config files. Just write include and the name of the file:
+			<pre>include name-of-the-other-file</pre>
+		</li>
+	</ul>
+</div>
+
+
+
+<h2><a href="#filepaths" name="filepaths" class="selflink">Notes about file paths</a></h2>
+
+<div class="paragraph">
+	When defining the paths for the output-files, it is possible to use placeholders to refer to the input-path and to the pano-name.<br/>
+	<br/>
+	These placeholders are available:
+	<ul>
+		<li class="uldd"><b>%INPUTPATH%</b><br/>
+			This is the full path of the current input-file. It can be used to generate the output-file in the same folder as the input-file.
+		</li>
+	
+		<li class="uldd"><b>%BASENAME%</b><br/>
+			This is the 'basename' of a input-image. It is the file-name without file-path and without file-extension. 
+			Pre- or post-fixes that are indicating the cube-side were also removed.<br/>
+			When the name of the input-file doesn't allow generating a basename, then the basename will be 'pano####',
+			where #### is a sequential number which starts at 0000.
+		</li>
+	</ul>
+</div>
+	
+<h2><a href="#settings" name="settings" class="selflink">All Config Settings</a></h2>
+
+<div class="paragraph">
+	Input Image Settings
+	<ul>
+		<li><a href="#panotype">panotype</a></li>
+		<li><a href="#hfov">hfov</a></li>
+		<li><a href="#vfov">vfov</a></li>
+		<li><a href="#voffset">voffset</a></li>
+	</ul>
+	
+	Stereo Settings
+	<ul>
+		<li><a href="#stereosupport">stereosupport</a></li>
+		<li><a href="#stereolabels">stereolabels</a></li>
+	</ul>
+	
+	Processing Settings
+	<ul>
+		<li><a href="#makescenes">makescenes</a></li>
+		<li><a href="#frames">frames</a></li>
+	</ul>
+	
+	Format Conversion Settings (Sphere/Cylinder to Cube)
+	<ul>
+		<li><a href="#converttocube">converttocube</a></li>
+		<li><a href="#converttocubelimit">converttocubelimit</a></li>
+		<li><a href="#converttocubeformat">converttocubeformat</a></li>
+		<li><a href="#tempcubepath">tempcubepath</a></li>
+		<li><a href="#waitafterconvert">waitafterconvert</a></li>
+	</ul>
+	
+	Multi-Resolution Image Settings
+	<ul>
+		<li><a href="#multires">multires</a></li>
+		<li><a href="#tilesize">tilesize</a></li>
+		<li><a href="#levels">levels</a></li>
+		<li><a href="#levelstep">levelstep</a></li>
+		<li><a href="#levelsizes">levelsizes</a></li>
+		<li><a href="#adjustlevelsizes">adjustlevelsizes</a></li>
+		<li><a href="#adjustlevelsizesformipmapping">adjustlevelsizesformipmapping</a></li>
+		<li><a href="#minsize">minsize</a></li>
+		<li><a href="#maxsize">maxsize</a></li>
+		<li><a href="#maxcubesize">maxcubesize</a></li>
+	</ul>
+	
+	Output Images / Tile-Paths Setings
+	<ul>
+		<li><a href="#tilepath">tilepath</a></li>
+		<li><a href="#indexbase">indexbase</a></li>
+	</ul>
+	
+	Preview Pano Setings
+	<ul>
+		<li><a href="#preview">preview</a></li>
+		<li><a href="#cspreview">cspreview</a></li>
+		<li><a href="#graypreview">graypreview</a></li>
+		<li><a href="#previewsmooth">previewsmooth</a></li>
+		<li><a href="#previewspsize">previewspsize</a></li>
+		<li><a href="#previewcssize">previewcssize</a></li>
+		<li><a href="#previewpath">previewpath</a></li>
+	</ul>
+	
+	Custom Cube Images
+	<ul>
+		<li><a href="#customimage_path">customimage[name].path</a></li>
+		<li><a href="#customimage_size">customimage[name].size</a></li>
+		<li><a href="#customimage_imagesettings">customimage[name].imagesettings</a></li>
+		<li><a href="#customimage_stereosupport">customimage[name].stereosupport</a></li>
+		<li><a href="#customimage_xml">customimage[name].xml</a></li>
+		<li><a href="#customimage_xmllevel">customimage[name].xmllevel</a></li>
+		<li><a href="#customimage_xmlsceneparameters">customimage[name].xmlsceneparameters</a></li>
+		<li><a href="#customimage_xmlimageparameters">customimage[name].xmlimageparameters</a></li>
+	</ul>
+	
+	Thumbnail Image Settings
+	<ul>
+		<li><a href="#makethumb">makethumb</a></li>
+		<li><a href="#thumbsize">thumbsize</a></li>
+		<li><a href="#thumbpath">thumbpath</a></li>
+	</ul>
+	
+	XML Output Settings
+	<ul>
+		<li><a href="#xml">xml</a></li>
+		<li><a href="#xmlpath">xmlpath</a></li>
+	</ul>
+	
+	XML Template / Skin Settings
+	<ul>
+		<li><a href="#xmltemplate">xmltemplate</a></li>
+		<li><a href="#xmltemplate_var">xmltemplate_var</a></li>
+		<li><a href="#xmltemplate_additional_file">xmltemplate_additional_file</a></li>
+		<li><a href="#xmltemplate_scene">xmltemplate_scene</a></li>
+		<li><a href="#xmltemplate_view">xmltemplate_view</a></li>
+		<li><a href="#xmltemplate_hotspot">xmltemplate_hotspot</a></li>
+	</ul>
+	
+	XML Image Settings
+	<ul>
+		
+		<li><a href="#xmlimageparameters">xmlimageparameters</a></li>
+		
+	</ul>
+	
+	
+	HTML Output Settings
+	<ul>
+		<li><a href="#html">html</a></li>
+		<li><a href="#htmlpath">htmlpath</a></li>
+	</ul>
+	
+	HTML Template Settings
+	<ul>
+		<li><a href="#htmltemplate">htmltemplate</a></li>
+		<li><a href="#htmltemplate_js">htmltemplate_js</a></li>
+		<li><a href="#htmltemplate_html5">htmltemplate_html5</a></li>
+		<li><a href="#htmltemplate_var">htmltemplate_var</a></li>
+		<li><a href="#htmltemplate_additional_file">htmltemplate_additional_file</a></li>
+	</ul>
+	
+	
+	
+	Protection Settings
+	<ul>
+		<li><a href="#kprotectclparameters">kprotectclparameters</a></li>
+	</ul>
+	
+	Basic / Setup Settings
+	<ul>
+		<li><a href="#html5">html5</a></li>
+		<li><a href="#flash">flash</a></li>
+		<li><a href="#profile">profile</a></li>
+		<li><a href="#parsegps">parsegps</a></li>
+		<li><a href="#autolevel">autolevel</a></li>
+		<li><a href="#prealignheading">prealignheading</a></li>
+		<li><a href="#filterbasename">filterbasename</a></li>
+		<li><a href="#cubeshortsyntax">cubeshortsyntax</a></li>
+		<li><a href="#ignorelayers">ignorelayers</a></li>
+		<li><a href="#sortinput">sortinput</a></li>
+		<li><a href="#askforxmloverwrite">askforxmloverwrite</a></li>
+		<li><a href="#quiet">quiet</a></li>
+		<li><a href="#waitkey">waitkey</a></li>
+		<li><a href="#tempdir">tempdir</a></li>
+	</ul>
+	
+	Image Filtering / Compression Settings
+	<ul>
+		<li><a href="#filter">filter</a></li>
+		<li><a href="#jpegquality">jpegquality</a></li>
+		<li><a href="#jpegsubsamp">jpegsubsamp</a></li>
+		<li><a href="#jpegoptimize">jpegoptimize</a></li>
+		<li><a href="#jpegprogressive">jpegprogressive</a></li>
+		<li><a href="#manualjpegcompression">manualjpegcompression</a></li>
+	</ul>
+</div>
+
+<h2><a href="#settingsdocumentation" name="settingsdocumentation" class="selflink">Settings Documentation</a></h2>
+
+<div class="paragraph">
+	
+	Input Image Settings
+	
+	<div class="subparagraph">
+		<a name="panotype"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#panotype">panotype=autodetect</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The panoramic type of the input image.</li>
+				<li>Possible settings:
+					<ul>
+						<li>autodetect - The type will be detected by the imagesize / aspect:
+							<ul>
+								<li>2:1 aspect = spherical pano</li>
+								<li>1:1 aspect and six files with the same 'basename' = cubical pano</li>
+								<li>other aspects - ask the user</li>
+							</ul>
+						</li>
+						<li>sphere - force assuming that the input is a full spherical 360x180 image</li>
+						<li>cylinder        - force assuming that the input is a 360x* cylinder</li>
+						<li>flat            - force assuming that the input is a flat image</li>
+						<li>partialsphere   - force assuming a partial sphere   (<a href="#hfov">hfov</a> setting needed)</li>
+						<li>partialcylinder - force assuming a partial cylinder (<a href="#hfov">hfov</a> setting needed)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="hfov"></a><a name="vfov"></a><a name="voffset"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#hfov">hfov=360</a><br/><a class="selflink" href="#vfov">vfov=auto</a><br/><a class="selflink" href="#voffset">voffset=0</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Predefined settings for partial spherical/cylinder panos.</li>
+				<li>hfov - Set the horizontal field of view of the input images.</li>
+				<li>vfov - Set the vertical field of view of the input images. Use 'auto' to let this value be calculated automatically.</li>
+				<li>voffset - Shift the image vertically up or down away from the horizon/center (+/- degrees).</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Stereo Settings
+	
+	<div class="subparagraph">
+		<a name="stereosupport"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#stereosupport">stereosupport=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>When enabled (true) stereo (left/right) images will be generated when there is a stereoscopic input image.</li>
+				<li>When disabled (false), the pano will be build only for the left image of the stereoscopic input image.</li> 
+				<li>This could be used to build large monoscopic images for normal viewing and special smaller-sized images
+					via the <a href="#customimage_stereosupport">customimage</a> settings for VR stereo viewing.
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="stereolabels"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#stereolabels">stereolabels=1|2</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The labels for the left and right images when generating stereoscopic output images.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Processing Settings
+	
+	<div class="subparagraph">
+		<a name="makescenes"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#makescenes">makescenes=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate a single xml file with a &lt;scene&gt; elements for each input image. 
+					A &lt;scene&gt; is like an 'inline-xml'. 
+					This can be used for automatically generating virtual tours.</li>
+				<li>When disabled, a xml file for each input image will be generated.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="frames"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#frames">frames=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Enable 'multi-frame' / 'object' panos.</li>
+				<li>Each input image is treated as single frame of a movie or animation.</li>
+				<li>All input images need to have the same image size for this case.</li>
+				<li>The <a href="#tilepath">tilepath</a> need to use the '%f' placeholder for the current frame number.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Format Conversion Settings (Sphere/Cylinder to Cube)
+	
+	<div class="subparagraph">
+		<a name="converttocube"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#converttocube">converttocube=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Convert spherical and cylindrical images automatically to cubical images.</li>
+				<li>Cubical images give a better display quality and a better rendering performance.</li>
+				<li>Cubical images are necessary for HTML5 usage.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="converttocubelimit"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#converttocubelimit">converttocubelimit=360x120</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set the pano 'field-of-view-range' when a pano image should to be converted to cubical.
+					When the pano range is above this limit it will be convereted, when below then not.
+				</li>
+				<li>At the moment only 360x* images can be converted.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="converttocubeformat"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#converttocubeformat">converttocubeformat=kro</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Image fileformat for the temporary converted cube images.</li>
+				<li>Possible settings:
+					<ul>
+						<li>kro = Kolor RAW (no limits, default, recommended)</li>
+						<li>tif, tiff = TIFF (max. filesize 4GB)</li>
+						<li>btf, tf8, bigtiff = BigTIFF (no limits)</li>
+						<li>psd = Photoshop Document (max. imagesize 30.000x30.000)</li>
+						<li>psb = Photoshop Big Document (max. imagesize 300.000x300.000)</li>
+						<li>jpg, jpeg = JPEG (max. imagesize 30.000x30.000)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="tempcubepath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#tempcubepath">tempcubepath=%INPUTPATH%/%BASENAME%_cube%UID%</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name of the temporary to-cube-converted images (without file-extension).</li>
+				<li>The temporary cube images will be removed automatically after processing.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+				<li>Additional here a %UID% placeholder is supported for generating an unique id. This should be used to avoid 
+					problems when files with the same name were located in the folder.
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="waitafterconvert"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#waitafterconvert">waitafterconvert=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Wait for an user keypress after converting to cube image.</li>
+				<li>This allows editing the cube image before final processing.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Multi-Resolution Image Settings
+	
+	<div class="subparagraph">
+		<a name="multires"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#multires">multires=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Should the tool generate multi-resolution images or 'normal' non-tiled single images.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="tilesize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#tilesize">tilesize=auto</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Size of the  multi-resolution tile images.</li>
+				<li>Should be between 256 and 1024.</li>
+				<li>Use 'auto' to let the tool automatically find a good value for 'symmetric tile splitting', which can improve the Flash rendering performance.</li>
+				<li>A today recommendation with a view to future versions with GPU rendering and HTML5 would be using 512 as tilesize.</li>
+				<li><i>Note - the tilesize affects the loading and decoding time and also the rendering performance.</i></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="levels"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#levels">levels=auto</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Number of multi-resolution levels to generate.</li>
+				<li>Use 'auto' to let the tool automatically calculate the needed levels.</li>
+				<li>The number of the automatic levels depends on the image size of the panorama and 
+					the on the <a href="#minsize">minsize</a> and <a href="#maxsize">maxsize</a> settings.
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="levelstep"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#levelstep">levelstep=2</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Each multi-resolution level will be reduced by the 'levelstep' factor from the last resolution level.</li>
+				<li>Example - levelstep and the level size:<br>
+					levelstep=2.0: 10000x5000, 5000x2500, 2500x1250<br/>
+					levelstep=2.5: 10000x5000, 4000x2000, 1600x850<br/>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="levelsizes"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#levelsizes">levelsizes=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set manual level sizes by a comma-separated list.</li>
+				<li>Only the width size will be set, the height will be calculated proportionally.</li>
+				<li>The levels and levelstep setting will be ignored when this setting will be set.</li>
+				<li>Example:<br>
+					levelsizes=512, 1024, 2048, 4096, 8192<br/>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	<div class="subparagraph">
+		<a name="adjustlevelsizes"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#adjustlevelsizes">adjustlevelsizes=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Automatically adjust some level sizes to make them better divisible by the tilesize.</li>
+				<li>This will avoid very narrow tile images and can improve the loading and rendering performance.</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	<div class="subparagraph">
+		<a name="adjustlevelsizesformipmapping"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#adjustlevelsizesformipmapping">adjustlevelsizesformipmapping=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Automatically adjust / optimize the level sizes to make them better suitable for rendering with enabled mipmapping.</li>
+				<li>This can improve the loading and rendering performance.</li>
+				<li>This setting will be only applied when also the <a href="#adjustlevelsizes">adjustlevelsizes</a> setting is enabled.</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	<div class="subparagraph">
+		<a name="minsize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#minsize">minsize=auto</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The minimum size (height) for multi-resolution levels.</li>
+				<li>When levels=auto then levels will be generated  down to this size.</li>
+				<li>Use 'auto' to let the tool automatically choose the minimum size.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="maxsize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#maxsize">maxsize=auto</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The maximum size (height) for multi-resolution levels.</li>
+				<li>When the input image is larger than this size, then it will be downsampled to this size.</li>
+				<li>Use 'auto' to use the maximum size of the input image.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="maxcubesize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#maxcubesize">maxcubesize=auto</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The maximum size (width/height) for the cube images.</li>
+				<li>Use 'auto' to use the maximum size of the input image.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Output Images / Tile-Paths Setings
+	
+	<div class="subparagraph">
+		<a name="tilepath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#tilepath">tilepath=%INPUTPATH%/%BASENAME%.tiles/l%Al[_c]_%Av_%Ah.jpg</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name template for the output tile images.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+				<li>The tilepath has several placeholders for tile-indices:
+					<ul>
+						<li>%l - index/number of the current multi-resolution level</li>
+						<li>%h - horizontal tile index (also possible: %x, %c, %u)</li>
+						<li>%v - vertical tile index (also possible: %y, %r)</li>
+						<li>[c] - The 'c' will be replaced by the cubeside character, everything else between [ and ] will kept as it is for cubical panos and be removed for other pano types.</li>
+						<li>%f - frame index (for multi-frame input)</li>
+					</ul>
+				</li>
+				<li>Formating options:
+					<ul>
+						<li>Insert one or more '0' characters or an 'A' between the '%' and the placeholder characters to
+						to 'fill up' the numbers with '0' characters for an uniform padding.</li>
+						<li>'A' means 'automatic' - here as many '0' characters as needed will be added for an uniform padding for all tiles.</li>
+					</ul>
+				</li>
+				<li>Each placeholder can be used several times and for the filename and also for the foldername. New folders will be created automatically.</li>
+				<li><i>Note - for very large panos organize the tiles into several folders to keep the
+					'number of files per folder' low - that's better for good server performance!</i>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="tilepathxml"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#tilepathxml">tilepathxml=[PATH]</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template for the path in the xml.</li>
+				<li>Can be used to pre- or postfix the path.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="indexbase"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#indexbase">indexbase=1</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Numbering start/base index for the tile-indices.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Preview Pano Setings
+	
+	<div class="subparagraph">
+		<a name="preview"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#preview">preview=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate a small and smooth preview image.</li>
+				<li>The smoothness of the preview image makes it possible to compress the image very well
+					and make the filesize very small. And this allows a very quick loading.</li> 
+				<li>The preview image will be display behind the normal pano during loading.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="cspreview"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#cspreview">cspreview=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate a cubestrip preview images when possible.</li>
+				<li>Cubic images have a better, more accurate display quality.</li>
+				<li>In HTML5, cubestrip preview images are the only supported preview image format.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="graypreview"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#graypreview">graypreview=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Make the preview image grayscaled.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="previewsmooth"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#previewsmooth">previewsmooth=25</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Smoothness of the preview image.</li>
+				<li>0-100 (higher values are smoother)</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="previewspsize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#previewspsize">previewspsize=1024</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Size (width) of spherical preview images.</li>
+				<li>Default is 1024 &rArr; 1024x512.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="previewcssize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#previewcssize">previewcssize=256</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Size (width) of cubestrip (<a href="#cspreview">cspreview=true</a>) preview images.</li>
+				<li>Default is 256 &rArr; 256x1536.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="previewpath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#previewpath">previewpath=%INPUTPATH%/%BASENAME%.tiles/preview.jpg</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name of the output preview image.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="previewpathxml"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#previewpathxml">previewpathxml=[PATH]</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template for the path in the xml.</li>
+				<li>Can be used to pre- or postfix the path.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Custom Cube Images
+	
+	<div class="subparagraph">
+		<a name="customimage_path"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_path">customimage[name].path=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate smaller sized cube images.</li>
+				<li>The [name] is any internal unique name.</li>
+				<li>The path and filename of the custom cube images. The name need to contain the cube-side placeholder '%s'.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_size"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_size">customimage[name].size=1024</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Resolution / size of the custom cube images.</li>
+				<li>When the normal pano size is already smaller than this size, no custom image will be generated.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_imagesettings"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_imagesettings">customimage[name].imagesettings=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Use Custom Image Filtering / Compression Settings</li>
+				<li>These settings will overwrite the default image settings.</li>
+				<li>Available settings:
+					<ul>
+						<li><a href="#filter">filter</a>=#</li>
+						<li><a href="#jpegquality">jpegquality</a>=#</li>
+						<li><a href="#jpegsubsamp">jpegsubsamp</a>=#</li>
+						<li><a href="#jpegoptimize">jpegoptimize</a>=#</li>
+						<li><a href="#jpegprogressive">jpegprogressive</a>=#</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_stereosupport"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_stereosupport">customimage[name].stereosupport=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate stereo images when the input is a stereo image.</li>
+				<li>Possible settings: true or false or 'not set'. When 'not set' then the <a href="#stereosupport">stereosupport</a> setting will be used.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_xml"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_xml">customimage[name].xml=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>XML Template for the custom cube images.</li>
+				<li>Possible placeholders:
+					<ul>
+						<li>[PATH] - path to the custom cube images</li>
+						<li>[TAB] - tabulator indentation</li>
+						<li>[NL] - new-line</li>
+					</ul>	
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_xmllevel"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_xml">customimage[name].xmllevel=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Define where to insert the custom image xml.</li>
+				<li>Possible settings:
+					<ul>
+						<li>image - add the xml inside the &lt;image&gt; element.</li>
+						<li>root - add the xml at the root level (e.g. &lt;krpano&gt; or &lt;scene&gt;).</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_xmlsceneparameters"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_xml">customimage[name].xmlsceneparameters=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Parameters / attributes that will be added to the &lt;scene&gt; element when the custom image will be added.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="customimage_xmlimageparameters"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#customimage_xml">customimage[name].xmlimageparameters=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Parameters / attributes that will be added to the &lt;image&gt; element when the custom image will be added.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div>
+		<a name="customimage_example" href="#customimage_example" class="selflink">Custom Cube Image Example</a><br>
+		<br>
+		An example for generating 1024x1024 cube images for mobile devices:
+<pre>customimage[mobile].path=%INPUTPATH%/%BASENAME%.tiles/mobile_%s.jpg
+customimage[mobile].res=1024
+customimage[mobile].imagesettings=jpegquality=82 jpegsubsamp=444 jpegoptimize=true
+customimage[mobile].xml=&lt;mobile&gt;[NL][TAB]&lt;cube url="[PATH]" /&gt;[NL]&lt;/mobile&gt;</a></pre>
+	</div>
+	<br/>
+	
+	<br/>
+	Thumbnail Image Settings
+	
+	<div class="subparagraph">
+		<a name="makethumb"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#makethumb">makethumb=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Automatically generate a small thumbnail image.</li>
+				<li>For cube-panos this thumbnail will be based on the front-cube-side-image, for all other panos the whole image itself will be used.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="thumbsize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#thumbsize">thumbsize=80</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The square pixel-size of the thumbnail image.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="thumbpath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#thumbpath">thumbpath=%INPUTPATH%/%BASENAME%.tiles/thumb.jpg</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name of the thumbnail image.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="thumbpathxml"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#thumbpathxml">thumbpathxml=[PATH]</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template for the path in the xml.</li>
+				<li>Can be used to pre- or postfix the path.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	XML Output Settings
+	
+	<div class="subparagraph">
+		<a name="xml"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xml">xml=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate a xml file.</li>
+				<li>The <a href="#xmltemplate">xmltemplate</a> file will be used as template/base for generating the xml file.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmlpath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmlpath">xmlpath="%INPUTPATH%/%BASENAME%.xml</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name of the output xml file.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	XML Template / Skin Settings
+	
+	<div class="subparagraph">
+		<a name="xmltemplate"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate">xmltemplate=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template file the output xml file.</li>
+				<li>Possible placeholders:
+					<ul>
+						<li>[NAME] - (<a href="#filterbasename">unfiltered</a>) basename of the pano</li>
+						<li>[BASENAME] - (<a href="#filterbasename">filtered</a>) basename of the pano</li>
+						<li>[PREVIEW] - place for the <span class="presyntax_inline">&lt;preview&gt;</span> element</li>
+						<li>[IMAGE] - place for the <span class="presyntax_inline">&lt;image&gt;</span> element</li>
+						<li>[SCENES] - place for the <span class="presyntax_inline">&lt;scene&gt;</span> elements</li>
+						<li>[VIEW] - place for the <span class="presyntax_inline">&lt;view&gt;</span> element (based on <a href="#xmltemplate_view">xmltemplate_view</a>)</li>
+						<li>[PARTIALPANO] - placeholder for <span class="presyntax_inline">ispartialpano="true"</span> for partial panos</li>
+						<li>[VIEWLIMITS] - placeholder for the viewing limits for partial panos</li>
+						<li>[HOTSPOTS] - place for the <span class="presyntax_inline">&lt;hotspot&gt;</span> elements (based on <a href="#xmltemplate_hotspot">xmltemplate_hotspot</a>)</li>
+						<li>[THUMB] - place for the thumbnail <span class="presyntax_inline">thumburl="..."</span> attribute</li>
+						<li>[DEVICE] - placeholder for <span class="presyntax_inline">devices="flash"</span> for non-html5-compatible panos</li>
+						<li>[HAVEGPS] - insert <span class="presyntax_inline">true</span> or <span class="presyntax_inline">false</span> depending if the input image contains GPS information or not</li>
+						<li>[GPS] - shortcut for <span class="presyntax_inline">&nbsp;lat="[LAT]" lng="[LNG]" heading="[HEADING]"</span></li>
+						<li>[LAT] - the GPS latitude value</li>
+						<li>[LNG] - the GPS longitude  value</li>
+						<li>[HEADING] - the GPS heading value</li>
+						<li>[...] - Any custom placeholders by the <a href="#xmltemplate_var">xmltemplate_var</a> setting</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmltemplate_var"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate_var">xmltemplate_var=name:value</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>A custom placeholder for the <a href="#xmltemplate">xmltemplate</a> xml file.</li>
+				<li>Placeholders with <b>[name]</b> will be replaced by the given <b>value</b></li>
+				<li>This setting can be used more than once to add several custom placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmltemplate_additional_file"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate_additional_file">xmltemplate_additional_file=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Additional files of the <a href="#xmltemplate">xmltemplate</a> xml.</li>
+				<li>This setting can be used more than once to add several files.</li>
+				<li>All given files will be copied directly to the output folder.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmltemplate_scene"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate_scene">xmltemplate_scene=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template file for the [SCENES] placeholder.</li>
+				<li>It's possible to use the same placeholders as in the <a href="#xmltemplate">xmltemplate</a>.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmltemplate_view"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate_view">xmltemplate_view=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template file for the [VIEW] placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="xmltemplate_hotspot"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmltemplate_hotspot">xmltemplate_hotspot=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template file for the [HOTSPOTS] placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	XML Image Settings
+	
+	
+	
+	<div class="subparagraph">
+		<a name="xmlimageparameters"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#xmlimageparameters">xmlimageparameters=</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set additional parameters in the xml <span class="presyntax_inline">&lt;image ...&gt;</span> node.</li>
+				<li>Can be used to set a different <a href="../xml.html#image.multiresthreshold">multiresthreshold</a>.</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	
+	
+	<br/>
+	HTML Output Settings
+	
+	<div class="subparagraph">
+		<a name="html"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#html">html=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Generate a output html file where the pano viewer is embedded.</li>
+				<li>The <a href="#htmltemplate">htmltemplate</a> file will be used as template/base for generating the html file.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="htmlpath"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmlpath">htmlpath=%INPUTPATH%/%BASENAME%.html</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The path and name of the output html file.</li>
+				<li>See the <a href="#filepaths">notes about file paths</a> for details about the file path placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	HTML Template Settings
+	
+	<div class="subparagraph">
+		<a name="htmltemplate"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmltemplate">htmltemplate=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Template file the output html file.</li>
+				<li>Possible placeholders:
+					<ul>
+						<li>[XML] - path to the generated xml file</li>
+						<li>[NAME] or [BASENAME] - 'basename' of the pano</li>
+						<li>[SWF] - path to the generated swf file</li>
+						<li>[JS] - path to the viewer embedding script (<a href="#htmltemplate_js">htmltemplate_js</a>)</li>
+						<li>[HTML5] - either the value of the <a href="#htmltemplate_html5">htmltemplate_html5</a> setting or <b>never</b></li>
+						<li>[...] - Any custom placeholders by the <a href="#htmltemplate_var">htmltemplate_var</a> setting</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="htmltemplate_js"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmltemplate_js">htmltemplate_js=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Path to viewer embedding script.</li>
+				<li>Will be inserted in the [JS] placeholder in the <a href="#htmltemplate">htmltemplate</a> html file.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="htmltemplate_html5"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmltemplate_html5">htmltemplate_html5=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The value for the [HTML5] placeholder in the <a href="#htmltemplate">htmltemplate</a> html file.</li>
+				<li>When HTML5-Output is available (=available license and compatible image), then the given value will bet set,
+					but when HTML5 is NOT available - then the value <b>never</b> will be set.
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="htmltemplate_var"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmltemplate_var">htmltemplate_var=name:value</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>A custom placeholder for the <a href="#htmltemplate">htmltemplate</a> html file.</li>
+				<li>Placeholders with <b>[name]</b> will be replaced by the given <b>value</b></li>
+				<li>This setting can be used more than once to add several custom placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="htmltemplate_additional_file"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#htmltemplate_additional_file">htmltemplate_additional_file=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Additional files of the <a href="#htmltemplate">htmltemplate</a> html page.</li>
+				<li>This setting can be used more than once to add several files.</li>
+				<li>All given files will be copied directly to the output folder.</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	
+	<br/>
+	Protection Settings
+	
+	<div class="subparagraph">
+		<a name="kprotectclparameters"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#kprotectclparameters">kprotectclparameters=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Additional parameters for the internal <a href="https://krpano.com/tools/kprotectcl/#top">protect</a> tool when creating the viewer files.</li>
+				<li>Avialable parameters are:
+					<ul>
+						<li>-domain=# ... add a domain-limitation</li>
+						<li>-noep ... disable external parameters</li>
+						<li>-nojs ... disable the javascript interface</li>
+						<li>-nolu ... disable local / offline usage</li>
+						<li>-noex ... disallow loading external xml / plugin files from other domains</li>
+						<li>-pxml ... allow only privately-encrypted xml files</li>
+						<li>-expire=YYYY-MM-DD ... set a expire date</li>
+						<li>-expiredurl=# ... url to open at expire date</li>
+						<li>-swfsize=# ... set standalone size of the swf (WIDTHxHEIGHT)</li>
+ 						<li>-fs ... start in fullscreen mode (Standalone Flashplayer only)</li>
+						<li>-nomb ... no menu bar (Standalone Flashplayer only)</li>
+						<li>-nobf ... no branding free output (ignore branding free license)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Basic / Setup Settings
+	
+	<div class="subparagraph">
+		<a name="html5"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#html5">html5=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>HTML5 support - true or false.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="flash"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#flash">flash=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Flash support - true or false.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="profile"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#profile">profile=convert</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>The embedding color profile handling - settings:
+					<ul>
+						<li><b>skip</b> - Skip / ignore embedded color profiles.</li>
+						<li><b>copy</b> - Copy the color profile from the input to the output image.</li>
+						<li><b>convert</b> - Convert the image colors from the embedded color profile to the sRGB color profile, 
+							but don't embed the sRGB profile in the output image (the default).
+						</li>
+						<li><b>sRGB</b> - Convert the image colors from the embedded color profile to the sRGB color profile, 
+							AND embed the sRGB profile in the output image (for best compatibility and color profile support,
+							but with slightly larger image files and slower image decoding).
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="subparagraph">
+		<a name="parsegps"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#parsegps">parsegps=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Parse the input-images for EXIF GPS information.</li>
+				<li>This can be used for creating automatically geo-tagged panos.</li>
+				<li>The GPS location will be available in the <a href="#xmltemplate">xml-template</a> via placeholders.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="autolevel"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#autolevel">autolevel=remap</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Parse the input-images for EXIF or XMP orientation / leveling information.</li>
+				<li>Could be used for automatically leveling Ricoh Theta images.</li>
+				<li>Possible settings:
+					<ul>
+						<li>remap = Remap (rotate) the images itself to level them.</li>
+						<li>prealign = Keep the images as they are, but add a <a href="../xml.html#image.prealign">prealign</a> setting in the xml to level them.</li>
+						<li>off = Don't level the images.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="prealignheading"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#prealignheading">prealignheading=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>When enabled the EXIF or GPS orientation information will be used to add
+					a <a href="../xml.html#image.prealign">prealign</a> setting the &lt;image&gt; xml element
+					that rotates the image to the 'heading' direction.
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="filterbasename"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#filterbasename">filterbasename=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Filter-out white-space, non-ASCII and special characters from the <a href="#BASENAME">BASENAME</a>
+					and replace them with underline (_) characters.</li>
+				<li>This will avoid path problems across different systems with different character encodings.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="cubeshortsyntax"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#cubeshortsyntax">cubeshortsyntax=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Use the shorter &lt;cube url="pano_%s.jpg" /&gt; syntax instead of defining
+					separate xml tags for each cube-side (&lt;left url="pano_l.jpg" /&gt; to &lt;down url="_pano_d.jpg" /&gt;).</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="ignorelayers"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#cubeshortsyntax">ignorelayers=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Ignore when a PSD/PSB file contains layers and allow using such files as input.</li>
+				<li>Warning: Such PSD/PSB files should be saved with 'maximize compatibility' in Photoshop to be able to be loaded correctly.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="sortinput"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#sortinput">sortinput=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Sort the input files alphabetically.</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="subparagraph">
+		<a name="askforxmloverwrite"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#askforxmloverwrite">askforxmloverwrite=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Ask before overwriting an existing xml file.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="quiet"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#quiet">quiet=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>No console output, process silently.</li>
+				<li>Only errors will be shown.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="waitkey"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#waitkey">waitkey=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Wait for a keypress after processing.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="tempdir"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#tempdir">tempdir=...</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set the path where temporary files (swapped-out-memory) should be stored.</li>
+				<li>When not set, the system default will be used.</li>
+				<li><i>Note - the temporary cube images (<a href="#tempcubepath">tempcubepath</a>) will not be stored there.</i></li>
+			</ul>
+		</div>
+	</div>
+	
+	<br/>
+	Image Filtering / Compression Settings
+	
+	<div class="subparagraph">
+		<a name="filter"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#filter">filter=LANCZOS</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set the down-sampling filter for generating lower resolution levels and images.</li>
+				<li>Possible settings:
+					<ul>
+						<li>POINT    = simple point filtering (bad quality)</li>
+						<li>LINEAR   = linear filtering (better, but still bad quality)</li>
+						<li>CUBIC    = cubic filtering (soft, loss of details)</li>
+						<li>HAMMING  = hamming filter (good, only a little loss of details)</li>
+						<li>GAUSS    = gaussion filtering (good, only a little loss of details)</li>
+						<li>MITCHELL = mitchell filtering (good quality for up-sampling)</li>
+						<li>LANCZOS  = windowed sinc filter (best quality, keeps the most details)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="jpegquality"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#jpegquality">jpegquality=85</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Set the JPEG compression quality.</li>
+				<li>Settings: 1-100
+					<ul>
+						<li>lower values - worse image quality and smaller files</li>
+						<li>higher values - better image quality and larger files</li>
+					</ul>
+				</li>
+
+				<li><i>Note - using quality settings higher than 95 wouldn't be recommended for web usage! 
+					The minimal increased image quality wouldn't be worth the much increased file sizes and therefore way longer download times.</i>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="jpegsubsamp"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#jpegsubsamp">jpegsubsamp=422</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Use JPEG Chroma subsampling for reducing the filesize.</li>
+				<li>More information: <a href="http://en.wikipedia.org/wiki/Chroma_subsampling" target="_blank">Wikipedia - Chroma subsampling</a></li>
+				<li>Possible settings:
+					<ul>
+						<li>444 = no chroma subsampling (best quality)</li>
+						<li>422 = horizontal (1/2) chroma subsampling</li>
+						<li>420 = horizontal (1/2) and vertical (1/2) chroma subsampling (the jpeg default)</li>
+						<li>411 = horizontal (1/4) and vertical (1/2) chroma subsampling (best compression)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="jpegoptimize"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#jpegoptimize">jpegoptimize=true</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Optimize the JPEG Huffman-compression tables.</li>
+				<li>This makes the JPEG images smaller and should be enabled in the most cases.</li>
+				<li>When enabled more working memory (RAM) is needed, because each image must be kept in memory until it is finished.
+					For very large input-images and 32-bit systems, this memory usage can be too much - there it should be disabled.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="jpegprogressive"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#jpegprogressive">jpegprogressive=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Use progressive JPEG encoding.</li>
+				<li>Progressive JPEG images can be smaller, but they are typically slower to decode.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="subparagraph">
+		<a name="manualjpegcompression"></a>
+		<pre class="preinfoheader"><a class="selflink" href="#manualjpegcompression">manualjpegcompression=false</a></pre>
+		<div class="preinfo">
+			<ul>
+				<li>Instead of JPEG images, loss-less TIFF images will be created.</li>
+				<li>These TIFF images need to be converted manually to JPEG images. Here it would be possible to use custom tools and settings for the jpeg conversion.</li>
+				<li>In the XML itself the normal JPEG filenames will be used.</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

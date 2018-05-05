@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Radar Plugin
+		<span class="pluginfilename">radar.swf / radar.js</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>The radar plugin shows the current viewing cone / area.</li>
+			<li>It can be used on a floor map image to show the current viewing direction and field of view on it.
+				Use the <a href="../xml.html#plugin.parent">parent</a> attribute to align in on a map image.
+				By using <a href="../xml.html#plugin.maskchildren">maskchildren="true"</a> on the parent element it's
+				possible to draw the radar cone only with the parent layer.
+			</li>
+			<li>The pano viewing direction can be changed by dragging the radar cone with the mouse (but could be disabled by adding <a href="../xml.html#plugin.enabled">enabled="false"</a>).</li>
+			<li>The position and size of it can by adjusted with the standard <a href="../xml.html#plugin">plugin</a> attributes.</li>
+			
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+
+		Usage Example:
+		<pre class="xmlpre">&lt;<a href="../xml.html#plugin">plugin</a> <a href="../xml.html#plugin.name">name</a>="radar"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="radar.swf"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="radar.js"
+        <a href="../xml.html#plugin.parent">parent</a>="map"
+        <a href="../xml.html#plugin.align">align</a>="lefttop"
+        <a href="../xml.html#plugin.edge">edge</a>="center"
+        <a href="../xml.html#plugin.x">x</a>="100" <a href="../xml.html#plugin.y">y</a>="50"
+        <a href="../xml.html#plugin.scale">scale</a>="5.0"
+        <a href="#heading" class="pluginattrib">heading</a>="0.0"
+        <a href="#headingoffset" class="pluginattrib">headingoffset</a>="90.0"
+        <a href="#fillcolor" class="pluginattrib">fillcolor</a>="0xFFFFFF"
+        <a href="#fillalpha" class="pluginattrib">fillalpha</a>="0.5"
+        <a href="#linewidth" class="pluginattrib">linewidth</a>="0.0"
+        <a href="#linecolor" class="pluginattrib">linecolor</a>="0xFFFFFF"
+        <a href="#linealpha" class="pluginattrib">linealpha</a>="0.3"
+        <a href="#invert" class="pluginattrib">invert</a>="false"
+        /&gt;</pre>
+        <br>
+        Dynamically set the heading and x/y position:
+        <pre class="xmlpre">set(plugin[radar].x, 203);
+set(plugin[radar].y, 555);
+set(plugin[radar].heading, 91.8);</pre>
+	</div>
+
+	
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+
+		<ul>
+			<li>
+				<a name="heading" href="#heading" class="selflink">heading</a>
+				<ul>
+					<li>
+						The heading of the current pano in degrees, need to align the pano orientation with the radar on the map, default=0.<br>
+						
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="headingoffset" href="#headingoffset" class="selflink">headingoffset</a>
+				<ul>
+					<li>An offset for the <a href="#heading">heading</a> value.</li>
+					<li>
+						The default value for headingoffset is 90, which means heading=0 is pointing to right/east by default.
+						Use headingoffset=0 to let heading=0 pointing to top/north.
+					</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="fillcolor" href="#fillcolor" class="selflink">fillcolor</a>&nbsp;
+				<ul>
+					<li>The fill color, default=0xFFFFFF.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="fillalpha" href="#fillalpha" class="selflink">fillalpha</a>&nbsp;
+				<ul>
+					<li>The alpha of the fill color, default=0.5.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="linecolor" href="#linecolor" class="selflink">linecolor</a>&nbsp;
+				<ul>
+					<li>The line color of the border line around the radar cone, default=0xFFFFFF.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="linewidth" href="#linewidth" class="selflink">linewidth</a>&nbsp;
+				<ul>
+					<li>The width of the border line around the radar cone, default=0.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="linealpha" href="#linealpha" class="selflink">linealpha</a>&nbsp;
+				<ul>
+					<li>The alpha of the border line around the radar cone, default=0.3.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="invert" href="#invert" class="selflink">invert</a>&nbsp;
+				<ul>
+					<li>
+						Invert the radar cone. The cone will not fill the field of view, it will field the other area.
+						Possible setting: true or false, default=false.
+					</li>
+				</ul>
+			</li>
+			
+			
+		</ul>
+	</div>	
+	
+	<div class="paragraph">
+		<h2><a name="radarheading" href="#radarheading" class="selflink">Radar Aligment / Pano Heading</a></h2>
+		
+		The heading the defines the orienation of the pano. It must be defined for each pano to align the radar to the map correctly.<br>
+		
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="source"></a><a name="opensource" href="#opensource" class="selflink">Open Source Plugin</a></h2>
+		
+		The Javascript source of the HTML5 Radar plugin is here freely available as example for learning about how to use
+		the <a href="../plugin_api.html#top">krpano Plugin Interface</a>.<br>
+		<br>
+		Files:
+		<ul>
+			<li><a href="https://krpano.com/viewsource.html?plugins/radar/radar_source.js">radar_source.js</a> (view)
+				- <a href="https://krpano.com/plugins/radar/radar_source.js" download>download</a>
+			</li>
+		</ul>
+	</div>
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

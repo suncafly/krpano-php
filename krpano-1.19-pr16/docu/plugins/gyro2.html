@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+		<h1>Gyro 2 Plugin
+			<span class="pluginfilename">gyro2.js</span> 
+			
+		</h1>
+		
+		<div class="paragraph">
+			This plugin uses the gyroscope and acceleration sensors of a mobile or tablet device to control the 
+			viewing / looking direction in krpano.<br>
+			<br>
+			The Gyro 2 plugin is a completely new developed plugin compared to the previously used <a href="https://krpano.com/plugins/userplugins/fieldofview/gyro/#top">Gyroscope plugin</a>.
+			It uses the 'devicemotion' browser events plus sensor data inter- and extrapolation instead of the 'deviceorientation' events as in the old gyro plugin.
+			This make it possible to get faster, more responsive, more accurate and more smoother movement data
+			and it works equally good on all different systems and browsers.<br>
+			<br>
+			Here a side-by-side comparison example - <a href="https://krpano.com/plugins/gyro2/gyro1-gyro2-comparison/">Gyro vs Gyro2</a>.
+		</div>
+		
+		
+		
+		<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#attributes">Plugin Attributes</a></li>
+			<li><a href="#stateattributes">Plugin State Attributes</a></li>
+			<li><a href="#events">Plugin Events</a></li>
+			<li><a href="#actions">Plugin Actions</a></li>
+			
+		</ul>
+	</div>
+		
+	
+		<div class="paragraph">
+			<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+			<pre class="xmlpre">&lt;<a href="http://krpano.com/docu/xml/#plugin">plugin</a> <a href="http://krpano.com/docu/xml/#plugin.name">name</a>="gyro" <a href="http://krpano.com/docu/xml/#devices-notes">devices</a>="html5" <a href="http://krpano.com/docu/xml/#plugin.keep">keep</a>="true"
+        <a href="http://krpano.com/docu/xml/#plugin.url">url</a>="gyro2.js" 
+        <a href="#enabled" class="pluginattrib">enabled</a>="false"
+        <a href="#camroll" class="pluginattrib">camroll</a>="true"
+        <a href="#friction" class="pluginattrib">friction</a>="0.0"
+        <a href="#touch_mode" class="pluginattrib">touch_mode</a>="full"
+        <a href="#sensor_mode" class="pluginattrib">sensor_mode</a>="1"
+        <a href="#softstart" class="pluginattrib">softstart</a>="0.5"
+        <a href="#autocalibration" class="pluginattrib">autocalibration</a>="false"
+        <a href="#onavailable" class="pluginattrib">onavailable</a>=""
+        <a href="#onunavailable" class="pluginattrib">onunavailable</a>=""
+        <a href="#onenable" class="pluginattrib">onenable</a>=""
+        <a href="#ondisable" class="pluginattrib">ondisable</a>=""
+        /&gt;</pre>
+		</div>
+			
+		<div class="paragraph">
+			<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+			
+			<div style="padding-left:1px;padding-top:0;">
+			<table class="xmlattrdoc">
+		
+				<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="enabled"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#enabled" class="selflink">enabled</a></th><th>Boolean</th><th>false</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>
+								Enable or disable the gyro plugin.
+							</li>
+							<li>
+								Can by changed anytime - e.g. by using the <a href="../actions.html#set">set()</a> or <a href="../actions.html#switch">switch()</a> actions.
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="camroll"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#camroll" class="selflink">camroll</a></th><th>Boolean</th><th>true</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>
+								Roll / level the viewer camera according to the device roll.
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				
+				<tr class="xmlattrdocdesc"><td><a name="friction"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#friction" class="selflink">friction</a></th><th>String / Number</th><th>0.0</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>
+								Friction / vibration dampening of the gyro movement.<br>
+							</li>
+							<li>
+								Values: 0.0 - 0.99 or "auto"<br>
+								<ul>
+									<li>0.0 = no friction / dampening, 0.99 = very strong dampening<br>
+										The higher the value the more dampening, but therefore also the movement will be delayed more.
+									</li>
+									<li><b>auto</b> = use dynamically an automatic zoom friction value based on the current zoom/fov 
+										and the current frame-rate based friction - e.g. more shake dampening when zooming in.
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="touch_mode"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#touch_mode" class="selflink">touch_mode</a></th><th>String</th><th>"full"</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>Available modes:
+								<ul>
+									<li><span class="presyntax_inline">off</span> - No touch control / panning.</li>
+									<li><span class="presyntax_inline">horizontaloffset</span> - By touch dragging only the horizontal offset will change.</li>
+									<li><span class="presyntax_inline">full</span> - Full touch control - pan horizontally and vertically. 
+										The vertical offset will slowly return to the real device orientation when moving the device.
+									</li>
+									<li><span class="presyntax_inline">disablegyro</span> - When doing a touch the gyro control 
+										gets automatically disabled and the normal controls are taking over. To get the gyro control
+										back, the gyro would need to get enabled again.
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="sensor"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#sensor" class="selflink">sensor</a></th><th>int</th><th>1</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>Define which browser event should be used for the device movement tracking:
+								<ul>
+									<li>0 = the <a href="https://developer.mozilla.org/en-US/docs/Web/Events/deviceorientation" target="_blank">deviceorientation</a> event
+										<ul>
+											<li>Here the sensor fusion will be done by the browser itself.</li>
+											<li>The data from this event is unfortunately buggy or just bad (slow, inaccurate, wrong) in many Android devices and Android browsers.</li> 
+										</ul>
+									</li>
+									<li>1 = the <a href="https://developer.mozilla.org/en-US/docs/Web/Events/devicemotion" target="_blank">devicemotion</a> event (default)
+										<ul>
+											<li>Here the sensor fusion will be done by krpano.</li>
+											<li>The browser provides the raw data from the acceleration and the gyroscope sensors and krpano combines them for getting the final device rotation:
+												<ul>
+													<li>The gyroscope data is very quick and accurate but the gyroscope sensor measures only <u>relative</u> rotations and 
+														therefore it drifts away from the real physical orientation over time. 
+													</li>
+													<li>To compensate that drift, the acceleration sensor is used. That sensor measures the gravity acceleration of the earth
+														and that can be used as <u>absolute</u> reference.
+													</li>
+													<li>But the acceleration data is very noisy and it can be only used for detection 'tilt' rotations (tilt left, right, up or down) -
+														rotations around the device itself can't detected by acceleration, for this the gyroscope data is required.
+													</li>
+													<li>So the data from both sensor will be combined / fused.
+														The acceleration data will be low-pass filtered and used as slow 'stabilization' and
+														the gyroscope data for quick and accurate movements in all directions.
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>Using the devicemotion event (setting sensor=1) is the default and there should be normally no need or benefit to use the deviceorientation event, 
+								except maybe for some extreme browser bugs...
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="sensor_mode"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#sensor_mode" class="selflink">sensor_mode</a></th><th>int</th><th>1</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>The frame-rendering and the 'sensor-data-events' are happening in different time intervals / rates
+								(depending on the system and browser),
+								so it is necessary to evaluate and interpolate/extrapolate the sensor data somehow to get
+								a smooth and also fast and responsive movement.
+							</li>
+							<li>With this setting, different modes for this process can be selected.
+							</li>
+							</li>
+							<li>Available modes:
+								<ul>
+									<li><span class="presyntax_inline">0</span> = Directly use the latest available sensor data.
+										No interpolation or extrapolation. Depending on the sensor-time-intervals of the browser
+										the movement can be either jerky or smooth.
+									</li>
+									<li><span class="presyntax_inline">1</span> = Smoothly interpolate between the latest
+										available sensor data. This will give a very smooth but delayed movement.
+									</li>
+									<li><span class="presyntax_inline">2</span> = Forecast the device rotations and then interpolate between the sensor data.
+									</li>
+									<li><span class="presyntax_inline">3</span> = Extrapolate the latest available sensor data
+										to the current frame time.
+										This will give a fast responsive and smooth movement, but there can be a jerking
+										when the extrapolated/predicted data and the real movement don't match.
+									</li>
+									<li><span class="presyntax_inline">4</span> = Forecast the device rotation to the current frame time.
+										This will give a fast responsive and smooth movement, but there can be a jerking
+										when the extrapolated/predicted data and the real movement don't match.
+									</li>
+									<li><span class="presyntax_inline">5</span> = Forecast the device rotation and extrapolate the
+										sensor data from the latest event to the current frame time.
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="softstart"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#softstart" class="selflink">softstart</a></th><th>Number</th><th>0.5</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>When enabling the gyro tracking fade slowy from the current viewing direction to the gyro-tracked viewing direction.</li>
+							<li>The <a href="#softstart" class="selflink">softstart</a> setting defines the number of seconds for this 'fade-in' process.</li>
+							<li>Set this setting to 0 to disable it to instantly use the gyro-tracked values.</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="autocalibration"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#autocalibration" class="selflink">autocalibration</a></th><th>Boolean</th><th>false</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>Enable an automatic gyroscope calibration.</li>
+							<li>Some devices have uncalibrated sensors and there this automatic calibration can help to avoid an unintended gyroscope movement / drifting.</li>
+							<li>The automatic self-calibration will be done every time when the device will be hold very still, e.g. either by holding the device very steady or by laying the device on a stable table.</li>
+						</ul>
+					</td>
+				</tr>
+				
+			</table>
+			</div>
+		</div>
+		
+		
+		<div class="paragraph">
+			<h2><a name="stateattributes" href="#stateattributes" class="selflink">Plugin State Attributes (read only)</a></h2>
+			
+			<div style="padding-left:1px;padding-top:0;">
+			<table class="xmlattrdoc">
+		
+				<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="isavailable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#isavailable" class="selflink">isavailable</a></th><th>Boolean</th><th>false</th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>Is gyroscope support available?</li>
+							<li>This variable will be first set to its correctly value after the <a href="#onavailable">onavailable</a>
+								or <a href="#onunavailable">onunavailable</a> events.
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+		
+		<div class="paragraph">
+			<h2><a name="events" href="#events" class="selflink">Plugin Events</a></h2>
+			
+			<div style="padding-left:1px;padding-top:0;">
+			<table class="xmlattrdoc">
+		
+				<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="onavailable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#onavailable" class="selflink">onavailable</a></th><th>Action Event</th><th></th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>This event will be called when gyroscope support is available.</li>
+							<li>Could be used to show a 'Gyro' button.</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="onunavailable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#onunavailable" class="selflink">onunavailable</a></th><th>Action Event</th><th></th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>This event will be called when no gyroscope support is available on the current device / browser.</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="onenable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#onenable" class="selflink">onenable</a></th><th>Action Event</th><th></th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>This event will be called when gyroscope gets enabled.</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr class="xmlattrdocdesc"><td><a name="ondisable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+				<tr><th><a href="#ondisable" class="selflink">ondisable</a></th><th>Action Event</th><th></th></tr>
+				<tr>
+					<td colspan="4">
+						<ul>
+							<li>This event will be called when gyroscope gets disabled.</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+			</div>
+			
+			<br>
+			<br>
+			<a name="krpanoevents"></a>
+			Additionally to the direct plugin events, the plugin also dispatches these <a href="../xml.html#events">krpano events</a>:
+			<pre class="xmlpre">
+&lt;events <a href="#onavailable" class="pluginattrib">gyro_onavailable</a>=""
+        <a href="#onunavailable" class="pluginattrib">gyro_onunavailable</a>=""
+        <a href="#onenable" class="pluginattrib">gyro_onenable</a>=""
+        <a href="#ondisable" class="pluginattrib">gyro_ondisable</a>=""
+        /&gt;</pre>
+	</div>
+		
+		
+		<div class="paragraph">
+			<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+			
+			<a name="resetsensor" href="#resetsensor" class="selflink"><pre>resetSensor(hlookat, vlookat*)</pre></a>
+			<div class="preinfo">
+				<ul>
+					<li>Reset the sensor tracking to look to the given <a href="../xml.html#view.hlookat">hlookat</a> (horizontal looking) direction.</li>
+					<li>When using <a href="#touch_mode">touch_mode=full</a>, it's optionally also possible to set the <a href="../xml.html#view.vlookat">vlookat</a> (vertical looking) direction.</li>
+				</ul>
+			</div>
+		</div>
+		
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

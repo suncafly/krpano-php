@@ -1,0 +1,26 @@
+﻿<krpano>
+	
+	<view fov.mobile="115" />
+	
+	<include url="video-player.xml" />
+	<include url="youtube-player.xml" />
+
+	<preview type="grid(cube,64,64,512,0xCCCCCC,0xFFFFFF,0x999999);" />
+	
+	<hotspot name="videospot"
+	         url="media_playback_start.png"
+	         scale="0.5"
+	         zoom="true"
+	         ath="-26.5" atv="0"
+	         onclick="looktohotspot(get(name),90); videoplayer_open('%CURRENTXML%/cats.mp4|%CURRENTXML%/cats.webm', '%CURRENTXML%/cats-poster.jpg', 0.5);"
+	         />
+	
+	<hotspot name="youtubespot"
+	         url="youtube_icon.png"
+	         scale="0.5"
+	         zoom="true"
+	         ath="+26.5" atv="0"
+	         onclick="looktohotspot(get(name),90); youtubeplayer_open('x1F3X-f9roo');"
+	         />
+
+</krpano>

@@ -1,0 +1,58 @@
+﻿<krpano>
+	
+	<!--
+		slider / blending cubes example
+	-->
+
+	<view hlookat="110" vlookat="40" fovtype="MFOV" fov="130" fovmin="60" fovmax="160" />
+
+	<layer name="slider_bg" url="slider_background.png" align="bottom" x="0" y="30" handcursor="false" width.mobile="220" />
+	
+	<layer name="slider_grip" url="slider_grip.png" align="left" edge="center" parent="slider_bg" x="0"
+	       ondown="copy(drag_currentx, x); copy(drag_stagex, mouse.stagex);
+	               asyncloop(pressed,
+	                 calc(newx, drag_currentx + (mouse.stagex - drag_stagex)); 
+	                 clamp(newx, 0, get(layer[slider_bg].pixelwidth));
+	                 copy(x, newx);
+	                 setblend(calc(newx / layer[slider_bg].pixelwidth));
+	               );"
+			/>
+
+	<style name="cubeface" distorted="true" width="1000" height="1000" enabled="false" alpha="0.0" />
+
+	<hotspot name="pano1_f" style="cubeface" url="pano1_f.jpg" ath="0" atv="0" />
+	<hotspot name="pano1_l" style="cubeface" url="pano1_l.jpg" ath="-90" atv="0" />
+	<hotspot name="pano1_r" style="cubeface" url="pano1_r.jpg" ath="+90" atv="0" />
+	<hotspot name="pano1_u" style="cubeface" url="pano1_u.jpg" ath="0" atv="-90" />
+	<hotspot name="pano1_d" style="cubeface" url="pano1_d.jpg" ath="0" atv="+90" />
+	<hotspot name="pano1_b" style="cubeface" url="pano1_b.jpg" ath="+180" atv="0" />
+	
+	<hotspot name="pano2_f" style="cubeface" url="pano2_f.jpg" ath="0" atv="0" />
+	<hotspot name="pano2_l" style="cubeface" url="pano2_l.jpg" ath="-90" atv="0" />
+	<hotspot name="pano2_r" style="cubeface" url="pano2_r.jpg" ath="+90" atv="0" />
+	<hotspot name="pano2_u" style="cubeface" url="pano2_u.jpg" ath="0" atv="-90" />
+	<hotspot name="pano2_d" style="cubeface" url="pano2_d.jpg" ath="0" atv="+90" />
+	<hotspot name="pano2_b" style="cubeface" url="pano2_b.jpg" ath="+180" atv="0" />
+	
+	<action name="setblend">
+		set(blend1, %1);
+		sub(blend2, 1.0, %1);
+		copy(hotspot[pano1_f].alpha, blend1);
+		copy(hotspot[pano1_l].alpha, blend1);
+		copy(hotspot[pano1_r].alpha, blend1);
+		copy(hotspot[pano1_b].alpha, blend1);
+		copy(hotspot[pano1_u].alpha, blend1);
+		copy(hotspot[pano1_d].alpha, blend1);
+		copy(hotspot[pano2_f].alpha, blend2);
+		copy(hotspot[pano2_l].alpha, blend2);
+		copy(hotspot[pano2_r].alpha, blend2);
+		copy(hotspot[pano2_b].alpha, blend2);
+		copy(hotspot[pano2_u].alpha, blend2);
+		copy(hotspot[pano2_d].alpha, blend2);
+	</action>
+	
+	<action name="start" autorun="onstart">
+		setblend(0);
+	</action>
+
+</krpano>

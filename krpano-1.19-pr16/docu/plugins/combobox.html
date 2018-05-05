@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Combobox Plugin
+		<span class="pluginfilename">combobox.xml</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>A combobox / dropdown-list / selectbox plugin.</li>
+			<li>This plugin converts &lt;combobox&gt; elements in the current
+				xml into several internal &lt;layer&gt; container, scrollarea and textfield elements.
+			</li>
+			<li>Additionally it's also possible to add and remove combobox elements also dynamically.
+			</li>
+			<li>The xml-only implementation allows many ways of customizing (design and functionality).
+		  	</li>
+		  	<li>Due the xml-only plugin code it works automatically the same for HTML5 and Flash.
+			</li>
+			<li>It's possible to use this plugin as replacement for the old
+		  		<a href="https://krpano.com/plugins/combobox/?version=116">combobox.swf / combobox.js</a> plugins, the action interfaces are
+		  		the same.
+		  	</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#size">Size / Alignment / Position</a></li>
+			<li><a href="#attributes">Plugin Attributes / Events</a></li>
+			<li><a href="#actions">Plugin Actions</a></li>
+			<li><a href="#customdesigns">Combobox Custom Designs</a></li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+		
+		First include the combobox.xml file once anywhere in the xml (adjust the path as necessary):<br>
+		<pre class="xmlpre">&lt;<a href="../xml.html#include">include</a> <a href="../xml.html#url">url</a>="plugins/combobox.xml" /&gt;</pre>
+		<br>
+		Either define the combobox element via static xml code:
+		<pre class="xmlpre">&lt;<a href="#combobox" class="pluginattrib">combobox</a> <a href="../xml.html#name">name</a>="cb1" <a href="#design" class="pluginattrib">design</a>="default" <a href="../xml.html#layer">...any layer settings...</a>&gt;
+    &lt;<a href="#item" class="pluginattrib">item</a> <a href="../xml.html#name">name</a>="item1" <a href="#item.caption" class="pluginattrib">caption</a>="Item 1" <a href="#item.onclick" class="pluginattrib">onclick</a>="..." /&gt;
+    &lt;<a href="#item" class="pluginattrib">item</a> <a href="../xml.html#name">name</a>="item2" <a href="#item.caption" class="pluginattrib">caption</a>="Item 2" <a href="#item.onclick" class="pluginattrib">onclick</a>="..." /&gt;
+    &lt;<a href="#item" class="pluginattrib">item</a> <a href="../xml.html#name">name</a>="item3" <a href="#item.caption" class="pluginattrib">caption</a>="Item 3" <a href="#item.onclick" class="pluginattrib">onclick</a>="..." /&gt;
+&lt;/<a href="#combobox" class="pluginattrib">combobox</a>&gt;</pre>
+		That &lt;combobox&gt; element will get converted to a <a href="../xml.html#layer" class="selflink">&lt;layer&gt;</a> element on startup.
+		The layer name will be the same.
+		So for the dynamic access to the combobox use <a href="../xml.html#layer" class="selflink">layer[name]</a> as addressing.<br>
+        <br>
+        Or create the combobox element by dynamic action code:
+        <pre class="xmlpre">
+&lt;<a href="../xml.html#action">action</a> name="test"&gt;       
+    <a href="#addcomboboxlayer" class="pluginattrib">addComboboxLayer</a>(cb1, <a href="#design" class="pluginattrib">default</a>);
+    <a href="../actions.html#set">set</a>(<a href="../xml.html#layer">layer</a>[cb1].<a href="../xml.html#layer.align">align</a>, 'lefttop');
+    <a href="../actions.html#set">set</a>(<a href="../xml.html#layer">layer</a>[cb1].<a href="../xml.html#layer.x">x</a>, 20);
+    <a href="../actions.html#set">set</a>(<a href="../xml.html#layer">layer</a>[cb1].<a href="../xml.html#layer.y">y</a>, 20);
+    <a href="../xml.html#layer">layer</a>[cb1].<a href="#additem" class="pluginattrib">addItem</a>('Item 1', <a href="../actions.html#trace">trace</a>(Item 1 clicked) );
+    <a href="../xml.html#layer">layer</a>[cb1].<a href="#additem" class="pluginattrib">addItem</a>('Item 2', <a href="../actions.html#trace">trace</a>(Item 2 clicked) );
+    <a href="../xml.html#layer">layer</a>[cb1].<a href="#additem" class="pluginattrib">addItem</a>('Item 3', <a href="../actions.html#trace">trace</a>(Item 3 clicked) );
+&lt;/<a href="../xml.html#action">action</a>&gt;</pre>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="size" href="#size" class="selflink">Size / Alignment / Position</a></h2>
+		<ul>
+			<li>The combobox can be placed on the screen or within other layers like a normal <a href="../xml.html#layer">layer</a>
+				element - e.g. by using the <a href="../xml.html#layer.align">align</a>, <a href="../xml.html#layer.edge">edge</a>, <a href="../xml.html#layer.x">x</a>, <a href="../xml.html#layer.y">y</a> and <a href="../xml.html#layer.parent">parent</a> settings.
+			</li>
+			<li>If no <a href="../xml.html#layer.width">width</a> is set, the width will be determined automatically by the <a href="#design">design settings</a> and
+				the largest item caption.
+				
+			</li>
+			<li>Setting the <a href="../xml.html#layer.height">height</a> is not possible,
+				the height will be always set automatically. 
+			</li>
+		</ul>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="events"></a><a name="attributes" href="#attributes" class="selflink">Plugin Attributes / Events</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="design"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#design" class="selflink">design</a></th><th>String</th><th>"default"</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Select the design for the combobox.</li>
+						<li>Here a predefined design or own custom one can be selected.</li>
+						<li>Available designs are:
+							<ul>
+								<li><b>default</b> - white boxes with a shadow and black text.</li>
+								<li><b>vtour</b> - vtourskin.xml look, dark-blue background with white text.</li>
+							</ul>
+						</li>
+						<li>If no setting or an invalid setting is used, the 'default' design will be used.</li>
+						<li>A custom design can be created by a <a href="#customdesigns" class="selflink">&lt;combobox_design&gt;</a> element.<br>
+							For more please see here:
+							<a href="#customdesigns">Combobox Custom Designs</a>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="callonclickafterclose"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#callonclickafterclose" class="selflink">callonclickafterclose</a></th><th>Boolean</th><th>false</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Define when the onclick event of the items should be called:
+							<ul>
+								<li><b>true</b> (default) - call <a href="#item.onclick">onclick</a> delayed after closing the combobox.</li>
+								<li><b>false</b> - call instantly, this can be necessary when changing browser settings that require a direct user-interaction, e.g. like switching to the fullscreen mode.</li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="selecteditemindex"></a>Attribute name <span class="readonly">(read only)</span></td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#selecteditemindex" class="selflink">selecteditemindex</a></th><th>int</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>The index (0-n) of the current selected item.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onchange"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#onchange" class="selflink">onchange</a></th><th>String</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>This event will be called when the current selected item will be changed.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="item"></a>Attribute name <span class="readonly">(read only)</span></td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#item" class="selflink">item</a></th><th>Array</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Array of the items, only for read-access.</li>
+						<li>Access by: <span class="presyntax_inline">layer[cbname].item[itemname].*</span></li>
+						<li>To get the number of items: <span class="presyntax_inline">layer[cbname].item.count</span></li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="item.caption"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#item.caption" class="selflink">item[itemname].caption</a></th><th>String</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>The caption text for the item.</li>
+						<li>The item itself is a <a href="../textfield.html#top">textfield</a>
+							and so it's possible to use also html/css code here.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="item.onclick"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#item.onclick" class="selflink">item[itemname].onclick</a></th><th>String</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>This event will be called when clicking the item.</li>
+						<li><i>Note - see also the <a href="#callonclickafterclose">callonclickafterclose</a> setting!</i></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			<tr class="xmlattrdocdes1"><td><a name="addcomboboxlayer"></a>Action name</td></tr>
+			<tr><th><a href="#addcomboboxlayer" class="selflink">addComboboxLayer(name, design*)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Add a new combobox layer with the given <a href="../xml.html#name">name</a> and <a href="#design">design</a> (*optionally).</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="removecomboboxlayer"></a>Action name</td></tr>
+			<tr><th><a href="#removecomboboxlayer" class="selflink">removeComboboxLayer(name)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Remove the combobox element.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="additem"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#additem" class="selflink">addItem(caption, onclick)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Add a new item to the combobox.</li>
+						<li>An automatic name will be used for the item.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="addnameditem"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#addnameditem" class="selflink">addNamedItem(name, caption, onclick)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Add a new item with a given <a href="../xml.html#name">name</a> to the combobox.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="selectitem"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#selectitem" class="selflink">selectItem(caption)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Select an item by its caption.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="selectitembyname"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#selectitembyname" class="selflink">selectItemByName(name)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Select an item by its item-name.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="removeall"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#removeall" class="selflink">removeAll()</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Remove all items from the combobox.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="openlist"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#openlist" class="selflink">openList()</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Manually open the combobox list.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="closelist"></a>Action name</td></tr>
+			<tr><th style="font-weight:normal;">layer[name].<a href="#closelist" class="selflink">closeList()</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Manually close the combobox list.</li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="customdesigns" href="#customdesigns" class="selflink">Combobox Custom Designs</a></h2>
+		
+		<ul>
+			<li>Custom designs can be defined by <a href="#customdesigns" class="selflink">&lt;combobox_design&gt;</a> elements.</li>
+			<li>They can be defined anywhere in the xml and need an unique <a href="../xml.html#name">name</a>.</li>
+			<li>For using that design, its name need to be used as <a href="#design">design</a> parameter.</li>
+			<li>The <a href="#customdesigns" class="selflink">&lt;combobox_design&gt;</a> element itself has these attributes:
+				<ul>
+					<li><b>margin</b> - layout / item margins (2 by default)</li>
+					<li><b>open_close_speed</b> - the opening / closing speed in seconds (0.25 by default)</li>
+				</ul>
+			 	and needs these three <a href="../xml.html#style" class="selflink">&lt;style&gt;</a> elements within it:
+			 	<ol>
+					<li><b>combobox_container_style</b>
+						<ul>
+							<li class="lisd">The style for the basic layer of the combobox (a <a href="../xml.html#layer.type">container</a> layer).</li>
+							<li class="lisd">It can contain any <a href="../xml.html#layer.type">container</a> layer settings.</li>
+						</ul>
+					</li>
+					<li><b>combobox_marker_style</b>
+						<ul>
+							<li class="lisd">The style for drop-down / current-item marker (a <a href="../textfield.html#top">textfield</a>).</li>
+							<li class="lisd">It can contain any <a href="../textfield.html#top">textfield</a> settings.</li>
+						</ul>
+					</li>
+					<li><b>combobox_item_style</b>
+						<ul>
+							<li class="lisd">The style for the item elements (<a href="../textfield.html#top">textfields</a>).</li>
+							<li class="lisd">It can contain any <a href="../textfield.html#top">textfield</a> settings.</li>
+						</ul>
+					</li>
+				</ol>
+			</li>
+		</ul>
+		
+		<br>
+		Here as example the &lt;combobox_design&gt element of the default design:
+		<pre class="xmlpre">
+&lt;<a href="#customdesigns" class="pluginattrib">combobox_design</a> <a href="../xml.html#name">name</a>="default" <a href="#customdesigns" class="pluginattrib">margin</a>="2" <a href="#customdesigns" class="pluginattrib">open_close_speed</a>="0.25"&gt;
+    &lt;<a href="../xml.html#style">style</a> <a href="../xml.html#name">name</a>="<a class="pluginattrib">combobox_container_style</a>"
+           <a href="../xml.html#layer.bgalpha">bgalpha</a>="1.0"
+           <a href="../xml.html#layer.bgcolor">bgcolor</a>="0xFFFFFF"
+           <a href="../xml.html#layer.bgborder">bgborder</a>="1 0xFFFFFF 0.5"
+           <a href="../xml.html#layer.bgroundedge">bgroundedge</a>="1"
+           <a href="../xml.html#layer.bgshadow">bgshadow</a>="0 1 3 0x000000 1.0"
+           /&gt;
+    &lt;<a href="../xml.html#style">style</a> <a href="../xml.html#name">name</a>="<a class="pluginattrib">combobox_marker_style</a>"
+           <a href="../textfield.html#css">css</a>="color:#FFFFFF;"
+           <a href="../textfield.html#bg">bg</a>="false"
+           <a href="../textfield.html#txtshadow">txtshadow</a>="0 0 2 0x000000 1"
+           /&gt;
+    &lt;<a href="../xml.html#style">style</a> <a href="../xml.html#name">name</a>="<a class="pluginattrib">combobox_item_style</a>"
+           <a href="../textfield.html#css">css</a>="color:#222222;"
+           <a href="../textfield.html#padding">padding</a>="4 4"
+           <a href="../textfield.html#bg">bg</a>="false"
+           <a href="../textfield.html#bgcolor">bgcolor</a>="0xC7E4FC"
+           <a href="../textfield.html#bgalpha">bgalpha</a>="1.0"
+           <a href="../textfield.html#bgroundedge">bgroundedge</a>="1"
+           <a href="../textfield.html#txtshadow">txtshadow</a>="0 0 1 0xFFFFFF 1.0"
+           /&gt;
+&lt;/<a href="#customdesigns" class="pluginattrib">combobox_design</a>&gt;
+</pre>
+		<br>
+		
+	</div>
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

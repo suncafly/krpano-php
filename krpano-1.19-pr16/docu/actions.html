@@ -1,0 +1,4749 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+<h1>krpano Actions / Scripting Reference
+	
+</h1>
+
+<script type="text/javascript">
+//<![CDATA[
+
+function toggleexample(elementid)
+{
+	var element = document.getElementById(elementid);
+
+	var curstyle = "";
+
+	if (window.getComputedStyle == undefined)
+		curstyle = element.currentStyle.display;
+	else
+		curstyle = window.getComputedStyle(element, null).display;
+
+	element.style.display = curstyle == "none" ? "inline" : "none";
+}
+
+//]]>
+</script>
+
+<div class="paragraph">
+	krpano has a small and simple dynamic scripting language.
+	With it krpano can be customized in many ways.
+	A command or function is called 'action' in krpano.
+	It's possible to use existing actions and also to define new ones.
+	The scripting language is dynamic and untyped by default, only
+	some predefined variables are typed, but that is normally not relevant because inside the
+	scripts all type conversions will be done automatically.
+</div>
+
+
+<h2><a href="#aboutthisdoc" name="aboutthisdoc" class="selflink">About this documentation</a></h2>
+
+<div class="paragraph">
+	This documentation is about global krpano variables and objects, about the actions calling syntax and about all pre-defined krpano actions / functions.<br>
+	<br>
+	Documentation topics:
+	<ul>
+		<li class="uldd"><a href="#globalvarsreference">Global-Variables Reference</a></li>
+		<li class="uldd"><a href="#actionsreference">Actions / Functions Reference</a></li>
+		<li class="uldd"><a href="#syntaxandusage">Syntax and Usage</a></li>
+		<li class="uldd"><a href="#expressions">Expressions</a></li>
+		<li class="uldd"><a href="#arrays">Arrays</a></li>
+	</ul>
+	<br>
+	For the documentation about the static xml code and object attributes have a look at the:<br>
+	<div class="ico_nextlink"></div> <a href="xml.html#top">krpano XML Reference </a>
+</div>
+
+
+
+<br>
+<h2><a href="#globalvarsreference" name="globalvarsreference" class="selflink">krpano Global-Variables Reference</a></h2>
+
+Version / Build information
+<ul>
+	<li><a href="#version">version</a></li>
+	<li><a href="#xmlversion">xmlversion</a></li>
+	<li><a href="#build">build</a></li>
+</ul>
+
+Screen information / settings
+<ul>
+	<li><a href="#fullscreen">fullscreen</a></li>
+	<li><a href="#stagewidth">stagewidth / stageheight</a></li>
+	<li><a href="#stagescale">stagescale</a></li>
+	<li><a href="xml.html#krpano.bgcolor">bgcolor</a></li>
+</ul>
+
+Device informations
+<ul>
+	<li><a href="#browser.useragent">browser.useragent</a></li>
+	<li><a href="#browser.platform">browser.platform</a></li>
+	<li><a href="#browser.location">browser.location</a></li>
+	<li><a href="#browser.domain">browser.domain</a></li>
+	<li><a href="#browser.protocol">browser.protocol</a></li>
+	<li><a href="#device.flash">device.flash</a></li>
+	<li><a href="#device.flashversion">device.flashversion</a></li>
+	<li><a href="#device.html5">device.html5</a></li>
+	<li><a href="#device.desktop">device.desktop</a></li>
+	<li><a href="#device.normal">device.normal</a></li>
+	<li><a href="#device.tablet">device.tablet</a></li>
+	<li><a href="#device.mobile">device.mobile</a></li>
+	<li><a href="#device.handheld">device.handheld</a></li>
+	<li><a href="#device.css3d">device.css3d</a></li>
+	<li><a href="#device.webgl">device.webgl</a></li>
+	<li><a href="#device.multiressupport">device.multiressupport</a></li>
+	<li><a href="#device.panovideosupport">device.panovideosupport</a></li>
+	<li><a href="#device.fullscreensupport">device.fullscreensupport</a></li>
+	<li><a href="#device.pixelratio">device.pixelratio</a></li>
+	<li><a href="#device.fractionalscaling">device.fractionalscaling</a></li>
+	<li><a href="#device.mouse">device.mouse</a></li>
+	<li><a href="#device.touch">device.touch</a></li>
+	<li><a href="#device.ios">device.ios</a></li>
+	<li><a href="#device.iosversion">device.iosversion</a></li>
+	<li><a href="#device.iphone">device.iphone</a></li>
+	<li><a href="#device.ipod">device.ipod</a></li>
+	<li><a href="#device.ipad">device.ipad</a></li>
+	<li><a href="#device.android">device.android</a></li>
+	<li><a href="#device.androidversion">device.androidversion</a></li>
+	<li><a href="#device.androidstock">device.androidstock</a></li>
+	<li><a href="#device.chrome">device.chrome</a></li>
+	<li><a href="#device.chromemobile">device.chromemobile</a></li>
+	<li><a href="#device.chromeversion">device.chromeversion</a></li>
+	<li><a href="#device.firefox">device.firefox</a></li>
+	<li><a href="#device.firefoxversion">device.firefoxversion</a></li>
+	<li><a href="#device.ie">device.ie</a></li>
+	<li><a href="#device.ieversion">device.ieversion</a></li>
+	<li><a href="#device.edge">device.edge</a></li>
+	<li><a href="#device.safari">device.safari</a></li>
+	<li><a href="#device.safariversion">device.safariversion</a></li>
+	<li><a href="#device.opera">device.opera</a></li>
+	<li><a href="#device.operaversion">device.operaversion</a></li>
+	<li><a href="#device.standalone">device.standalone</a></li>
+	<li><a href="#device.windows">device.windows</a></li>
+	<li><a href="#device.mac">device.mac</a></li>
+	<li><a href="#device.linux">device.linux</a></li>
+</ul>
+
+Mouse / Keyboard
+<ul>
+	<li><a href="#mouse.x">mouse.x / mouse.y</a></li>
+	<li><a href="#mouse.stagex">mouse.stagex / mouse.stagey</a></li>
+	<li><a href="#mouse.downx">mouse.downx / mouse.downy</a></li>
+	<li><a href="#mouse.clickx">mouse.clickx / mouse.clicky</a></li>
+	<li><a href="#keycode">keycode</a></li>
+	<li><a href="#wheeldelta">wheeldelta</a></li>
+	<li><a href="#wheeldelta_raw">wheeldelta_raw</a></li>
+	<li><a href="#wheeldelta_touchscale">wheeldelta_touchscale</a></li>
+</ul>
+
+Timing / Random values
+<ul>
+	<li><a href="xml.html#krpano.idletime">idletime</a></li>
+	<li><a href="#timertick">timertick</a></li>
+	<li><a href="#random">random</a></li>
+</ul>
+
+Math constants
+<ul>
+	<li><a href="#math.pi">Math.PI</a></li>
+</ul>
+
+Keyboard / Button moving
+<ul>
+	<li><a href="#hlookat_moveforce">hlookat_moveforce</a></li>
+	<li><a href="#vlookat_moveforce">vlookat_moveforce</a></li>
+	<li><a href="#fov_moveforce">fov_moveforce</a></li>
+</ul>
+
+Multiresolution information
+<ul>
+	<li><a href="#multireslevel">multireslevel</a></li>
+	<li><a href="#lockmultireslevel">lockmultireslevel</a></li>
+	<li><a href="#downloadlockedlevel">downloadlockedlevel</a></li>
+</ul>
+
+Loading information
+<ul>
+	<li><a href="#progress.progress">progress.progress</a></li>
+	<li><a href="#network.viewerpath">network.viewerpath</a></li>
+	<li><a href="#network.htmlpath">network.htmlpath</a></li>
+	<li><a href="#network.firstxmlpath">network.firstxmlpath</a></li>
+	<li><a href="#network.currentxmlpath">network.currentxmlpath</a></li>
+	<li><a href="#haveexternalinterface">haveexternalinterface</a> (Flash-only)</li>
+	<li><a href="#havenetworkaccess">havenetworkaccess</a>  (Flash-only)</li>
+</ul>
+
+XML / Scene
+<ul>
+	<li><a href="#xml.url">xml.url</a></li>
+	<li><a href="#xml.content">xml.content</a></li>
+	<li><a href="#xml.scene">xml.scene</a></li>
+	<li><a href="#xml.view">xml.view</a></li>
+</ul>
+
+Programming / Debugging / Error handling
+<ul>
+	<li><a href="#global">global</a></li>
+	<li><a href="#local">local</a></li>
+	<li><a href="xml.html#krpano.debugmode">debugmode</a></li>
+	<li><a href="xml.html#krpano.showerrors">showerrors</a></li>
+	<li><a href="#lasterror">lasterror</a></li>
+</ul>
+
+
+
+<br>
+<br>
+<h2><a href="#actionsreference" name="actionsreference" class="selflink">krpano Actions / Functions Reference</a></h2>
+
+
+Programming logic / Flow control
+<ul>
+	<li><a href="#def">def</a></li>
+	<li><a href="#set">set</a></li>
+	<li><a href="#get">get</a></li>
+	<li><a href="#calc">calc</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#delete">delete</a></li>
+	<li><a href="#if">if</a></li>
+	<li><a href="#delayedcall">delayedcall</a></li>
+	<li><a href="#stopdelayedcall">stopdelayedcall</a></li>
+	<li><a href="#nexttick">nexttick</a></li>
+	<li><a href="#callwhen">callwhen</a></li>
+	<li><a href="#stopcallwhen">stopcallwhen</a></li>
+	<li><a href="#for">for</a></li>
+	
+	<li><a href="#loop">loop</a></li>
+	<li><a href="#asyncloop">asyncloop</a></li>
+	<li><a href="#setinterval">setinterval</a></li>
+	<li><a href="#clearinterval">clearinterval</a></li>
+	<li><a href="#toggle">toggle</a></li>
+	<li><a href="#switch">switch</a></li>
+	
+	
+	<li><a href="#break">break</a></li>
+	<li><a href="#exitcall">exitcall</a></li>
+	<li><a href="#callwith">callwith</a></li>
+	<li><a href="#scope">scope</a></li>
+	<li><a href="#parentscopeset">parentscopeset</a></li>
+	<li><a href="#assignstyle">assignstyle</a></li>
+	<li><a href="#copyattributes">copyattributes</a></li>
+	<li><a href="#events.dispatch">events.dispatch</a></li>
+	
+</ul>
+
+Math operators and functions
+<ul>
+	<li><a href="#add">add</a></li>
+	<li><a href="#sub">sub</a></li>
+	<li><a href="#mul">mul</a></li>
+	<li><a href="#div">div</a></li>
+	<li><a href="#mod">mod</a></li>
+	<li><a href="#pow">pow</a></li>
+	<li><a href="#inc">inc</a></li>
+	<li><a href="#dec">dec</a></li>
+	<li><a href="#clamp">clamp</a></li>
+	
+	<li><a href="#math.abs">Math.abs</a></li>
+	<li><a href="#math.acos">Math.acos</a></li>
+	<li><a href="#math.asin">Math.asin</a></li>
+	<li><a href="#math.atan">Math.atan</a></li>
+	<li><a href="#math.atan2">Math.atan2</a></li>
+	<li><a href="#math.ceil">Math.ceil</a></li>
+	<li><a href="#math.cos">Math.cos</a></li>
+	<li><a href="#math.exp">Math.exp</a></li>
+	<li><a href="#math.floor">Math.floor</a></li>
+	<li><a href="#math.log">Math.log</a></li>
+	<li><a href="#math.max">Math.max</a></li>
+	<li><a href="#math.min">Math.min</a></li>
+	<li><a href="#math.pow">Math.pow</a></li>
+	<li><a href="#math.round">Math.round</a></li>
+	<li><a href="#math.sin">Math.sin</a></li>
+	<li><a href="#math.sqrt">Math.sqrt</a></li>
+	<li><a href="#math.tan">Math.tan</a></li>
+</ul>
+
+Number / String formating
+<ul>
+	<li><a href="#roundval">roundval</a></li>
+	<li><a href="#tohex">tohex</a></li>
+	<li><a href="#tolower">tolower</a></li>
+	<li><a href="#toupper">toupper</a></li>
+	<li><a href="#txtadd">txtadd</a></li>
+	<li><a href="#subtxt">subtxt</a></li>
+	<li><a href="#indexoftxt">indexoftxt</a></li>
+	<li><a href="#txtreplace">txtreplace</a></li>
+	<li><a href="#txtsplit">txtsplit</a></li>
+	<li><a href="#fromcharcode">fromcharcode</a></li>
+	<li><a href="#escape">escape</a></li>
+	<li><a href="#unscape">unscape</a></li>
+</ul>
+
+Animations / Animated value changing
+<ul>
+	<li><a href="#tween">tween</a></li>
+	<li><a href="#stoptween">stoptween</a></li>
+	<li><a href="#tweentypes">tween types</a></li>
+</ul>
+
+Dynamic loading of other panos / tours
+<ul>
+	<li><a href="#loadpano">loadpano</a></li>
+	<li><a href="#loadscene">loadscene</a></li>
+	<li><a href="#loadpanoscene">loadpanoscene</a></li>
+	<li><a href="#loadxml">loadxml</a></li>
+	<li><a href="#openurl">openurl</a></li>
+</ul>
+
+Viewing animations / Camera control
+<ul>
+	<li><a href="#lookat">lookat</a></li>
+	<li><a href="#lookto">lookto</a></li>
+	<li><a href="#looktohotspot">looktohotspot</a></li>
+	<li><a href="#moveto">moveto</a></li>
+	<li><a href="#zoomto">zoomto</a></li>
+	<li><a href="#adjusthlookat">adjusthlookat</a></li>
+	<li><a href="#getlooktodistance">getlooktodistance</a></li>
+	<li><a href="#stoplookto">stoplookto</a></li>
+	<li><a href="#stopmovements">stopmovements</a></li>
+	<li><a href="#wait">wait</a></li>
+	<li><a href="#oninterrupt">oninterrupt</a></li>
+</ul>
+
+Automatic rotation
+<ul>
+	<li><a href="xml.html#autorotate.start">autorotate.start</a></li>
+	<li><a href="xml.html#autorotate.stop">autorotate.stop</a></li>
+	<li><a href="xml.html#autorotate.interrupt">autorotate.interrupt</a></li>
+	<li><a href="xml.html#autorotate.pause">autorotate.pause</a></li>
+	<li><a href="xml.html#autorotate.resume">autorotate.resume</a></li>
+</ul>
+
+Coordinate transformation
+<ul>
+	<li><a href="#screentosphere">screentosphere</a></li>
+	<li><a href="#spheretoscreen">spheretoscreen</a></li>
+	<li><a href="#screentolayer">screentolayer</a></li>
+	<li><a href="#layertoscreen">layertoscreen</a></li>
+	<li><a href="#remapfovtype">remapfovtype</a></li>
+</ul>
+
+Text visualization
+<ul>
+	<li><a href="#showtext">showtext</a></li>
+</ul>
+
+View / Pano updates
+<ul>
+	<li><a href="#updateobject">updateobject</a></li>
+	<li><a href="#updatescreen">updatescreen</a></li>
+	<li><a href="#invalidatescreen">invalidatescreen</a></li>
+</ul>
+
+Dynamic adding or removing of screen elements
+<ul>
+	<li><a href="#addlayer">addlayer</a> / <a href="#addplugin">addplugin</a></li>
+	<li><a href="#removelayer">removelayer</a> / <a href="#removeplugin">removeplugin</a></li>
+	<li><a href="#addhotspot">addhotspot</a></li>
+	<li><a href="#removehotspot">removehotspot</a></li>
+	<li><a href="#addlensflare">addlensflare</a></li>
+	<li><a href="#removelensflare">removelensflare</a></li>
+</ul>
+
+Layer / Plugin / Hotspot Actions
+<ul>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.loadstyle">loadstyle(name)</a></li>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.registercontentsize">registercontentsize(imagewidth,imageheight)</a></li>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.resetsize">resetsize()</a></li>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.updatepos">updatepos()</a></li>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.changeorigin">changeorigin(align,edge)</a></li>
+		<li>layer / plugin / hotspot[name].<a href="xml.html#layer.getfullpath">getfullpath()</a></li>
+		<li>hotspot[name].<a href="xml.html#hotspot.getcenter">getcenter(ath,atv)</a></li>
+</ul>
+
+External / Javascript Interface
+<ul>
+	<li><a href="#js">js</a></li>
+	<li><a href="#jscall">jscall</a></li>
+	<li><a href="#jsget">jsget</a></li>
+	
+</ul>
+
+Debugging
+<ul>
+	<li><a href="xml.html#krpano.strict">strict</a></li>
+	<li><a href="#showlog">showlog</a></li>
+	<li><a href="#debugvar">debugvar</a></li>
+	<li><a href="#debug">debug</a></li>
+	<li><a href="#trace">trace</a></li>
+	<li><a href="#warning">warning</a></li>
+	<li><a href="#error">error</a></li>
+	<li><a href="#fatalerror">fatalerror</a></li>
+</ul>
+
+
+
+<br>
+<br>
+<div class="paragraph">
+<h2><a href="#syntaxandusage" name="syntaxandusage" class="selflink">Syntax and Usage</a></h2>
+
+<div class="xmlnodedesc"><a href="#syntaxandusage" class="selflink">The calling conventions of krpano actions / functions:</a>
+<div class="xmlnodetext">
+	<pre class="presyntax">actionname(parameters); ...</pre>
+	<ul>
+		<li class="uldd">
+			Where actionname can be either:
+			<ul>
+				<li>the name of a build-in krpano <a href="#actionsreference" class="selflink">action</a> or...</li>
+				<li>the name of an <a href="xml.html#action" class="selflink">&lt;action&gt;</a> element that was defined anywhere in the xml or...</li>
+				<li>the name of a krpano variable / attribute that contains krpano action code or is linking to an Actionscript3 (Flash) or a Javascript (HTML5) function.</li>
+			</ul>
+		</li>
+		
+		<li class="uldd">
+			Whitespace characters (like space, tab, new-lines) will be ignored as long they are not inside quotes
+			(single or double quote characters).
+		</li>
+		
+		<li class="uldd">
+			If there is more than one action call, the calls should be ended with a semicolon.
+		</li>
+		
+		<li class="uldd">
+			The action calls will be processed in sequence one after the other.
+		</li>
+		
+		<li class="uldd">
+			The parameters that could be or should be passed to the action depends on the particular action itself. 
+			See here the documentation of that action for more.
+		</li>
+		
+		<li class="uldd">
+			When passing more than one parameter, then the parameters need to be separated by commas.
+		</li>
+		
+		<li class="uldd">
+			All parameters will be passed as they are written as text to the action.
+			When the parameter is a variable, then only the name of the variable will be passed - but not the value of the variable!
+			To pass the value of a variable the <a href="#get">get(variable)</a> action need to be used.<br>
+			<i>Note - some actions are resolving variables automatically to their value, but this depends on the particular action itself!</i>
+		</li>
+		
+		<li class="uldd">
+			To be able to use whitespace characters and commas inside a parameter value, the parameter must be enclosed by 
+			single <span class="presyntax_inline">'</span> or double quotes <span class="presyntax_inline">"</span>.
+		</li>
+	</ul>
+	
+</div>
+</div>
+
+</div>
+
+<br>
+<br>
+
+<div class="paragraph">
+<h2><a href="#expressions" name="expressions" class="selflink">Expressions</a></h2>
+
+<div class="xmlnodedesc"><a href="#expressions" class="selflink">The syntax of logical or mathematical expressions / conditions in krpano:</a>
+<div class="xmlnodetext">
+	The expression syntax will be used in <a href="#if">if</a> checks, 
+	in conditional loops (<a href="#for">for</a>, <a href="#loop">loop</a>)
+	and in the <a href="#calc">calc</a> action. 
+	It can be used to evaluate logical conditions, calculate mathematical expressions or to concatenate strings.
+	<br>
+	<br>
+	The basic syntax is:
+	<pre>a OPERATOR b</pre>
+	<ul>
+		<li>where the a or b terms can be either variables, values or strings.</li>
+		<li>The OPERATOR can be one of the operators listed below.</li>
+		<li>The resolving order depends on the operator, but withhin equivalent operators the resolving order is from left to right.</li>
+		<li>Use parenthesis / nesting for a custom resolving orders - e.g.:
+			<pre>(a OPERATOR b) OPERATOR (c OPERATOR d)</pre>
+		</li>
+		<li>Textual operators like AND or OR are only supported in UPPERCASE notation!</li>
+	</ul>
+	<br>
+	Comparison operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax">==</td><td>is equal (<a href="#expressions.strict">non-strict</a>)</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">!=</td><td>is not equal (<a href="#expressions.strict">non-strict</a>)</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&lt;<span style="color:gray;"> &nbsp;or&nbsp; </span>LT</td><td>is lower than *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&gt;<span style="color:gray;"> &nbsp;or&nbsp; </span>GT</td><td>is greater than *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&lt;=<span style="color:gray;"> &nbsp;or&nbsp; </span>LE</td><td>is lower or equal than *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&gt;=<span style="color:gray;"> &nbsp;or&nbsp; </span>GE</td><td>is greater or equal than *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">===</td><td> is equal (<a href="#expressions.strict">strict</a>)</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">!==</td><td>is not equal (<a href="#expressions.strict">strict</a>)</td></tr>
+	</table>
+	Logical operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax">||<span style="color:gray;"> &nbsp;or&nbsp; </span>OR&nbsp;</td><td>the left OR the right expression need to be true *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&amp;&amp;<span style="color:gray;"> &nbsp;or&nbsp; </span>AND</td><td>the left AND the right expression need to be true *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">!</td><td>NOT operator - invert a boolean value</td></tr>
+	</table>
+	Ternary operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax"><span style="color:gray;">if</span> ? <span style="color:gray;">then</span> : <span style="color:gray;">else</span></td><td>Ternary operator</td></tr>
+	</table>
+	Nesting operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax">( <span style="color:gray;">...</span> )</td><td>Nesting operator</td></tr>
+	</table>
+	Mathematical operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax">+</td><td>plus - add numbers or concatenate strings</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">-</td><td>minus</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">*</td><td>multiple</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">/</td><td>divide</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">^</td><td>power of</td></tr>
+	</table>
+	Binary operators:
+	<table class="krpano_apitable" style="width:100%;text-align:left;font-size:12px;margin-bottom:8px;">
+		<tr><td style="text-align:center;width:33%;" class="presyntax">&lt;&lt;<span style="color:gray;"> &nbsp;or&nbsp; </span>LSHT</td><td>left bit shift *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">&gt;&gt;<span style="color:gray;"> &nbsp;or&nbsp; </span>RSHT</td><td>right bit shift *</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">BOR</td><td>bitwise OR</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">BAND</td><td>bitwise AND</td></tr>
+		<tr><td style="text-align:center;" class="presyntax">XOR</td><td>bitwise XOR</td></tr>
+	</table>
+	<br>
+	
+	<h3><a href="#expressions.strict" name="expressions.strict" class="selflink">Strict / non-strict comparisons</a></h3>
+	When using <u>non-strict</u> comparisons (by using <span class="presyntax_inline">==</span> or 
+	<span class="presyntax_inline">!=</span> when the <a href="xml.html#krpano.strict">strict</a> mode setting is false)
+	then it will be assumed that the given values are either variables or strings.
+	That means when a variable with the given name exists, then the value of that variable will be used in the comparison.
+	But when the variable doesn't exists, then the given name will be used as string.<br>
+	In <u>strict</u> comparisons the strings must be explicitly marked by quotes.
+	Variables will resolve either to their value or to null if they don't exists.
+	<br>
+	<br>
+	<br>
+	<i>
+		* Note - due of xml syntax limitations, the usage of the characters <span class="presyntax_inline">&lt;, &gt;, &amp;</span>
+		might be not possible (e.g. inside xml attributes or inside xml elements without CDATA tag).
+		Therefore it's recommended to use the alternative syntax.
+	</i>
+	<br>
+	<br>
+
+</div>
+</div>
+	
+</div>
+
+<br>
+<br>
+
+<div class="paragraph">
+<h2><a href="#arrays" name="arrays" class="selflink">Arrays</a></h2>
+
+<div class="xmlnodedesc"><a href="#arrays" class="selflink">Arrays</a>
+<div class="xmlnodetext">
+	Basic principles:
+	<ul>
+		<li>Every xml element with a <a href="xml.html#name">name</a> attribute is an element / item of an Array.</li>
+		<li>The name of the xml element is the name of the Array and the name attribute defines the name of the Array element / item.</li>
+		<li>An Array in krpano is always an Array of objects.</li>
+		<li>Such Array-item object can contain any kind of custom properties / attributes.</li>
+		<li>Arrays can be predefined or defined dynamically at runtime by setting an Array item value - when setting an item value the first time, then automatically an Array will be created.</li>
+	</ul>
+	<br>
+	Static XML Syntax: <span class="smallcomment">(when defining in the xml structure)</span><br>
+	<pre>&lt;array_name <a href="xml.html#name" class="selflink">name</a>="item_name" value="..." /&gt;</pre>
+	<br>
+	Dynamic Actions Syntax: <span class="smallcomment">(when accessing or setting at runtime)</span><br>
+	<pre>array_name[item_name].value</pre>
+	<br>
+	<a name="array.count"></a>
+	<a name="array.sortby"></a>
+	<a name="array.createarrayitem"></a>
+	<a name="array.removearrayitem"></a>
+	Properties and Actions from Array objects:
+	<ul>
+		<li><a href="#array.count" class="selflink">count</a>
+			<ul>
+				<li>Get the current number of items in the array.</li>
+				<li>An Array can be cleared by setting <a href="#array.count" class="selflink">count</a> to 0.</li>
+			</ul>
+		</li>
+		<li><a href="#array.sortby" class="selflink">sortby(attribute, parameters*)</a>
+			<ul>
+				<li>Sort all array items by the value of the given <b>attribute</b>.</li>
+				<li>By default the sorting order will depend on the type of the attribute (e.g. 'numeric vs. string' sorting).</li>
+				<li><b>parameters</b> (optionally) - a string that can contain one or more of the following values (e.g. separated by a pipe <span class="presyntax_inline">|</span> character):
+					<ul>
+						<li><span class="presyntax_inline">caseinsensitive</span> - case insensitive string sorting.</li>
+						<li><span class="presyntax_inline">descending</span> - use a descending sorting order.</li>
+						<li><span class="presyntax_inline">numeric</span> - parse the values as numbers and sort accordingly.</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><a href="#array.createarrayitem" class="selflink">createarrayitem(name or index)</a>
+			<ul>
+				<li>Create / add a new array item.</li>
+			</ul>
+		</li>
+		<li><a href="#array.removearrayitem" class="selflink">removearrayitem(name or index)</a>
+			<ul>
+				<li>Remove an array item.</li>
+				<li>The items following the removed item will rank / move up.</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	<a name="arrayitem.index"></a>
+	<a name="arrayitem.name"></a>
+	Default properties from Array-Item objects:
+	<ul>
+		<li><a href="#arrayitem.index" class="selflink">index</a>
+			<ul>
+				<li>The 0-based index of the current Array-Item (read-only).</li>
+			</ul>
+		</li>
+		<li><a href="#arrayitem.name" class="selflink">name</a>
+			<ul>
+				<li>The name of the current Array-Item.</li>
+				<li>It's also possible to delete an Array-Item by setting its name to <span class="presyntax_inline">null</span>.</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<br>
+<a name="valuearrays" href="#valuearrays" class="selflink">Value-Arrays</a>
+<div class="xmlnodetext">
+	Different to the normal krpano-Arrays there are also these special Value-Arrays: 
+	<ul>
+		<li>Value-Arrays are simple Arrays with an integer index and a value.</li>
+		<li>Dynamically creating Value-Arrays is possible by <a href="#def" class="presyntax_inline" style="text-decoration:none;font-weight:normal;color:#333;">def(test, array)</a>.</li>
+		<li>The access to the items is possible by <span class="presyntax_inline">array[index]</span>.</li>
+		<li>The current number of items in the Array can be get via <span class="presyntax_inline">array.length</span>.</li>
+		<li>Value-Arrays are only available in actions code.</li>
+		<li>Internally these are native Arrays from Javascript (HTML5) or Actionscript 3 (Flash).
+			Their usage itself is the same in both cases.
+		</li>
+	</ul>
+</div>
+</div>
+	
+</div>
+
+<br>
+<br>
+<a name="details"></a>
+<h2><a name="globalvariables" href="#globalvariables" class="selflink">Global Variables</a></h2>
+<div class="xmlnodedesc">
+<div class="xmlnodetext">
+	All default build-in global krpano variables:	
+
+	<table class="xmlattrdoc">
+		
+		
+		<tr class="xmlattrdocdesc">
+			<td colspan="2"><a name="global"></a><a name="local"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#global" class="selflink">global</a><br>
+				<a href="#local" class="selflink">local</a>
+			</th>
+			<th>Object<br>Object</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <a href="#global" class="selflink">global</a> object allows directly accessing the global variable scope.<br>
+				The usage of global can be necessary inside <a href="xml.html#action.scope">local- or layer/hotspot scope</a>
+				code to be able to access a global variable when a variable with the same name is already defined the current scope.<br>
+				<br>
+				The <a href="#global" class="selflink">local</a> object is only available inside <a href="xml.html#action.scope">local-scope</a> actions
+				and allows directly accessing the current local variable scope.
+				This can be used to ensure defining new variables at the local scope when there might be already global variables with the same names.
+			</td>
+		</tr>
+
+  		<tr class="xmlattrdocdesc"><td colspan="2"><a name="version"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#version" class="selflink">version</a></th>
+			<th>String</th>
+			<th>"1.19-pr16"</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The krpano version string.
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="xmlversion"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#xmlversion" class="selflink">xmlversion</a></th>
+			<th>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <a href="xml.html#krpano.xmlversion">version</a> setting from the xml.<br>
+				When not set, this will be the same as the krpano version string.
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="build"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#build" class="selflink">build</a></th>
+			<th>String</th>
+			<th>"2018-04-04"</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The krpano build date string in the format YYYY-MM-DD.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2">
+			<a name="mouse.x"></a><a name="mouse.y"></a>
+			<a name="mouse.stagex"></a><a name="mouse.stagey"></a>
+			<a name="mouse.downx"></a><a name="mouse.downy"></a>
+			<a name="mouse.clickx"></a><a name="mouse.clicky"></a>
+			Variable names <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#mouse.x" class="selflink">mouse.x</a><br>
+				<a href="#mouse.y" class="selflink">mouse.y</a><br>
+				<a href="#mouse.stagex" class="selflink">mouse.stagex</a><br>
+				<a href="#mouse.stagey" class="selflink">mouse.stagey</a><br>
+				<a href="#mouse.downx" class="selflink">mouse.downx</a><br>
+				<a href="#mouse.downy" class="selflink">mouse.downy</a><br>
+				<a href="#mouse.clickx" class="selflink">mouse.clickx</a><br>
+				<a href="#mouse.clicky" class="selflink">mouse.clicky</a>
+			</th>
+			<th>int<br>int<br>int<br>int<br>int<br>int<br>int<br>int</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The mouse position.<br>
+				<br>
+				The <a href="#mouse.x" class="selflink">mouse.x</a> and <a href="#mouse.y" class="selflink">mouse.y</a> coordinates are relative to the left top edge of the <a href="xml.html#area">area</a>.<br>
+				<br>
+				The <a href="#mouse.stagex" class="selflink">mouse.stagex</a> and <a href="#mouse.stagey" class="selflink">mouse.stagey</a> coordinates are relative to the left top edge of the whole stage / screen / window.<br>
+				<br>
+				The <a href="#mouse.downx" class="selflink">mouse.downx</a> and <a href="#mouse.downy" class="selflink">mouse.downy</a> variables store the position where the mouse button was last pressed down (for left and right buttons).
+				The coordinates itself are relative to the left top edge of the <a href="xml.html#area">area</a>.<br>
+				<br>
+				The <a href="#mouse.clickx" class="selflink">mouse.clickx</a> and <a href="#mouse.clicky" class="selflink">mouse.clicky</a> variables are special case ones - 
+				they store the position where the click from <a href="xml.html#events.onsingleclick">onsingleclick</a> or <a href="xml.html#events.ondoubleclick">ondoubleclick</a> events had happend.
+				The coordinates itself are relative to the left top edge of the <a href="xml.html#area">area</a>.<br>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="keycode"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#keycode" class="selflink">keycode</a></th>
+			<th>int</th>
+			<th>0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The keycode of the last pressed or released key.<br>
+				<br>
+				The keycode value will be set in the <a href="xml.html#events.onkeydown">onkeydown</a> and
+				<a href="xml.html#events.onkeyup">onkeyup</a> events.<br>
+				<br>
+				<i>Here a small code snippet to find out the keycode of the pressed key:</i>
+				<pre>&lt;events onkeydown="showlog(); trace('keycode=',keycode);" /&gt;</pre>
+
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="wheeldelta"></a><a name="wheeldelta_raw"></a><a name="wheeldelta_touchscale"></a>Variable names <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#wheeldelta"            class="selflink">wheeldelta</a><br>
+				<a href="#wheeldelta_raw"        class="selflink">wheeldelta_raw</a><br>
+				<a href="#wheeldelta_touchscale" class="selflink">wheeldelta_touchscale</a><br>
+			</th>
+			<th>int<br>Number<br>Number</th>
+			<th>0<br>Number.NaN<br>0.0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The roll-delta of the mouse wheel rotation.<br>
+				<br>
+				These variables will be set in the <a href="xml.html#events.onmousewheel">onmousewheel</a> event.<br>
+				<br>
+				<ul>
+					<li><a href="#wheeldelta" class="selflink">wheeldelta</a><br>
+						<ul>
+							<li>The wheel roll delta as normalized value.</li>
+							<li>Typically +3 or -3 on the most systems.</li>
+						</ul>
+					</li>
+					<li><a href="#wheeldelta_raw" class="selflink">wheeldelta_raw</a>
+						<ul>
+							<li>The 'raw' unscaled and non-rounded delta values of the mouse wheel rotation.
+								The normal <a href="#wheeldelta">wheeldelta</a> values are limited to integer values and 
+								can be too inaccurate for some usages (plugins).
+							</li>
+							<li>
+								<i>Note - in the krpano Flash viewer, the raw values are only available when using the <a href="embedpano.html#top">default krpano embedding script</a> and 
+									only in windowed-mode (not in Fullscreen mode)!
+									In the krpano HTML5 viewer, the raw values are always available.
+								</i>
+							</li>
+						</ul>
+					</li>
+					<li><a href="#wheeldelta_touchscale" class="selflink">wheeldelta_touchscale</a>
+						<ul>
+							<li>
+								On touch devices there is no mouse-wheel, but the <a href="xml.html#events.onmousewheel">onmousewheel</a> event
+								will be also called on  2-finger zooming gestures.
+							</li>
+							<li>
+								The <a href="#wheeldelta_touchscale" class="selflink">wheeldelta_touchscale</a> variable will provide detailed
+								information about the relative touch scale / zoom.<br>
+							</li>
+							<li>
+								<i>Note - only available on touch devices!<br>On other devices the value will be always 0.0.</i>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="fullscreen"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#fullscreen" class="selflink">fullscreen</a></th>
+			<th>Boolean</th>
+			<th>false</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <a href="#fullscreen" class="selflink">fullscreen</a> variable can be used to check or to change the current state of the fullscreen mode.
+				When the variable will be changed, then also the fullscreen mode will be changed.<br>
+				<br>
+				<i>Example - switch to fullscreen mode:</i>
+				<pre>onclick="<a href="#set" class="selflink">set</a>(fullscreen,true);"</pre>
+				<i>Example - switch between fullscreen and windowed mode:</i>
+				<pre>onclick="<a href="#toggle" class="selflink">toggle</a>(fullscreen);"</pre>
+				<br>
+				Notes:
+				<ul>
+					<li class="uldd">
+						Before using the fullscreen setting, it should be verified if the current browser / device actually supports
+						the fullscreen mode. This can be done with the xml <a href="xml.html#devices-notes">fullscreensupport</a> devices setting
+						and the <a href="actions.html#device.fullscreensupport">device.fullscreensupport</a> variable.
+					</li>
+					<li class="uldd">
+						Due Flashplayer and HTML5 security limitations the switching to the fullscreen mode
+						will be only possible as reaction to an user input like a mouse click or a keypress!
+						That means it's only possible switch to fullscreen mode in an onclick or onkeydown event!
+					</li>
+					<li class="uldd">
+						When the <a href="https://krpano.com/html5/#fullscreen">HTML5 fullscreen mode</a> is not supported by the browser (like on iOS), 
+						then the fullscreen setting will only change the size of the viewer html element to match the size of the 
+						full browser window.
+						Due technical limitations this will not work from inside an &lt;iframe&gt; and can be problematic in nested html structures.
+					</li>
+					<li class="uldd">
+						When trying to use the HTML5 fullscreen mode from within an <b>&lt;iframe&gt;</b>, 
+						it is necessary to add the <span class="presyntax_inline" style="font-style:normal;">allowfullscreen</span> parameter 
+						(and the non-standard browser versions of it) to the <b>&lt;iframe&gt;</b> declaration. This tells the browser that this iframe is allowed to switch to Fullscreen mode.<br>
+						<br>
+						<i>Example:</i>
+						<pre style="width:420px;overflow-x:scroll;">&lt;iframe ... allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
+					</li>
+				</ul>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="stagewidth"></a><a name="stageheight"></a>Variable names <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#stagewidth" class="selflink">stagewidth</a><br>
+				<a href="#stageheight" class="selflink">stageheight</a>
+			</th>
+			<th>int<br>int</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The sizes of the current viewer window in pixels.<br>
+				Get the these sizes in the <a href="xml.html#events.onresize">onresize</a> event.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="stagescale"></a>Variable name <span class="readonly">(HTML5 only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#stagescale" class="selflink">stagescale</a>
+			</th>
+			<th>Number</th>
+			<th>1.0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				A global overall scaling setting.<br>
+				The stagescale setting will scale all krpano elements and sizes.<br>
+				<br>
+				By scaling all elements, the krpano stage-size (screen-size / resolution) itself will be scaled inversely by this value - 
+				e.g. a value of 0.5 will scale-down all elements by 50% while increasing the internal stage-sizes by 200% at the same time.<br>
+				<br>
+				The default stagescale value depends on the device, the browser, the Javascript <b>window.devicePixelRatio</b> value. 
+				On desktop and tablets browsers the default value will be typically 1.0, 
+				on mobiles typically 0.5.<br>
+				<br>
+				That means the elements on mobiles are typically half the size as on desktop or tablets.
+				To disable that behavior (e.g. to implement some custom responsive layout) add this code to the first xml:
+				<pre>&lt;action name="mobilescale" autorun="preinit" devices="mobile"&gt;<br>   mul(stagescale,2);<br>&lt;/action&gt;</pre>
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="browser.useragent"></a><a name="browser.platform"></a><a name="browser.location"></a><a name="browser.domain"></a><a name="browser.protocol"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#browser.useragent" class="selflink">browser.useragent</a><br>
+				<a href="#browser.platform"  class="selflink">browser.platform</a><br>
+				<a href="#browser.location"  class="selflink">browser.location</a><br>
+				<a href="#browser.domain"    class="selflink">browser.domain</a><br>
+				<a href="#browser.protocol"  class="selflink">browser.protocol</a><br>
+			</th>
+			<th>String<br>String<br>String<br>String<br>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				Information about the browser.<br>
+				
+				<ul>
+					<li>
+						<a href="#browser.useragent" class="selflink">browser.useragent</a><br>
+						The user-agent string of the browser.<br>
+						The same as <a href="http://www.w3schools.com/jsref/prop_nav_useragent.asp" target="_blank">navigator.userAgent</a> in Javascript.<br>
+					</li>
+					<li><a href="#browser.platform"  class="selflink">browser.platform</a><br>
+						In HTML5 this will be the 'platform' string of the browser.<br>
+						The same as <a href="http://www.w3schools.com/jsref/prop_nav_platform.asp" target="_blank">navigator.platform</a> in Javascript.<br>
+						In Flash it will be always "Flash".<br>
+					</li>
+					<li><a href="#browser.location"  class="selflink">browser.location</a><br>
+						The full url of the current webpage.<br>
+					</li>
+					<li><a href="#browser.domain"    class="selflink">browser.domain</a><br>
+						The domain name of the current webpage (without leading 'www.' if there is one).<br>
+					</li>
+					<li><a href="#browser.protocol"    class="selflink">browser.protocol</a><br>
+						The protocol part of the current webpage url, e.g. 'http', 'https' or 'file'.<br>
+					</li>
+				</ul>
+				<i class="flashonly">Flash notes - in the Flash viewer these information will be only available when using the <a href="embedpano.html#top" class="flashonly">krpano&nbsp;embedding&nbsp;script</a>.
+					When directly embedding the swf file, then these information aren't available.
+				</i>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2">Variable names <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a name="device.flash"   href="#device.flash"   class="selflink">device.flash</a><br>
+				<a name="device.flashversion"   href="#device.flashversion"   class="selflink">device.flashversion</a><br>
+				<a name="device.html5"   href="#device.html5"   class="selflink">device.html5</a><br>
+				<a name="device.desktop"  href="#device.desktop"  class="selflink">device.desktop</a><br>
+				<a name="device.normal" href="#device.normal" class="selflink">device.normal</a><br>
+				<a name="device.tablet" href="#device.tablet" class="selflink">device.tablet</a><br>
+				<a name="device.mobile"  href="#device.mobile"  class="selflink">device.mobile</a><br>
+				<a name="device.handheld"  href="#device.handheld"  class="selflink">device.handheld</a><br>
+				<a name="device.css3d" href="#device.css3d" class="selflink">device.css3d</a><br>
+				<a name="device.webgl" href="#device.webgl" class="selflink">device.webgl</a><br>
+				<a name="device.multiressupport" href="#device.multiressupport" class="selflink">device.multiressupport</a><br>
+				<a name="device.panovideosupport" href="#device.panovideosupport" class="selflink">device.panovideosupport</a><br>
+				<a name="device.fullscreensupport" href="#device.fullscreensupport" class="selflink">device.fullscreensupport</a><br>
+				<a name="device.pixelratio" href="#device.pixelratio" class="selflink">device.pixelratio</a><br>
+				<a name="device.fractionalscaling" href="#device.fractionalscaling" class="selflink">device.fractionalscaling</a><br>
+				<a name="device.mouse" href="#device.mouse" class="selflink">device.mouse</a><br>
+				<a name="device.touch" href="#device.touch" class="selflink">device.touch</a><br>
+				<a name="device.ios"   href="#device.ios"   class="selflink">device.ios</a><br>
+				<a name="device.iosversion"     href="#device.iosversion"     class="selflink">device.iosversion</a><br>
+				<a name="device.iphone" href="#device.iphone" class="selflink">device.iphone</a><br>
+				<a name="device.ipod" href="#device.ipod" class="selflink">device.ipod</a><br>
+				<a name="device.ipad" href="#device.ipad" class="selflink">device.ipad</a><br>
+				<a name="device.android" href="#device.android" class="selflink">device.android</a><br>
+				<a name="device.androidversion" href="#device.androidversion" class="selflink">device.androidversion</a><br>
+				<a name="device.androidstock" href="#device.androidstock" class="selflink">device.androidstock</a><br>
+				<a name="device.chrome" href="#device.chrome" class="selflink">device.chrome</a><br>
+				<a name="device.chromemobile" href="#device.chromemobile" class="selflink">device.chromemobile</a><br>
+				<a name="device.chromeversion" href="#device.chromeversion" class="selflink">device.chromeversion</a><br>
+				<a name="device.firefox" href="#device.firefox" class="selflink">device.firefox</a><br>
+				<a name="device.firefoxversion" href="#device.firefoxversion" class="selflink">device.firefoxversion</a><br>
+				<a name="device.ie" href="#device.ie" class="selflink">device.ie</a><br>
+				<a name="device.ieversion" href="#device.ieversion" class="selflink">device.ieversion</a><br>
+				<a name="device.edge" href="#device.edge" class="selflink">device.edge</a><br>
+				<a name="device.safari" href="#device.safari" class="selflink">device.safari</a><br>
+				<a name="device.safariversion" href="#device.safariversion" class="selflink">device.safariversion</a><br>
+				<a name="device.opera" href="#device.opera" class="selflink">device.opera</a><br>
+				<a name="device.operaversion" href="#device.operaversion" class="selflink">device.operaversion</a><br>
+				<a name="device.standalone" href="#device.standalone" class="selflink">device.standalone</a><br>
+				<a name="device.windows" href="#device.windows" class="selflink">device.windows</a><br>
+				<a name="device.mac" href="#device.mac" class="selflink">device.mac</a><br>
+				<a name="device.linux" href="#device.linux" class="selflink">device.linux</a><br>
+			</th>
+			<th>Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Number<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+				Boolean<br>
+			</th>
+			<th>false<br>
+				<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				1.0<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				<br>
+				
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+				<br>
+				false<br>
+				false<br>
+				false<br>
+				<br>
+				false<br>
+				<br>
+				false<br>
+				<br>
+				false<br>
+				false<br>
+				<br>
+				false<br>
+				<br>
+				false<br>
+				false<br>
+				false<br>
+				false<br>
+			</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>device</b> object provides information about the current device/system.
+				It's the dynamic/scripting equivalent to the <b>xml <a href="xml.html#devices-notes">devices</a> attribute</b>.<br>
+				The attributes/properties of the <b>device</b> object can be checked anytime by scripting code, e.g. by the <a href="#if">if()</a> action.<br>
+				<br>
+				The <a href="#device" name="device" class="selflink">device</a> object has these properties:
+				<ul>
+					<li><b>flash</b> - true only in the krpano Flash viewer</li>
+					<li><b>flashversion</b> - version of the Flashplayer</li>
+					<li><b>html5</b> - true only in the krpano HTML5 viewer</li>
+					<li><b>desktop</b> - true only on Desktop</li>
+					<li><b>normal</b> - true only on Desktop and Tablets (as opposite to mobile)</li>
+					<li><b>tablet</b> - true only on Tablets</li>
+					<li><b>mobile</b> - true only on Mobiles</li>
+					<li><b>handheld</b> - true only on Mobiles and Tablets (as opposite to desktop)</li>
+					<li style="list-style:none;padding-left:20px;font-style:italic;">Note - desktop, mobile and tablet are 'tri-state' settings, they can never be set at the same time, only one of these can be set to true.</li>
+					<li><b>css3d</b> - true when CSS-3D-Transforms are available (HTML5 only)</li>
+					<li><b>webgl</b> - true when WebGL is available (HTML5 only)</li>
+					<li><b>multiressupport</b> - true when the browser is capable for multires</li>
+					<li><b>panovideosupport</b> - true when the browser is capable for panoramic video</li>
+					<li><b>fullscreensupport</b> - true only when the Fullscreen-mode is support</li>
+					<li><b>pixelratio</b> - the pixelratio of the device/browser</li>
+					<li><b>fractionalscaling</b> - true when a fractional page-scale or pixelratio is set</li>
+					<li><b>mouse</b> - true only on devices with mouse support</li>
+					<li><b>touch</b> - true only on devices with Multi-Touch support</li>
+					<li style="list-style:none;padding-left:20px;font-style:italic;">Note - mouse and touch can be set at the same time when the device is supporting both (e.g. desktop devices with touch-screens).</li>
+					<li><b>ios</b> - true only on iOS devices (iPhone, iPod, iPad)</li>
+					<li><b>iosversion</b> - the iOS version of the device (iPhone,iPad,iPod only)</li>
+					<li><b>iphone</b> - true only on the iPhone (and iPod Touch)</li>
+					<li><b>ipod</b> - true only on the iPod Touch</li>
+					<li><b>ipad</b> - true only on the iPad</li>
+					
+					<li><b>android</b> - true only on Android devices</li>
+					<li><b>androidversion</b> - the Android version (HTML5 only)</li>
+					<li><b>androidstock</b> - true only in 'stock' (=WebView-based) Android browsers</li>
+					
+					<li><b>chrome</b> - true only in the Chrome browser (HTML5 only)</li>
+					<li><b>chromemobile</b> - true only in the Mobile Chrome browser (HTML5 only)</li>
+					<li><b>chromeversion</b> - version of the Chrome browser (HTML5 only)</li>
+					<li><b>firefox</b> - true only in the Firefox browser (HTML5 only)</li>
+					<li><b>firefoxversion</b> - version of the Firefox browser (HTML5 only)</li>
+					<li><b>ie</b> - true only in the Internet Explorer browser (HTML5 only)</li>
+					<li><b>ieversion</b> - version of the Internet Explorer browser (HTML5 only)</li>
+					<li><b>edge</b> - true only in the Microsoft Edge browser (HTML5 only)</li>
+					<li><b>safari</b> - true only in the Safari browser (HTML5 only)</li>
+					<li><b>safariversion</b> - version of the Safari browser (HTML5 only)</li>
+					<li><b>opera</b> - true only in the (Presto-based) Opera browser (HTML5 only)</li>
+					<li><b>operaversion</b> - version of the Opera browser (HTML5 only)</li>
+					
+					<li><b>standalone</b> - true only in the Standalone Flashplayer</li>
+					<li><b>windows</b> - true only on Windows systems</li>
+					<li><b>mac</b> - true only on Mac OSX systems</li>
+					<li><b>linux</b> - true only on Linux systems</li>
+				</ul>
+
+				<br>
+				<div class="xmlexampleslim">
+				<div class="xmlexamplebutton" onclick="toggleexample('devicesexamples');"><div class="ico_example"></div> Examples</div>
+				<div id="devicesexamples" class="xmlexamplecontent">
+					<pre class="xmlpre">if(device.html5, ...);</pre>
+					<pre class="xmlpre">if(device.flash, ...);</pre>
+					<pre class="xmlpre">if(device.android, if(device.flash, ...); );</pre>
+					<pre class="xmlpre">if(device.iOSversion GT 5.1, ...);</pre>
+				</div>
+			</div>
+			</td>
+		</tr>
+	
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="timertick"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#timertick" class="selflink">timertick</a></th>
+			<th>int</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>timertick</b> variable returns the number of milliseconds that have elapsed since the viewer was started
+				(1000 milliseconds = 1 second).
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="random"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#random" class="selflink">random</a></th>
+			<th>Number</th>
+			<th>0.0 - 1.0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>random</b> variable returns a random number in the range 0.0 to 1.0.<br>
+				<br>
+				Example - how to get an integer random value in the range 1 - 10:<br>
+				<pre>mul(val, random, 9);
+add(val, 1);
+roundval(val);
+trace('random value=',val);</pre>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="hlookat_moveforce"></a><a name="vlookat_moveforce"></a><a name="fov_moveforce"></a>Variable names</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2">
+				<a href="#hlookat_moveforce" class="selflink">hlookat_moveforce</a><br>
+				<a href="#vlookat_moveforce" class="selflink">vlookat_moveforce</a><br>
+				<a href="#fov_moveforce" class="selflink">fov_moveforce</a>
+			</th>
+			<th>Number<br>Number<br>Number</th>
+			<th>0.0<br>0.0<br>0.0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				These variables can be used to set a force to move the view / the pano.<br>
+				Their main usage is for keyboard or button movement control.<br>
+				<br>
+				When they will be set to a value other than 0.0, the view will start slowly accelerating (controlled by
+				<a href="xml.html#control.keybaccelerate">control.keybaccelerate</a>) and then move with a maximum speed
+				(controlled by <a href="xml.html#control.keybspeed">control.keybspeed</a>) until they will be set back to 0.0, then
+				the movement will slow down (controlled by <a href="xml.html#control.keybfriction">control.keybfriction</a>).
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="multireslevel"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#multireslevel" class="selflink">multireslevel</a></th>
+			<th>int</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>multireslevel</b> variable returns the current multi-resolution level<br> (0&nbsp;-&nbsp;image.level.count).<br>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="lockmultireslevel"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a name="lockmultireslevel" href="#lockmultireslevel" class="selflink">lockmultireslevel</a></th>
+			<th>String</th>
+			<th>-1</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				Lock the automatic multi-resolution level selection to a fixed level.<br>
+				Set lockmultireslevel to "current" to lock the level to the current level.
+				To release the level locking set lockmultireslevel back to "-1".
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="downloadlockedlevel"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#downloadlockedlevel" class="selflink">downloadlockedlevel</a></th>
+			<th>Boolean</th>
+			<th>false</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				When set to true, the currently locked level will be downloaded completely.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="progress.progress"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#progress.progress" class="selflink">progress.progress</a></th>
+			<th>Number</th>
+			<th>0.0</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The current loading progress as linear value from 0.0 to 1.0.<br> 
+				<br>
+				It could be used to create custom loading animations - e.g.
+				use the <a href="xml.html#events.onxmlcomplete">onxmlcomplete</a> event for starting the loading animation,
+				and the <a href="xml.html#events.onloadcomplete">onloadcomplete</a> event for stopping it.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="network.viewerpath"></a><a name="network.htmlpath"></a><a name="network.firstxmlpath"></a><a name="network.currentxmlpath"></a>Variable name</td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#network.viewerpath" class="selflink">network.viewerpath</a><br>
+				<a href="#network.htmlpath" class="selflink">network.htmlpath</a><br>
+				<a href="#network.firstxmlpath" class="selflink">network.firstxmlpath</a><br>
+				<a href="#network.currentxmlpath" class="selflink">network.currentxmlpath</a>
+			</th>
+			<th>String<br>String<br>String<br>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				Path to several locations (the path only, without filename):
+				<ul>
+					<li><b>viewerpath</b> - path to the krpano viewer file.</li>
+					<li><b>htmlpath</b> - path to html file.</li>
+					<li><b>firstxmlpath</b> - path to first loaded xml file.</li>
+					<li><b>currentxmlpath</b> - path to current xml file.</li>
+				</ul>
+				If the paths will be absolute or relative paths depends on the paths used in the embedding and on the Browser and Flashplayer environment. 
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="xml.url"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#xml.url" class="selflink">xml.url</a></th>
+			<th>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>xml.url</b> variable contains the path/url of the currently loaded xml file.
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="xml.content"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#xml.content" class="selflink">xml.content</a></th>
+			<th>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>xml.content</b> variable contains the whole content of the currently loaded xml file as string.
+				After loading a <a href="xml.html#scene" class="selflink">&lt;scene&gt;</a> with the <a href="#loadscene">loadscene()</a> action, 
+				the <b>xml.content</b> variable will contain only the content of the <a href="xml.html#scene" class="selflink">&lt;scene&gt;</a> element.
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="xml.scene"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#xml.scene" class="selflink">xml.scene</a></th>
+			<th>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>xml.scene</b> variable contains the name of currently loaded scene.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="xml.view"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#xml.view" class="selflink">xml.view</a></th>
+			<th>Object</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				A backup of the values from the initial <a href="xml.html#view" class="selflink">&lt;view&gt;</a> element defined in the current xml or scene.
+				E.g. get the initial <span class="presyntax_inline">view.hlookat</span> value via <span class="presyntax_inline">xml.view.hlookat</span>.<br>
+				<br>
+				<i>
+					Note - only the values that were defined in the xml are stored here, no default values.
+					That means before using a value from that object, it would be necessary to check if these variables actually exists 
+					- e.g. via <span class="presyntax_inline">if(xml.view.fov !== null, ...);</span>.
+				</i>
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="lasterror"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#lasterror" class="selflink">lasterror</a></th>
+			<th>String</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				The <b>lasterror</b> variable contains the last error message when an error had happened.
+				To get this variable the <a href="xml.html#events.onloaderror">onloaderror</a> event must be used.
+			</td>
+		</tr>
+
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="haveexternalinterface"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#haveexternalinterface" class="selflink">haveexternalinterface</a></th>
+			<th>Boolean</th>
+			<th>true</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				This variable can be used to check if the External Interface from the Flashplayer is available.
+				This interface is necessary for the <a href="#js">Javascript Interface</a> and for the
+				<a href="#openurl">openurl</a> actions.<br>
+				Online on a server the External Interface is always available, but locally only when Flash file
+				will be opened inside the Browser and when the folder of the Flash swf is in a 'trusted folder'. 
+				The trusted folders can be managent in the Flashplayer security settings, see here for more 
+				detatils - <a href="https://krpano.com/docu/localusage/#top">Local / Offline Usage</a>.
+			</td>
+		</tr>
+		
+		<tr class="xmlattrdocdesc"><td colspan="2"><a name="havenetworkaccess"></a>Variable name <span class="readonly">(read only)</span></td><td>type</td><td>default value</td></tr>
+		<tr>
+			<th colspan="2"><a href="#havenetworkaccess" class="selflink">havenetworkaccess</a></th>
+			<th>Boolean</th>
+			<th>true</th>
+		</tr>
+		<tr>
+			<td colspan="4">
+				This variable can be used to check if the Network Access is available in the Flashplayer.
+				This can be used to avoid errors when trying to use plugins like the Google Maps or Bing Maps locally, because these
+				plugins are trying to load data from the web and so need Network Access.<br>
+				Online on a server the Network Access is always available, but locally only when
+				the folder of the Flash swf is in a 'trusted folder'. The trusted folders can be managent
+				in the Flashplayer security settings, see here for more detatils - <a href="https://krpano.com/docu/localusage/#top">Local / Offline Usage</a>.
+			</td>
+		</tr>
+
+	</table>
+
+
+</div>
+</div>
+
+
+<br>
+<br>
+<h2><a href="#detailsactions" name="detailsactions" class="selflink">Action Documentations</a></h2>
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="def" href="#def" class="selflink"><pre>def(variable, type, value*)</pre></a>
+<div class="xmlnodetext">
+	Define a new <b>variable</b> with a specific <b>type</b> and optionally set it to the given <b>value</b>.<br>
+	<br>
+	When no <b>value</b> will be given and the <b>variable</b> already exsits, then the variable with its current value will be converted to the given <b>type</b>.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b><br>
+			<ul>
+				<li>The variable name.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>type</b><br>
+			<ul>
+				<li>The type of the variable.</li>
+				<li>Available types:<br>
+					<ul>
+						<li><b>boolean</b> - true or false</li>
+						<li><b>number</b> - a numeric value</li>
+						<li><b>integer</b> or <b>int</b> - an integer value</li>
+						<li><b>string</b> - text characters</li>
+						<li><b>object</b> - an object with custom properties</li>
+						<li><b>array</b> - a <a href="#valuearrays">value-array</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><b>value</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>The new value for this variable.</li>
+				<li>When no value will be given and the variable already exsits, 
+					then the variable with its current value will be converted to the given type.
+				</li>
+				<li>When no value will be given and the variable doesn't exsits, then
+					these the default values are used: boolean=false, number=NaN (Not a Number), integer=0, string=null.
+				</li>
+				<li>When the type is object or array, no value can be set.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('defexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="defexamples" class="xmlexamplecontent">
+			<pre>def(b, boolean, true);</pre>
+			<pre>def(n, number, 123.456);</pre>
+			<pre>def(s, string, 'text');</pre>
+			<pre>def(obj, object);<br>def(obj.x, number, 0.0);<br>def(obj.y, number, 0.0);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="set" href="#set" class="selflink"><pre>set(variable, value)</pre></a>
+<a href="#set" class="selflink"><pre>set(object, variable:type=value, variable:type=value, ...)</pre></a>
+<div class="xmlnodetext">
+	Set a <b>variable</b> to the a <b>value</b>.<br>
+	<br>
+	The set() action was two calling / usage possibilities:
+	<ul>
+		<li>When called with <u>two arguments</u>:
+			<ul>
+				<li>This is a normal set of one variable to a value.</li>
+			</ul>
+		</li>
+		<li>When called with <u>three or more arguments</u>:
+			<ul>
+				<li>This is a multiple-set of several variables at once.</li>
+				<li>Here the variables will be set or added to an object.</li>
+				<li>Optionally it will be also possible to specify the type of the variable.</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>object</b> <span class="smallcomment">(optionally - for the three or more arguments call)</span><br>
+			<ul>
+				<li>The object for the multiple set call - at this object the variables will be set.</li>
+				<li>When the object doesn't exists, it will be created.</li> 
+				<li>To define variables at a specific scope, it would be e.g. possible to use the <a href="#global">global</a> or <a href="#local">local</a> objects here.</li>
+			</ul>
+		</li>
+		<li><b>variable</b><br>
+			<ul>
+				<li>The variable name.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>type</b> <span class="smallcomment">(optionally - for the three or more arguments call)</span><br>
+			<ul>
+				<li>The type of the variable.</li>
+				<li>Available types:<br>
+					<ul>
+						<li><b>boolean</b> - true or false</li>
+						<li><b>number</b> - a numeric value</li>
+						<li><b>integer</b> or <b>int</b> - an integer value</li>
+						<li><b>string</b> - text characters</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><b>value</b><br>
+			<ul>
+				<li>The new value for this variable.</li>
+				<li>When the variable already exists, then the value will be converted to the type of that variable (when no explicit type was be defined).<br>
+				<li>
+					<i>
+						Note - to get the value of other variables use the <a href="#get" class="selflink">get(variable)</a> or
+						<a href="#calc" class="selflink">calc(expression)</a> actions.
+					</i>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('setexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="setexamples" class="xmlexamplecontent">
+			Normal set:
+			<pre>set(var1, 'hello');</pre>
+			<pre>set(var2, get(var1));</pre>
+			<pre>set(fullscreen, true);</pre>
+			<pre>set(layer[p1].visible, false);</pre>
+			<pre>set(hotspot[h1].scale, 2.5);</pre>
+			<pre>set(contextmenu.item[0].caption, 'hello item');</pre>
+			<pre>set(events.onxmlcomplete, null);</pre>
+			Multiple set:
+			<pre>set(layer[p1], visible=false, alpha=0.5);</pre>
+			<pre>set(hotspot[hs1],
+    type='text',
+    ath=0.0,
+    atv=0.0,
+    html='Test Text',
+    css='text-align:center',
+    bg=false
+);</pre>
+			<pre>set(global,
+    test='Test text',
+    havesomething:boolean=true,
+    var2:string=get(var1),
+    value:number=calc(1 + 2*3)
+);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="get"></a>
+<pre style="font-weight:normal;color:gray;">action( <a href="#get" class="selflink">get(variable)</a>, ... )</pre>
+<pre style="font-weight:normal;color:gray;">array[ <a href="#get" class="selflink">get(variable)</a> ]</pre>
+<pre style="font-weight:normal;color:gray;">&lt;xmlelement attribute="<a href="#get" class="selflink">get:variable</a>" ... /&gt;</pre>
+<div class="xmlnodetext">
+	Resolves the <b>variable</b> to its value.<br>
+	<br>
+	The <a href="#get" class="selflink">get(var)</a> action is a special action that can be only used as parameter
+	when calling other actions or  when accessing array elements.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>Any variable.</li>
+				<li>When the variable doesn't exists, get() will return null.</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	<i>
+		Note - some actions are automatically trying to resolve their given parameters to their values.
+		For these actions using get(var) would be not necessary.
+	</i><br>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('getexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="getexamples" class="xmlexamplecontent">
+			<pre>set(dstvar, get(srcvar));</pre>
+			<pre>looktohotspot(get(name));</pre>
+			<pre>lookto(get(h), get(v), get(f));</pre>
+			<pre>showtext(get(msg));</pre>
+			<pre>tween(var,get(dstval));</pre>
+			<pre>set(pic, spot1);
+set(hotspot[get(pic)].visible, false);</pre>
+			<pre>trace('xyz=', xyz, ' get(xyz)=', get(xyz));</pre>
+			<pre>txtadd(msg, 'fov=', get(view.fov));</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="calc"></a>
+<a href="#calc" class="selflink"><pre>calc(variable, expression)</pre></a>
+<pre style="font-weight:normal;color:gray;">action( <a href="#calc" class="selflink">calc(expression)</a>, ... )</pre>
+<pre style="font-weight:normal;color:gray;">array[ <a href="#calc" class="selflink">calc(expression)</a> ]</pre>
+<pre style="font-weight:normal;color:gray;">&lt;xmlelement attribute="<a href="#calc" class="selflink">calc:expression</a>" ... /&gt;</pre>
+<div class="xmlnodetext">
+	Calculate / evaluate / resolve the <a href="#expressions">expression</a> to its value.<br>
+	<br>
+	The <a href="#calc" class="selflink">calc(expression)</a> action is a special action that can be only used as parameter
+	when calling other actions or  when accessing array elements.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b><br>
+			<ul>
+				<li>The variable where the result will be stored.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>expression</b><br>
+			<ul>
+				<li>The mathematical or logical <a href="#expressions">expression</a>.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('calcexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="calcexamples" class="xmlexamplecontent">
+			<pre>set(y_new, calc(y_old - offset1 + offset2));</pre>
+			<pre>set(animationtime, calc('%1' == 'instant' ? 0.0 : 0.5));</pre>
+			<pre>&lt;layer url="calc:'%CURRENTXML%/skin/' + settings.image1" /&gt;</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="copy" href="#copy" class="selflink"><pre>copy(destination, source, <span style="color:gray;">typeconversion*</span>)</pre></a>
+<div class="xmlnodetext">
+	The copy() action copies the content from one variable to the other one.<br>
+	<br>
+	By default this is the same as:
+	<span class="presyntax_inline"><a href="#set" class="selflink2">set</a>(destination, <a href="#get" class="selflink2">get</a>(source))</span>.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destination</b><br>
+			<ul>
+				<li>The destination variable.</li>
+				<li>When the variable doesn't exists, it will be created.</li>
+			</ul>
+		</li>
+		<li><b>source</b><br>
+			<ul>
+				<li>The source variable.</li>
+				<li>When the variable doesn't exists, null will be set to the destination variable.</li>
+			</ul>
+		</li>
+		<li><b>typeconversion</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>When set to <b>true</b> (the default):<br>
+					When both variables have different types, then the value of the source variable will be converted to the type of the destination variable.
+				</li>
+				<li>When set to <b>false</b>:<br>
+					Copy the value <u>and the type</u> of the source variable to the destination variable.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('copyexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="copyexamples" class="xmlexamplecontent">
+			<pre>copy(dstvar, srcvar);</pre>
+			<pre>copy(cur_hlookat, view.hlookat);</pre>
+<pre>copy(layer[text].x, mouse.x);
+copy(layer[text].y, mouse.y);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="delete" href="#delete" class="selflink"><pre>delete(variable, ...)</pre></a>
+<div class="xmlnodetext">
+	Delete and remove the given variables.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variables</b><br>
+			<ul>
+				<li>Any variable name.</li>
+				<li>It's possible to delete several variables at once - just pass several variables names (separated by a comma).</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('deleteexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="deleteexamples" class="xmlexamplecontent">
+			<pre>set(tmp1, ...);
+set(tmp2, ...);
+... do something ...
+delete(tmp1, tmp2);
+</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+<div class="xmlnodedesc">
+<a name="if"></a>
+<a name="ifnot"></a>
+<span class="smallcomment">2 or 3 parameter call:</span>
+<a href="#if"    class="selflink"><pre>if(condition, then-actions, else-actions*)</pre></a>
+<span class="smallcomment">4 or more parameter call:</span>
+<a href="#if"    class="selflink"><pre>if(
+   condition, then-actions,
+   else-if-condition, then-actions,
+   else-if-condition, then-actions,
+   ...
+   else-actions
+)</pre></a>
+
+<div class="xmlnodetext">
+	The <b>if()</b> action allows conditional execution of code.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>condition</b><br>
+			<ul>
+				<li>A logical <a href="#expressions">expression</a>.</li>
+			</ul>
+		</li>
+
+		<li><b>then-actions</b><br>
+			<ul>
+				<li>The actions that will be executed when the evaluation of the condition will be true.</li>
+			</ul>
+		</li>
+		<li><b>else-actions</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>The actions that will be executed when the evaluation of the condition will be false.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('ifexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="ifexamples" class="xmlexamplecontent">
+			<pre>if(fullscreen, fullscreensetup(), windowsetup() );</pre>
+			<pre>if(fullscreen, set(layer[controls].visible, false) );</pre>
+			<pre>if(i LT 10, loop(next) );</pre>
+			<pre>if(var === null, set(var,0));</pre>
+			<pre>if(hotspot[spot1] === null, trace(there is no spot1 hotspot));</pre>
+			<pre>if((varA GT 5) AND (varA LT 10),
+    trace('varA is between 5 and 10')
+  );</pre>
+  			<pre>if(varA AND varB AND varC, trace('all vars are true') );</pre>
+			<pre>if(var1 GT var2,
+    trace('condition is true');
+    lookto(100,20,50);
+  ,
+    trace('condition is false');
+    lookto(0,0,100);
+  );</pre>
+  			<pre>if(a*2+b GT (c+3)*1.5 OR teststring == '123', ...);</pre>
+<pre>if(
+    test == 1, trace('test is 1'),
+    test == 2, trace('test is 2'),
+    test == 3, trace('test is 3'),
+    trace('test is someting else')
+);</pre>
+
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="delayedcall"></a>
+<a href="#delayedcall" class="selflink"><pre>delayedcall(delay, actions)</pre></a>
+<a href="#delayedcall" class="selflink"><pre>delayedcall(id, delay, actions)</pre></a>
+<div class="xmlnodetext">
+	Calls / executes the given actions after a given time.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>id</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>An optional unique id for the delayedcall.</li>
+				<li>This id can be used to stop the delayedcall by calling <a href="#stopdelayedcall">stopdelayedcall(id)</a>.</li>
+			</ul>
+		</li>
+		<li><b>delay</b><br>
+			<ul>
+				<li>The number of seconds to wait before executing the actions.</li>
+			</ul>
+		</li>
+		<li><b>actions</b><br>
+			<ul>
+				<li>
+					The actions to call after the delay.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('delayedcallexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="delayedcallexamples" class="xmlexamplecontent">
+			<pre>delayedcall(5.0, hidelogo() );</pre>
+			<pre>delayedcall(10, looktohotspot(spot1);loadpano(pano2.xml); );</pre>
+			<pre>delayedcall(1, showtext('hello');       );
+delayedcall(4, showtext('to the pano'); );</pre>
+			<pre>&lt;action name="updatemousepos"&gt;
+  copy(layer[cursor].x, mouse.x);
+  copy(layer[cursor].y, mouse.y);
+  delayedcall(0.02, updatemousepos() );
+&lt;/action&gt;</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="stopdelayedcall" href="#stopdelayedcall" class="selflink"><pre>stopdelayedcall(id)</pre></a>
+<div class="xmlnodetext">
+	Stop the <a href="#delayedcall">delayedcall</a> with the given id.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>id</b><br>
+			<ul>
+				<li>The id of the delayedcall that should be stopped.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('stopdelayedcallexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="stopdelayedcallexamples" class="xmlexamplecontent">
+			<pre>&lt;events name="introimage_events"
+        onnewpano="delayedcall(introimage, 5.0, hide_introimage() );"
+        onremovepano="stopdelayedcall(introimage);"
+        /&gt;
+</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="nexttick"></a>
+<a href="#nexttick" class="selflink"><pre>nexttick(actions)</pre></a>
+<div class="xmlnodetext">
+	Calls / executes the given actions in the next processing tick - that means after the current actions, but as soon as possible.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>actions</b><br>
+			<ul>
+				<li>
+					The actions to call.
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="callwhen"></a>
+<a href="#callwhen" class="selflink"><pre>callwhen(condition, actions)</pre></a>
+<a href="#callwhen" class="selflink"><pre>callwhen(id, condition, actions)</pre></a>
+<div class="xmlnodetext">
+	Calls the given actions when the condition is true or when it will become true.<br>
+	When the condition is currently not true, then the callwhen() action will wait as long until the condition will become true.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>id</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>An optional unique id for the callwhen.</li>
+				<li>This id can be used to stop a waiting callwhen by calling <a href="#stopcallwhen">stopcallwhen(id)</a>.</li>
+			</ul>
+		</li>
+		<li><b>condition</b><br>
+			<ul>
+				<li>A logical <a href="#expressions">expression</a>.</li>
+				<li>The callwhen() action will check this condition constantly every frame until it will become true.</li>
+			</ul>
+		</li>
+		<li><b>actions</b><br>
+			<ul>
+				<li>
+					The actions to call when the condition is true.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('callwhenexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="callwhenexamples" class="xmlexamplecontent">
+			<pre>callwhen(plugin[video].loaded, plugin[video].playvideo(...); );</pre>
+			<pre>callwhen(plugin[maps].loaded, plugin[maps].setcenter(...); );</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="stopcallwhen" href="#stopcallwhen" class="selflink"><pre>stopcallwhen(id)</pre></a>
+<div class="xmlnodetext">
+	Stop a still waiting <a href="#callwhen">callwhen</a> with the given id.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>id</b><br>
+			<ul>
+				<li>The id of the callwhen that should be stopped.</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="for"></a><a name="asyncfor"></a>
+<a href="#for"      class="selflink"><pre>for(startactions, condition, nextactions, loopactions)</pre></a>
+
+<div class="xmlnodetext">
+	For loops.<br>
+	<br>
+	First the <b>startactions</b> will be called, then the <b>condition</b> be checked and when it is true -
+	then the <b>loopactions</b> will be called, then the <b>nextactions</b> and then it starts checking
+	the <b>condition</b> and the loop again.<br>
+	
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>startactions</b>
+			<ul>
+				<li>The actions that will be called / executed before the for loop starts.</li>
+			</ul>
+		</li>
+		<li><b>condition</b>
+			<ul>
+				<li>A logical <a href="#expressions">expression</a>.</li>
+			</ul>
+		</li>
+		<li><b>nextactions</b>
+			<ul>
+				<li>The actions that will be called / executed after one loop (after the loopaction).</li>
+			</ul>
+		</li>
+		<li><b>loopactions</b>
+			<ul>
+				<li>The actions that will be repeatedly called / executed as long as the condition is true.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('forexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="forexamples" class="xmlexamplecontent">
+			<pre>for(set(i,0), i LT 10, inc(i), trace('i=',i) );.</pre>
+			<pre>for(set(i,0), i LT layer.count, inc(i), 
+  trace('layer[',i,'].name=',layer[get(i)].name);
+);  
+</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="loop"></a>
+<a name="asyncloop"></a>
+<a href="#loop" class="selflink"><pre>loop(condition, loopactions)</pre></a>
+<a href="#asyncloop" class="selflink"><pre>asyncloop(condition, loopactions, doneactions*)</pre></a>
+<div class="xmlnodetext">
+	As long as the <b>condition</b> is true the <b>loopactions</b> will be called repeatedly.<br>
+	<br>
+	The normal loop() action will continue with the following actions when the loop itself is done.
+	The asyncloop() will continue intermediately with the following actions and execute the 
+	<b>loopactions</b> once per frame. When the async looping is finally done, then the <b>doneactions</b> will be called.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>condition</b>
+			<ul>
+				<li>A logical <a href="#expressions">expression</a>.</li>
+			</ul>
+		</li>
+		<li><b>loopactions</b>
+			<ul>
+				<li>The actions that will be repeatedly called / executed as long as the condition is true.</li>
+			</ul>
+		</li>
+		<li><b>doneactions</b> <span class="smallcomment">(optionally, asyncloop only)</span>
+			<ul>
+				<li>The actions that will be called when the condition becomes false and the looping stops.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('loopexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="loopexamples" class="xmlexamplecontent">
+			<pre>ondown="asyncloop(pressed, layer[scrollarea].scrollby(+2,0) );"</pre>
+			<pre>onover="asyncloop(hovering, updatemousepos(), hideinfo() );"</pre>
+			<pre>asyncloop(true, framehandler() );</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="setinterval"></a><a name="clearinterval"></a>
+<a href="#setinterval" class="selflink"><pre>setinterval(id, delay, actions)</pre></a>
+<a href="#clearinterval" class="selflink"><pre>clearinterval(id)</pre></a>
+<div class="xmlnodetext">
+	Calls / executes the given actions repeatedly with a <b>delay</b> time interval between them.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>id</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>An unique id for the interval.</li>
+				<li>This <b>id</b> can be used to stop the interval by calling <a href="#clearinterval">clearinterval(id)</a>.</li>
+			</ul>
+		</li>
+		<li><b>delay</b><br>
+			<ul>
+				<li>The number of seconds to wait between the actions calls.</li>
+				<li>When using 0 as delay, the actions will be called once every frame.</li>
+			</ul>
+		</li>
+		<li><b>actions</b><br>
+			<ul>
+				<li>
+					The actions to call every <b>delay</b> seconds.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('setintervalexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="setintervalexamples" class="xmlexamplecontent">
+			<pre>setinterval(time, 1.0, 
+    jsget(time, (new Date()).toLocaleTimeString(); );
+    trace('time=',time);
+  );</pre>
+			<pre>&lt;events onkeydown="setinterval(get(keycode), 0.1, trace(keycode); );"
+        onkeyup="clearinterval(get(keycode));"
+        /&gt;</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="toggle"></a>
+<a href="#toggle" class="selflink"><pre>toggle(variable)</pre></a>
+<div class="xmlnodetext">
+	The <b>toggle</b> action toggles the value of the given (boolean) variable between true and false.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The boolean variable that should be toggled.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('toggleexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="toggleexamples" class="xmlexamplecontent">
+			<pre>toggle(<a href="#fullscreen" class="selflink">fullscreen</a>);</pre>
+			<pre>toggle(layer[button1].visible);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="switch"></a>
+<a href="#switch" class="selflink"><pre>switch(variable)</pre></a>
+<a href="#switch" class="selflink"><pre>switch(variable, value1, value2, ...)</pre></a>
+<div class="xmlnodetext">
+	The <b>switch</b> action switches the value of the given variable between / through several states.
+	Everytime when the switch action will be called the value will be switched / changed.<br>
+	<br>
+	When only the variable itself without value parameters will be given, then the variable will
+	be switched between true and false.<br>
+	<br>
+	When there are two or more values given as parameters then the variable will switch through all
+	of these values (from left to right).<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable that should be switched / changed.</li>
+			</ul>
+		</li>
+		<li><b>value1, value2, ...</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The switch-through values for this variable.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('switchexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="switchexamples" class="xmlexamplecontent">
+			<pre>switch(fullscreen);</pre>
+			<pre>switch(layer[button1].visible);</pre>
+			<pre>switch(layer[button1].alpha, 1.0, 0.5);</pre>
+			<pre>switch(layer[child].parent, button1, button2, button3);</pre>
+			<pre>switch(destpos, -100, 0, +100); tween(y,get(destpos));</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="break" href="#break" class="selflink"><pre>break()</pre></a>
+<div class="xmlnodetext">
+	<ul>
+		<li>Break / stop the execution of action calls from the current flow and the also the action calls from one nesting level up
+			(e.g. when called inside an if() call then also the flow outside that if will be stopped).</li>
+		<li>When used inside a <a href="#for">for()</a> or <a href="#loop">loop()</a> loop, the break() call will also stop that loop.</li>
+	</ul>
+</div>
+</div>
+
+
+
+<div class="xmlnodedesc">
+<a name="exitcall" href="#exitcall" class="selflink"><pre>exitcall()</pre></a>
+<div class="xmlnodetext">
+	<ul>
+		<li>Directly exit / stop the current actions 'call'.</li>
+		<li>A 'call' is either a call to an &lt;action&gt; or the calling of a variable that contains action code or the calling of action code from events.</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="callwith" href="#callwith" class="selflink"><pre>callwith(caller, actions)</pre></a>
+<div class="xmlnodetext">
+	Call krpano action code with using a specific plugin / layer or hotspot element as caller.
+	This can be used for direct property access or to simulate event calls on these elements.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>caller</b>
+			<ul>
+				<li>The element that should be used as caller.</li>
+				<li>Can be only a &lt;plugin&gt; / &lt;layer&gt; or &lt;hotspot&gt; element.</li>
+			</ul>
+		</li>
+		<li><b>actions</b>
+			<ul>
+				<li>Any krpano action code.</li>
+				<li>The code will be executed in the 'context' of the caller - that means 'direct' access to its properties.</li>
+			</ul>
+		</li>
+	</ul>
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('callwithexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="callwithexamples" class="xmlexamplecontent">
+			<pre>callwith(layer[test], onclick);</pre>
+			<pre>callwith(layer[test], trace('test pos=',x,'/',y); );</pre>
+			<pre>callwith(layer[test], tween(alpha, 0.0); );</pre>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="scope" href="#scope" class="selflink"><pre>scope(scope, actions)</pre></a>
+<div class="xmlnodetext">
+	Call krpano action code within a specific scope.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>scope</b>
+			<ul>
+				<li>The scope for the actions code.</li>
+				<li>Available scopes:
+					<ul>
+						<li>global</li>
+						<li>local</li>
+						<li>localonly</li>
+						<li>parent</li>
+						<li>private:NAME</li>
+					</ul>
+					Details about the scopes here:  <a href="xml.html?#action.scope">actions scope</a>.
+				</li>
+			</ul>
+		</li>
+		<li><b>actions</b>
+			<ul>
+				<li>Any krpano action code.</li>
+			</ul>
+		</li>
+	</ul>
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('scopeexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="scopeexamples" class="xmlexamplecontent">
+			<pre>scope(localonly, for(set(i,0), i LT 10, inc(i), trace(i)); );</pre>
+			<pre>scope(private:my_xml_plugin, trace(internal_var); );</pre>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="parentscopeset" href="#parentscopeset" class="selflink"><pre>parentscopeset(variable, value)</pre></a>
+<div class="xmlnodetext">
+	Set a <b>variable</b> to the a <b>value</b> - like a <a href="#set">set()</a> call - but in the scope of the parent action.<br>
+	This could be used to return / pass back a result from an inner local scope action to an outer one.<br>
+	
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b><br>
+			<ul>
+				<li>The variable name.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>value</b><br>
+			<ul>
+				<li>The new value for this variable.</li>
+				<li>When the variable already exists, then the value will be converted to the type of that variable.</li>
+			</ul>
+		</li>
+	</ul>
+	
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="assignstyle" href="#assignstyle" class="selflink"><pre>assignstyle(elementname, styles)</pre></a>
+<div class="xmlnodetext">
+	Copy the attributes from one or more <a href="xml.html#style">&lt;style&gt;</a> elements to a custom element.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>elementname</b>
+			<ul>
+				<li>The name of the element where the style attributes should be copied to.<br>
+					E.g. <span class="presyntax_inline">layer[test]</span> or <span class="presyntax_inline">myelement[name]</span>.</li>
+			</ul>
+		</li>
+		<li><b>styles</b>
+			<ul>
+				<li>One or more name of <a href="xml.html#style">&lt;style&gt;</a> elements.<br>
+					Several names need to combined by a <span class="presyntax_inline">|</span> character.
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('assignstyleexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="assignstyleexamples" class="xmlexamplecontent">
+			<pre>assignstyle(layer[test], 'teststyle');</pre>
+			<pre>assignstyle(layer[test], 'style1|style2');</pre>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="copyattributes" href="#copyattributes" class="selflink"><pre>copyattributes(destobject, srcobject)</pre></a>
+<div class="xmlnodetext">
+	Copy all attributes from one object to another one.<br>
+	<br>
+	<i>Note - the parameters of the copyattributes() action need to be the objects, not the names/paths of the objects!
+		That means it might be necessary to use the <a href="#get">get()</a> action to resolve the names/paths.</i><br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destobject</b>
+			<ul>
+				<li>The destination object - the object where the attributes will be copied to.
+					Existing attributes will be overwritten.
+				</li>
+			</ul>
+		</li>
+		<li><b>srcobject</b>
+			<ul>
+				<li>The source object - all attributes from that object will be copied to the destination object.</li>
+			</ul>
+		</li>
+	</ul>
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('copyattributesexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="copyattributesexamples" class="xmlexamplecontent">
+			<pre>copyattributes(get(layer[test]), get(style[style1]));</pre>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="events.dispatch" href="#events.dispatch" class="selflink"><pre>events.dispatch(eventname, instantly*)</pre></a>
+<div class="xmlnodetext">
+	Dispatches / calls the given event from all <a href="xml.html#events" class="selflink">&lt;events&gt;</a> elements.</li>
+	<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>eventname</b>
+			<ul>
+				<li>The name of the event.</li>
+			</ul>
+		</li>
+		
+		<li><b>instantly</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>A Boolean setting (true or false, false by default).</li>
+				<li>When set to true, the events will be called and executed instantly, 
+					when not set or set to false, the events will be called after the current actions calls. 
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('eventsdispatchexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="eventsdispatchexamples" class="xmlexamplecontent">
+			<pre>&lt;events name="events1" myevent="trace(events1...);" /&gt;
+&lt;events name="events2" myevent="trace(events2...);" /&gt;
+...
+events.dispatch(myevent);
+</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="add"></a>
+<a name="sub"></a>
+<a name="mul"></a>
+<a name="div"></a>
+<a name="mod"></a>
+<a name="pow"></a>
+<a href="#add" class="selflink"><pre>add(variable, valueA, valueB*)</pre></a>
+<a href="#sub" class="selflink"><pre>sub(variable, valueA, valueB*)</pre></a>
+<a href="#mul" class="selflink"><pre>mul(variable, valueA, valueB*)</pre></a>
+<a href="#div" class="selflink"><pre>div(variable, valueA, valueB*)</pre></a>
+<a href="#mod" class="selflink"><pre>mod(variable, valueA, valueB*)</pre></a>
+<a href="#pow" class="selflink"><pre>pow(variable, valueA, valueB*)</pre></a>
+<div class="xmlnodetext">
+	Actions for mathematical calculations.<br>
+	These actions can be used with 2 or 3 parameters:<br>
+	<br>
+	<ul>
+		<li>with 2 parameters:<br>
+			<ul>
+				<li>add(dst,val1) &nbsp;&rArr;&nbsp; dst = dst + val1 <small><i>(like +=)</i></small></li>
+				<li>sub(dst,val1) &nbsp;&rArr;&nbsp; dst = dst - val1 <small><i>(like -=)</i></small></li>
+				<li>mul(dst,val1) &nbsp;&rArr;&nbsp; dst = dst * val1 <small><i>(like *=)</i></small></li>
+				<li>div(dst,val1) &nbsp;&rArr;&nbsp; dst = dst / val1 <small><i>(like /=)</i></small></li>
+				<li>mod(dst,val1) &nbsp;&rArr;&nbsp; dst = dst % val1 <small><i>(modulate)</i></small></li>
+				<li>pow(dst,val1) &nbsp;&rArr;&nbsp; dst = dst ^ val1</li>
+			</ul>
+		</li>
+		<li>with 3 parameters:<br>
+			<ul>
+				<li>add(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 + val2</li>
+				<li>sub(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 - val2</li>
+				<li>mul(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 * val2</li>
+				<li>div(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 / val2</li>
+				<li>mod(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 % val2 <small><i>(modulate)</i></small></li>
+				<li>pow(dst,val1,val2) &nbsp;&rArr;&nbsp; dst = val1 ^ val2</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	<i>Note - val1 and val2 can be values or variables. When val1 or val2 is a variable
+		then automatically the content of the variable will be used!
+    </i>
+
+	<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable where the result of the calculation will be stored.</li>
+				<li>When the variable doesn't exists, it will be created.</li>
+			</ul>
+		</li>
+		<li><b>valueA</b> / <b>valueB</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li>The values or variables for the calculation.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('mathexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="mathexamples" class="xmlexamplecontent">
+			<pre>set(val, 1);
+add(val, 1);
+trace('val should be 2: val=',val);</pre>
+			<pre>mul(doublewidth, width, 2.0);</pre>
+			<pre>mul(scale, 0.5);</pre>
+			<pre>div(result, vala, valb);</pre>
+			<pre>add(dst,rotate,360); tween(rotate,get(dst),5);</pre>
+			<pre>add(xpos, mouse.x, mouse_x_offset);</pre>
+			<pre>sub(destx, stagewidth,  destwidth);</pre>
+			<pre>div(aspect,16,9);</pre>
+			<pre>mod(cur_hlookat,cur_hlookat,360);</pre>
+			<pre>pow(sqrt,val,0.5);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="inc"></a>
+<a name="dec"></a>
+<a href="#inc" class="selflink"><pre>inc(variable, byvalue*, max*, min*)</pre></a>
+<a href="#dec" class="selflink"><pre>dec(variable, byvalue*, min*, max*)</pre></a>
+<div class="xmlnodetext">
+	These actions increase or decrease variable (with saturation or limiting).<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable to increase or decrease.</li>
+			</ul>
+		</li>
+		<li><b>byvalue</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Increase or decrease the variable by this value.</li>
+				<li>When not set, the variable will be increased or decreased by 1.</li>
+			</ul>
+		</li>
+		<li><b>max</b> / <b>min</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Defines maximum and minimum values.</li>
+				<li>When one limit will be reached then the value will be set back to the other limit value.
+					This can be used to let the varibale either wrap around
+					a defined range or to clip at at specific limit (with min=max).
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<br>
+	<i>Note - The inc() and dec() actions will convert the variable type to 'integer'!</i>
+	
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('incdecexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="incdecexamples" class="xmlexamplecontent">
+			<pre>inc(i);</pre>
+			<pre>inc(frame,1,get(lastframe),0);</pre>
+			<pre>inc(ypos,30);</pre>
+			<pre>inc(view.hlookat, 2, 90, 90);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="clamp"></a>
+<a href="#clamp" class="selflink"><pre>clamp(variable, min, max)</pre></a>
+<div class="xmlnodetext">
+	Limit the value of the variable to be between the given min and max values.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable to clamp / to limit.</li>
+			</ul>
+		</li>
+		<li><b>min</b>
+			<ul>
+				<li>The minimum value - when value of the variable is below that value, it will be set to this min value.</li>
+			</ul>
+		</li>
+		<li><b>max</b>
+			<ul>
+				<li>The maximum value - when value of the variable is above that value, it will be set to this max value.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('clampexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="clampexamples" class="xmlexamplecontent">
+			<pre>clamp(percent, 0, 100);</pre>
+			<pre>screentolayer(bar, mouse.stagex,mouse.stagey, lx,ly);<br>div(fill, lx, layer[bar].pixelwidth);<br>mul(fill, 100);<br>clamp(fill, 0, 100);<br>txtadd(layer[barfill].width, get(fill), '%');</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="math" href="#math" class="selflink"><pre>Math.*</pre></a>
+<div class="xmlnodetext">
+	
+	The Math object provides constants and actions for mathematical calculations.<br>
+	<br>
+	The most Math actions can be called in two ways - either by just passing the name of the variable - then 
+	variable will be used as parameter and the result of the calculation will be stored back to the variable,
+	or by specifying an additionally parameter where the result should be stored.<br>
+	<br>
+	
+	<ul>
+		<li>
+			<a name="math.pi" href="#math.pi" class="selflink">Math.PI</a>
+			<ul>
+				<li>Mathematically constant with the value of PI (3.141592)</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.abs" href="#math.abs" class="selflink">Math.abs(var)</a> or <a href="#math.abs" class="selflink">Math.abs(result,v)</a><br>
+			<ul>
+				<li>Make an absolute value.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.acos" href="#math.acos" class="selflink">Math.acos(var)</a> or <a href="#math.acos" class="selflink">Math.acos(result,v)</a><br>
+			<ul>
+				<li>Calculates the arc cosine (in radians).</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.asin" href="#math.asin" class="selflink">Math.asin(var)</a> or <a href="#math.asin" class="selflink">Math.asin(result,v)</a><br>
+			<ul>
+				<li>Calculates the arc sine (in radians).</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.atan" href="#math.atan" class="selflink">Math.atan(var)</a> or <a href="#math.atan" class="selflink">Math.atan(result,v)</a><br>
+			<ul>
+				<li>Calculates the arc tangent (in radians).</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.atan2" href="#math.atan2" class="selflink">Math.atan2(result,a,b)</a><br>
+			<ul>
+				<li>Calculates the arc tangent (in radians) of the two variables a and b.</li>
+				<li>It is similar to calculating the arc tangent of a / b, except that the signs of both arguments 
+					are used to determine the quadrant of the result.
+				</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.ceil" href="#math.ceil" class="selflink">Math.ceil(var)</a> or <a href="#math.ceil" class="selflink">Math.ceil(result,v)</a><br>
+			<ul>
+				<li>Calculates the next highest integer value by rounding up.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.cos" href="#math.cos" class="selflink">Math.cos(var)</a> or <a href="#math.cos" class="selflink">Math.cos(result,v)</a><br>
+			<ul>
+				<li>Calculates the cosine (parameter in radians). </li>
+			</ul>
+		</li>
+		
+		<li><a name="math.exp" href="#math.exp" class="selflink">Math.exp(var)</a> or <a href="#math.exp" class="selflink">Math.exp(result,v)</a><br>
+			<ul>
+				<li>Calculates e (=base of the natural system of logarithms, ~2.718282) raised to the power of var/v. </li>
+			</ul>
+		</li>
+		
+		<li><a name="math.floor" href="#math.floor" class="selflink">Math.floor(var)</a> or <a href="#math.floor" class="selflink">Math.floor(result,v)</a><br>
+			<ul>
+				<li>Calculates the next lowest integer value by rounding down.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.log" href="#math.log" class="selflink">Math.log(var)</a> or <a href="#math.log" class="selflink">Math.log(result,v)</a><br>
+			<ul>
+				<li>Calculates the natural logarithm.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.max" href="#math.max" class="selflink">Math.max(var,var2)</a> or <a href="#math.max" class="selflink">Math.max(result,...vars)</a><br>
+			<ul>
+				<li>Get the largest value of all given variables or values.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.min" href="#math.min" class="selflink">Math.min(var,var2)</a> or <a href="#math.min" class="selflink">Math.min(result,...vars)</a><br>
+			<ul>
+				<li>Get the lowest value of all given variables or values.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.pow" href="#math.pow" class="selflink">Math.pow(var,var2)</a> or <a href="#math.pow" class="selflink">Math.pow(result,v1,v2)</a><br>
+			<ul>
+				<li>Calculates var/v1 raised to the power of var2/v2.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.round" href="#math.round" class="selflink">Math.round(var)</a> or <a href="#math.round" class="selflink">Math.round(result,v)</a><br>
+			<ul>
+				<li>Calculates the rounded integer value.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.sin" href="#math.sin" class="selflink">Math.sin(var)</a> or <a href="#math.sin" class="selflink">Math.sin(result,v)</a><br>
+			<ul>
+				<li>Calculates the sine (parameter in radians).</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.sqrt" href="#math.sqrt" class="selflink">Math.sqrt(var)</a> or <a href="#math.sqrt" class="selflink">Math.sqrt(result,v)</a><br>
+			<ul>
+				<li>Calculates the square root.</li>
+			</ul>
+		</li>
+		
+		<li><a name="math.tan" href="#math.tan" class="selflink">Math.tan(var)</a> or <a href="#math.tan" class="selflink">Math.tan(result,v)</a><br>
+			<ul>
+				<li>Calculates the tangent (parameter in radians).</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="roundval" href="#roundval" class="selflink"><pre>roundval(variable, decimalplaces*)</pre></a>
+<a href="#roundval" class="selflink"><pre>roundval(destinationvariable, variable, decimalplaces)</pre></a>
+<div class="xmlnodetext">
+	Rounds the value of the variable to given decimal places.<br>
+	<br>
+	<i>Note - the variable will be a string internally after rounding!</i>
+	<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destinationvariable</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The variable where the result will be stored.</li>
+				<li>Only when called with 3 parameters!</li>
+			</ul>
+		</li>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable to be rounded.</li>
+				<li>When called with 1 or 2 parameters, the result will be stored also in that variable.</li>
+			</ul>
+		</li>
+		<li><b>decimalplaces</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The number of decimal places - 0 when not set.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('roundvalexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="roundvalexamples" class="xmlexamplecontent">
+			<pre>roundval(val);</pre>
+			<pre>roundval(val, 2);</pre>
+			<pre>roundval(hlookat_print, view.hlookat, 2);</pre>
+			<pre>copy(cur_hlookat,view.hlookat);
+mod(cur_hlookat,360);
+roundval(cur_hlookat,2);
+copy(cur_vlookat,view.vlookat);
+roundval(cur_vlookat,2);
+txtadd(msg,'looking at ',get(cur_hlookat),'/',get(cur_vlookat));</pre></div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="tohex" href="#tohex" class="selflink"><pre>tohex(variable, prefix*, length*)</pre></a>
+<a href="#tohex" class="selflink"><pre>tohex(destinationvariable, variable, prefix, length)</pre></a>
+<div class="xmlnodetext">
+	Convert the content of the given variable to a hexadecimal string.<br>
+	Can be used to create html/css color strings.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destinationvariable</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The variable where the result will be stored.</li>
+				<li>Only when called with 4 parameters!</li>
+			</ul>
+		</li>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable to be converted to a hexadecimal string.</li>
+				<li>When called with less than 4 parameters, the result will be stored also in that variable.</li>
+			</ul>
+		</li>
+		<li><b>prefix</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>A prefix (like '0x' or '#') for the string.</li>
+			</ul>
+		</li>
+		<li><b>length</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>A fixed length for the result.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('tohexexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="tohexexamples" class="xmlexamplecontent">
+			<pre>tohex(color,'#',6);</pre>
+			<pre>set(color, ...an_external_integer_input...);<br>tohex(color,'#',6);<br>txtadd(layer[text1].css,'color:',get(color),';');</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="tolower"></a>
+<a name="toupper"></a>
+<a href="#tolower" class="selflink"><pre>tolower(variable)</pre></a>
+<a href="#toupper" class="selflink"><pre>toupper(variable)</pre></a>
+<a href="#tolower" class="selflink"><pre>tolower(destinationvariable, sourcevariable)</pre></a>
+<a href="#toupper" class="selflink"><pre>toupper(destinationvariable, sourcevariable)</pre></a>
+<div class="xmlnodetext">
+	Convert the content of the given variable to a lower or upper case.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destinationvariable</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The variable where the case conversion result will be stored.</li>
+				<li>Only when called with 2 parameters!</li>
+			</ul>
+		</li>
+		<li><b>variable</b> / <b>sourcevariable</b>
+			<ul>
+				<li>The variable to be converted to a lower or upper case.</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="txtadd" href="#txtadd" class="selflink"><pre>txtadd(destination, txt1, txt2*, txt3*, ...)</pre></a>
+<div class="xmlnodetext">
+	The <b>txtadd</b> action can be used to add/connect several texts / values together.<br>
+	The action can be used with 2 or more parameters. When using only two parameters (destination and a text)
+	then the text will be added to current value of the destination variable.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>destination</b>
+			<ul>
+				<li>The destination variable where the connected text will be stored.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>txt1</b>, <b>txt2</b>, <b>txt3</b>, ... <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The texts that will be connected together.</li>
+				<li>When using only one txt parameter then this text will be added to the content of current destination variable.</li>
+				<li><i>Note - when the content of a variable should be used - then the <a href=#get">get()</a>
+					action must be used to resolve the variable!</i>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('txtaddexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="txtaddexamples" class="xmlexamplecontent">
+			<pre>txtadd(picfilename,'%CURRENTXML%/pic_',get(pic),'.jpg');</pre>
+			<pre>txtadd(crop,'0|',get(ypos),'|333|285');</pre>
+			<pre>txtadd(pname, 'thumbbar_image_', get(i));</pre>
+			<pre>txtadd(layer[text].html,'[p]',get(data[txt1].content),'[/p]');</pre>
+			<pre>txtadd(msg,get(view.fovtype),'=',get(fov),'°');</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="subtxt" href="#subtxt" class="selflink"><pre>subtxt(dstvar, srcvar, startpos, len)</pre></a>
+<div class="xmlnodetext">
+	The <b>subtxt</b> action extracts a part of an other text.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>dstvar</b>
+			<ul>
+				<li>The destination variable where the extracted text will be stored.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>srcvar</b>
+			<ul>
+				<li>The variable or text with the source text.</li>
+			</ul>
+		</li>
+		<li><b>startpos</b>
+			<ul>
+				<li>The starting position from where the text should be extracted.</li>
+			</ul>
+		</li>
+		<li><b>len</b>
+			<ul>
+				<li>The length of the text to extract.</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="indexoftxt" href="#indexoftxt" class="selflink"><pre>indexoftxt(index, txt, searchtxt, startindex*)</pre></a>
+<div class="xmlnodetext">
+	The <b>indexoftxt</b> action gives the position of the first occurrence of the 'searchtxt' value in the 'txt' string.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>index</b>
+			<ul>
+				<li>A variable that will store the index of first occurrence of 'searchtxt'.</li>
+				<li>Or <span class="presyntax_inline">-1</span> if 'searchtxt' never occurs.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>txt</b>
+			<ul>
+				<li>The text in which it should be searched.</li>
+			</ul>
+		</li>
+		<li><b>searchtxt</b>
+			<ul>
+				<li>The text to searched for.</li>
+			</ul>
+		</li>
+		<li><b>startindex</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The starting startindex / position where to start searching for the text (0 by default).</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="txtreplace" href="#txtreplace" class="selflink"><pre>txtreplace(var, searchtext, replacetext)</pre></a>
+<a href="#txtreplace" class="selflink"><pre>txtreplace(dstvar, srcvar, searchtext, replacetext)</pre></a>
+<div class="xmlnodetext">
+	The <b>txtreplace</b> action searches in 'var/srcvar' for all occurrences of 'searchtext' and replaces them with 'replacetext'.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>var / srcvar / dstvar</b>
+			<ul>
+				<li>The variable where to search for (var, srcvar) and where the result will be stored (var, dstvar).</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>searchtxt</b>
+			<ul>
+				<li>The text that should be searched for.</li>
+			</ul>
+		</li>
+		<li><b>replacetext</b>
+			<ul>
+				<li>The text that will replace the 'searchtxt' occurrences.</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="txtsplit" href="#txtsplit" class="selflink"><pre>txtsplit(string, separator, resultingarray)</pre></a>
+<a href="#txtsplit" class="selflink"><pre>txtsplit(string, separator, var1, var2, ...)</pre></a>
+<div class="xmlnodetext">
+	The <b>txtsplit</b> action searches in 'var/srcvar' for all occurrences of 'searchtext' and replaces them with 'replacetext'.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>string</b>
+			<ul>
+				<li>The string to split, can be either a text or a variable.</li>
+			</ul>
+		</li>
+		<li><b>separator</b>
+			<ul>
+				<li>The separator character or string.</li>
+			</ul>
+		</li>
+		<li><b>resultingarray</b> <span class="smallcomment">(when calling the txtsplit() action with 3 arguments)</span>
+			<ul>
+				<li>Name of an array variable that will contain the split parts as 'value' properties.</li>
+			</ul>
+		</li>
+		<li><b>var1, var2, ...</b> <span class="smallcomment">(when calling the txtsplit() action with 4 or more arguments)</span>
+			<ul>
+				<li>The results of the spliting will be directly assigned to the given variables.</li>
+			</ul>
+		</li>
+	</ul>
+	
+	
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('txtsplitexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="txtsplitexamples" class="xmlexamplecontent">
+			<div style="padding-top:6px;">
+				Split into separate variables:
+				<pre>txtsplit('1|2|3', '|', a, b, c);<br>trace('a=',get(a), ' b=',get(b), ' c=',get(c));</pre>
+				Result:
+				<pre>a=1 b=2 c=3</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Split into an array:
+				<pre>txtsplit('x|y|z', '|', arr);<br>for(set(i,0), i LT arr.count, inc(i),<br>  trace('arr[',get(i),'].value=',arr[get(i)].value);<br>);</pre>
+				Result:
+				<pre>arr[0].value=x<br>arr[1].value=y<br>arr[2].value=z</pre>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="fromcharcode" href="#fromcharcode" class="selflink"><pre>fromcharcode(var, charcode)</pre></a>
+<div class="xmlnodetext">
+	The <b>fromcharcode</b> action converts the given character code to a string and stores in the given variable.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>var</b>
+			<ul>
+				<li>The variable where to store the character.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		<li><b>charcode</b>
+			<ul>
+				<li>The Unicode character code as number.</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="escape"></a>
+<a name="unescape"></a>
+<a href="#escape" class="selflink"><pre>escape(var)</pre></a>
+<a href="#escape" class="selflink"><pre>escape(var, text)</pre></a>
+<a href="#unescape" class="selflink"><pre>unescape(var)</pre></a>
+<a href="#unescape" class="selflink"><pre>unescape(var, text)</pre></a>
+<div class="xmlnodetext">
+	The <b>escape</b> and <b>unescape</b> actions are escaping the content of the given variable or the given text and then storing the result in the given variable.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>var</b>
+			<ul>
+				<li>Without text parameter - the variable which will be escaped/unescaped.</li>
+				<li>With text parameter - the variable where the escaped/unescaped text will be stored.</li>
+			</ul>
+		</li>
+		<li><b>text</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The text that that will be escaped/unescaped.</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="tween" href="#tween" class="selflink"><pre>tween(variable, value, time*, tweentype*, donecall*, updatecall*)</pre></a>
+<div class="xmlnodetext">
+	The <b>tween</b> action can be used for a time-controlled animation / change of a variable.<br>
+	The action will dynamically change the current value of the variable to the given value.<br>
+	<br>
+	<i><u>Color support:</u>
+	 When tweening a variable with a name that contains the word 'color', then the values will be automatically
+	 interpreted as 32bit ARGB colors and each color channel will be processed individually.
+	</i><br>
+	<br>
+	<i><u>Multiple variable support:</u> It is possible to tween several variables together at once.
+		Therefore specify several variables, values and tweentypes separated by <span class="presyntax_inline">|</span> characters.
+		When several variables were specified, but only one value and/or only one tweentype, then all variables will tween to the same value and/or use the same tweentype.
+		The time and the done- and updatecalls will be always the same for all given variables.
+		<br>
+	</i>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The variable that should be changed.</li>
+				<li>Use the <span class="presyntax_inline">|</span> character to specify several variables.</li>
+				<li>When the variable name contains the word 'color', then process the variable value as 32bit ARGB color value.</li>
+			</ul>
+		</li>
+
+		<li><b>value</b>
+			<ul>
+				<li>The destination value for this variable.</li>
+				<li>When tweening percent values - add a '%' character to the value.</li>
+				<li>Use the <span class="presyntax_inline">|</span> character to specify several values for several variables.</li>
+				<li><i>Note - to tween to the value of another variable use the <a href=#get">get()</a> action to get the value of the other variable!</i></li>
+			</ul>
+		</li>
+
+		<li><a name="tween.time" href="#tween.time" class="selflink">time</a> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The time in seconds for the change from the current value to the destination value
+					(0.5 seconds by default).
+				</li>
+				<li>Instead of using a fixed time for the change it is possible to define
+					the maximum moving distance for the value and a time for that distance <i>(not supported when tweening multiple variables)</i>.
+					This allows to use a short time for a short distance and long time for a long distance.<br>
+					This can be done by using the distance function:<br>
+					<ul>
+						<li><b>distance(maxdistance,maxtime)</b><br>
+							<ul>
+								<li>maxdistance - the maximum distance between the start and the destination value</li>
+								<li>maxtime - the time in seconds for this maximum distance</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<br>
+		</li>
+
+		<li><b>tweentype</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The tweening / interpolation type (easeOutQuad by default).</li>
+				<li>See here for all available tween types: <a href="#tweentypes">tweentypes</a>.</li>
+			</ul>
+		</li>
+
+		<li><b>donecall</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The action commands that should be executed when the tween is done and the destination value has been reached.</li>
+				<li>Instead of normal actions, it is also possible to use the special keyword <b>WAIT</b> here. 
+					In this case the user interface and the execution of the following actions will be
+					blocked until the destination value has been reached.
+				</li>
+			</ul>
+		</li>
+		
+		<li><b>updatecall</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>These action will be called every time (=every frame!) when the value will be updated / changed!</li>
+				<li><i>WARNING - use with care! When heavly used this can reduce the framerate!</i></li>
+			</ul>
+		</li>
+
+	</ul>
+
+	<br>
+	<i>Some information about the origin of the name "tween" - <a href="http://en.wikipedia.org/wiki/Tweening" target="_blank">Wikipedia about Tweening</a>.</i>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('tweenexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="tweenexamples" class="xmlexamplecontent">
+			<pre>tween(scale,2);</pre>
+			<pre>tween(rotate,90);</pre>
+			<pre>tween(width,50%);</pre>
+			<pre>onover="tween(alpha,0.7,distance(0.3,0.2));"
+onout="tween(alpha,1.0,distance(0.3,0.2));"</pre>
+			<pre>set(alpha,0);
+set(visible,true);
+tween(alpha, 1.0 ,0.3);</pre>
+			<pre>tween(layer[logo].width, get(destwidth));</pre>
+			<pre>set(layer[image].enabled,false);
+tween(layer[image].alpha,0.0,0.5,default,removeplugin(image));</pre>
+			<pre>set(view.stereographic,true);
+tween(view.vlookat, 90.0, 2.0);				
+tween(view.fisheye, 1.0, 2.0);
+tween(view.fov, 150.0, 2.0);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="stoptween" href="#stoptween" class="selflink"><pre>stoptween(variable, ...)</pre></a>
+<div class="xmlnodetext">
+	The <b>stoptween</b> action stops a currently running tween action.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The name of the variable which is currently tweening and should be stopped.</li>
+			</ul>
+		</li>
+		<li><b>... variable, variable, ...</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Addtional variables that should stop tweening.</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('stoptweenexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="stoptweenexamples" class="xmlexamplecontent">
+			<pre>ondown="tween(layer[text].y, 10, distance(400,0.7), linear);"
+onup="stoptween(layer[text].y);"</pre>
+		</div>
+	</div>
+	
+</div>
+</div>
+
+
+
+
+<a name="tweentypes"></a>
+<div class="xmlnodedesc">
+
+	Here all supported <a name="tweentypes" href="#tweentypes" class="selflink">tween types</a> for the <a href="#tween">tween</a> action.
+
+<div class="xmlnodetext">
+
+	Linear Ease:
+	<ul>
+		<li><b>linear</b></li>
+	</ul>
+	Ease Out:
+	<ul>
+		<li><b>easeOutQuad</b></li>
+		<li><b>easeOutQuart</b></li>
+		<li><b>easeOutQuint</b></li>
+		<li><b>easeOutSine</b></li>
+		<li><b>easeOutBounce</b></li>
+		<li><b>easeOutCirc</b></li>
+		<li><b>easeOutCubic</b></li>
+		<li><b>easeOutExpo</b></li>
+		<li><b>easeOutBack</b></li>
+	</ul>
+	Ease In:
+	<ul>
+		<li><b>easeInQuad</b></li>
+		<li><b>easeInQuart</b></li>
+		<li><b>easeInQuint</b></li>
+		<li><b>easeInSine</b></li>
+		<li><b>easeInBounce</b></li>
+		<li><b>easeInCirc</b></li>
+		<li><b>easeInCubic</b></li>
+		<li><b>easeInExpo</b></li>
+		<li><b>easeInBack</b></li>
+	</ul>
+	Ease Out and In:
+	<ul>
+		<li><b>easeOutInQuad</b></li>
+		<li><b>easeOutInQuart</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeOutInQuint</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeOutInSine</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>	
+		<li><b>easeOutInBounce</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeOutInCirc</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeOutInCubic</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeOutInExpo</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+	</ul>
+	Ease In and Out:
+	<ul>
+		<li><b>easeInOutQuad</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutQuart</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutQuint</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutSine</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutBounce</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutCirc</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutCubic</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+		<li><b>easeInOutExpo</b> &nbsp;<a href="#moretweentypes" class="selflink">*</a></li>
+	</ul>
+	
+
+	<br>
+	Here some online visualization of the different tween types:<br>
+	<a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank">http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html</a><br>
+	<a href="http://hosted.zeh.com.br/mctween/animationtypes.html" target="_blank">http://hosted.zeh.com.br/mctween/animationtypes.html</a><br>
+	
+	<br>
+	<a href="#moretweentypes" name="moretweentypes" class="selflink">* only via moretweentypes plugin</a><br>
+	These tween types are only available when including the <a href="plugins/moretweentypes.html#top">moretweentypes</a> plugin.
+	
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="loadpano"></a>
+<a name="loadscene"></a>
+<a name="loadpanoscene"></a>
+<a name="loadxml"></a>
+<a href="#loadpano"  class="selflink"><pre>loadpano(xmlpath, vars*, flags*, blend*)</pre></a>
+<a href="#loadscene" class="selflink"><pre>loadscene(scenename, vars*, flags*, blend*)</pre></a>
+<a href="#loadpanoscene" class="selflink"><pre>loadpanoscene(xmlpath, scenename, vars*, flags*, blend*)</pre></a>
+<a href="#loadxml"   class="selflink"><pre>loadxml(xmlstring, vars*, flags*, blend*)</pre></a>
+<div class="xmlnodetext">
+	Actions to load a new panos.<br>
+	<br>
+	<i>Note - only the layer, plugin, hotspot, event and lensflare elements with <a href="xml.html#layer.keep">keep</a>="true" 
+	will be kept when loading new panos!
+	</i><br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li class="uldd2"><b>xmlpath</b> <span class="smallcomment">(for loadpano)</span>
+			<ul>
+				<li>The path/url of the new pano xml file to be loaded (use <b>null</b> for none).</li>
+				<li>When a relative path will be used then the file will be loaded from the 
+					<a href="xml.html#krpano.basedir">basedir</a> folder, which is %FIRSTXML% by default.
+					That means that the paths in all loadpano calls are relative to the first loaded xml file.
+				</li>
+			</ul>
+		</li>
+		
+		<li class="uldd2"><b>xmlstring</b> <span class="smallcomment">(for loadxml)</span>
+			<ul>
+				<li>The content of a xml file as string / text to be loaded (should be escaped).</li>
+			</ul>
+		</li>
+		
+		<li class="uldd2"><b>scenename</b> <span class="smallcomment">(for loadscene)</span>
+			<ul>
+				<li>The name of the <a href="xml.html#scene" class="selflink">&lt;scene&gt;</a> element that should to be loaded.</li>
+			</ul>
+		</li>
+		
+		<li class="uldd2"><a name="loadpano.vars" href="#loadpano.vars" class="selflink">vars</a> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Custom variables to set (use null for none).</li>
+				<li>These variables will be set <u>after</u> parsing / resolving the xml but before starting to load the pano images.
+					This way these variables can be used either to overwrite settings from the xml or to set addtional ones.
+				</li>
+				<li>Variables can be defined as <span class="presyntax_inline">var1=val1</span> pairs separated by <span class="presyntax_inline">&amp;amp;</span>.
+				</li>
+			</ul>
+		</li>
+		
+		<li class="uldd2"><a name="loadpano.flags" href="#loadpano.flags" class="selflink">flags</a> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Addtional flags for loading (use null for none).</li>
+				<li>Several flags can be combined by a <span class="presyntax_inline">|</span> character.</li>
+				<li>Available flags:
+					<ul>
+						<li><b>MERGE</b> <span class="smallcomment">(the recommended flag)</span><br>
+							<ul>
+								<li>Merges all settings from the current and the next pano.</li>
+								<li>If there are plugins and hotspots in the new panorama with the same name as the kept ones, the new elements will not be loaded.</li>
+								<li>This is the recommended setting for virtual tours.</li>
+								</ul>
+						</li>
+						<li><b>KEEPIMAGE</b>    - keep the current image <span class="html5only">(HTML5 only)</span></li>
+						<li><b>KEEPVIEW</b>     - keep current view settings</li>
+						<li><b>KEEPMOVING</b>   - keep moving during the blending <span class="html5only">(HTML5 only)</span></li>
+						<li><b>KEEPSCENES</b>   - keep current scenes (loadpano only)</li>
+						<li><b>KEEPDISPLAY</b>  - keep current display settings</li>
+						<li><b>KEEPCONTROL</b>  - keep current control settings</li>
+						<li><b>KEEPPLUGINS</b>  - keep current loaded plugins</li>
+						<li><b>KEEPHOTSPOTS</b> - keep current loaded hotspots</li>
+						<li><b>NOPREVIEW</b>    - ignore the &lt;preview&gt; tag of the new xml</li>
+						<li><b>KEEPBASE</b>     - a predefined combination of:<br>
+							<small>KEEPDISPLAY | KEEPCONTROL | KEEPPLUGINS</small>
+						</li>
+						<li><b>KEEPALL</b>      - a predefined combination of:<br>
+							<small>KEEPVIEW | KEEPDISPLAY | KEEPCONTROL | KEEPPLUGINS</small>
+						</li>
+						<li><b>REMOVESCENES</b>  - remove all currently defined scene elements (the same like - set(scene.count,0); )</li>
+						<li><b>IGNOREKEEP</b>  - ignore the keep flags and remove also the elements with keep="true"</li>
+						<li><b>IMAGEONLY</b>   - load only the image (and the preview) <span class="html5only">(HTML5 only, not for loadpanoscene)</span></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		
+		<li class="uldd2"><a name="loadpano.blend" href="#loadpano.blend" class="selflink">blend</a> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Blend / fade to next panoroma - transition animation.</li>
+				<li>Available blending modes:<br>
+			
+				<pre>NOBLEND</pre>
+				<div class="preinfo">
+					No blending, just switch directly to the next panorama (the default).
+				</div>
+				<br>
+				
+				<pre>BLEND(time, tweentype)</pre>
+				<div class="preinfo">
+					Blend / Cross-fade from current panorama to next one.<br>
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=easeInCubic) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				
+				<pre><span class="readonly" style="float:right;">(WebGL only)</span>COLORBLEND(time, color, tweentype)</pre>
+				<div class="preinfo">
+					Blend to a color and then from that color to the next panorama.<br>
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>color</b> - The in-between color in hex format (default=0x000000 = black).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=easeOutSine) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				
+				<pre><span class="readonly" style="float:right;">(WebGL only)</span>LIGHTBLEND(time, color, colorscale, tweentype)</pre>
+				<div class="preinfo">
+					Add or subtract a color and then cross-fade to the next panorama.<br>
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>color</b> - The color to add in hex format (default=0xFFFFFF = white).</li>
+						<li><b>colorscale</b> - The scaling factor of the color, use negative values for subtracting (default=2.0).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=easeInCubic) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				
+				<pre><span class="readonly" style="float:right;">(WebGL only)</span>SLIDEBLEND(time, angle, smooth, tweentype)</pre></span>
+				<div class="preinfo">
+					A slide animation between the current and the next panorama.<br>
+					
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>angle</b> - The angle / direction of the slide in degrees (default=0.0).</li>
+						<li><b>smooth</b> - The smoothing / blurring of the transition line (0.0 to 1.0, default=0.2).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=linear) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				
+				<pre><span class="readonly" style="float:right;">(WebGL only)</span>OPENBLEND(time, shape, smooth, zoom, tweentype)</pre></span>
+				<div class="preinfo">
+					An opening animation between the current and the next panorama.<br>
+					
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>shape</b> - A factor that defines the opening shape (-1.0 to +1.0) - 0.0=circle opening, -1.0=vertical opening, +1.0=horizontal opening (default=0.0).</li>
+						<li><b>smooth</b> - The smoothing / blurring of the transition line (0.0 to 1.0, default=0.2).</li>
+						<li><b>zoom</b> - Additionally zoom-out the old panorama (0.0 to 1.0, default=0.0).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=linear) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				
+				<pre><span class="readonly" style="float:right;">(Flash or WebGL only)</span>ZOOMBLEND(time, zoom, tweentype)</pre>
+				<div class="preinfo">
+					Zoom into the current view and cross-fade to the next panorama.<br>
+					<br>
+					Parameters:
+					<ul>
+						<li><b>time</b> - The blending time in seconds (default=2.0).</li>
+						<li><b>zoom</b> - The zoom factor (default=2.0).</li>
+						<li><b>tweentype</b> - The blending curve / motion shape, type of the blending animation (default=easeInOutSine) - see <a href="#tweentypes">tweentypes</a>.</li>
+					</ul>
+				</div>
+				<br>
+				DEMO: <a href="https://krpano.com/tours/corfu/blending-demo.html">Pano Blending Demo</a> (Source: <a href="https://krpano.com/viewsource.html?tours/corfu/blending-demo.xml">blending-demo.xml</a>)<br>
+				<br>
+				<i>Note - When the selected blending mode will be not supported (e.g. when using a 'WebGL only' mode and only Flash or CSS3D is available), 
+					then it will automatically fallback to the default blending mode.
+				</i><br>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('loadpanoexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="loadpanoexamples" class="xmlexamplecontent">
+			<pre>loadpano(pano2.xml);</pre>
+			<pre>loadpano(pano2.xml, null, MERGE, BLEND(1));</pre>
+			<pre>loadscene(scene1);</pre>
+			<pre>loadscene(scene1, null, MERGE, BLEND(1));</pre>
+			<pre>loadxml('<small>&lt;krpano&gt;&lt;image&gt;&lt;sphere url="pano.jpg"/&gt;&lt;/image&gt;&lt;/krpano&gt;</small>');</pre>
+			<pre>loadxml(get(data[xml].content), null, KEEPALL);</pre>
+			<pre>loadpano('%SWFPATH%/pano.xml', null, MERGE, BLEND(2));</pre>
+			<pre>loadpano(sphere.xml, image.hfov=1.0&view.limitview=fullrange);</pre>
+		</div>
+	</div>
+	
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="openurl" href="#openurl" class="selflink"><pre>openurl(url, target*)</pre></a>
+<div class="xmlnodetext">
+	Open an url / link.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>url</b>
+			<ul>
+				<li>The url to open.</li>
+			</ul>
+		</li>
+		<li><b>target</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The target where the url should be opened.</li>
+				<li>Possible settings:
+					<ul>
+						<li><b>_blank</b> - open the url in a new window (the default)</li>
+						<li><b>_self</b> - open the url in the current frame in the current window</li>
+						<li><b>_parent</b> - open the url in the parent of the current frame</li>
+						<li><b>_top</b> - open the url in the top-level frame in the current window</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	<i class="flashonly">
+		Flash Notes - this action requires the External-Interface of the Flashplayer.
+		This is only available when running inside a browser. When working work offline / locally with 'file://' urls,
+		then the <a href="https://krpano.com/docu/localusage/#top" class="flashonly">security settings</a> of the Flashplayer need to be adjusted. 
+	</i>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('openurlexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="openurlexamples" class="xmlexamplecontent">
+			<pre>openurl('https://krpano.com',_self);</pre>
+			<pre>openurl('help.html');</pre>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="lookat" href="#lookat" class="selflink"><pre>lookat(h, v, fov*, distortion*, architectural*, pannini*)</pre></a>
+<div class="xmlnodetext">
+	Look at this panorama position.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>h</b>
+			<ul>
+				<li>The horizontal looking direction (<a href="xml.html#view.hlookat">view.hlookat</a>) in spherical coordinates in degrees (-180 to +180).</li>
+			</ul>
+		</li>
+		<li><b>v</b>
+			<ul>
+				<li>The vertical looking direction (<a href="xml.html#view.vlookat">view.vlookat</a>) in spherical coordinates in degrees (-90 to +90).</li>
+			</ul>
+		</li>
+		<li><b>fov</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The field of view (<a href="xml.html#view.fov">view.fov</a>) in degrees (0 - 179).</li>
+			</ul>
+		</li>
+		<li><b>distortion</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The fisheye distortion setting (<a href="xml.html#view.distortion">view.distortion</a>).</li>
+			</ul>
+		</li>
+		<li><b>architectural</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The architectural projection setting (<a href="xml.html#view.architectural">view.architectural</a>).</li>
+			</ul>
+		</li>
+		<li><b>pannini</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The pannini projection setting (<a href="xml.html#view.pannini">view.pannini</a>).</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('lookatexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="lookatexamples" class="xmlexamplecontent">
+			<pre>lookat(0,0);</pre>
+			<pre>lookat(0,0,90);</pre>
+			<pre>loadpano(pano.xml);
+lookat(45.1, -20.2, 110.0);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="lookto"></a>
+<a name="looktohotspot"></a>
+<a name="moveto"></a>
+<a name="zoomto"></a>
+<a href="#lookto" class="selflink"><pre>lookto(toH,toV,fov*,motiontype*,shortestway*,nonblocking*,donecall*)</pre></a>
+<a href="#looktohotspot" class="selflink"><pre>looktohotspot(hotspotname*, fov*, motiontype*, shortestway*)</pre></a>
+<a href="#moveto" class="selflink"><pre>moveto(toH, toV, motiontype*)</pre></a>
+<a href="#zoomto" class="selflink"><pre>zoomto(fov, motiontype*)</pre></a>
+<div class="xmlnodetext">
+	Move the view from current looking position to the given position.<br>
+	<br>
+	<i>Note - the user interface and all other actions are blocked during the movement. That means 
+	the next action will be executed when the current action was done. The <a href="#oninterrupt">oninterrupt</a>
+	action can be used to make these actions interrupt able by the user.</i>
+	<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>toH</b>
+			<ul>
+				<li>Horizontal destination looking direction (-180 to +180, wraparound possible).</li>
+			</ul>
+		</li>
+		<li><b>toV</b>
+			<ul>
+				<li>Vertical destination looking direction (-90 to +90).</li>
+			</ul>
+		</li>
+		<li><b>hotspotname</b> <span class="smallcomment">(for looktohotspot, optionally)</span>
+			<ul>
+				<li>The name of the hotspot.</li>
+				<li>This will be use the hotspot position (ath/atv) as destination position.</li>
+				<li>When no name will be defined and looktohotspot() will be called from a hotspot element then
+					that hotspot itself will be used.
+				</li>
+			</ul>
+		</li>
+		<li><b>fov</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The destination fov (0 to 179).</li>
+				<li>The <b>looktohotspot</b> action will use automatically the size of the hotspot as destination fov
+					when the fov was not set. The other actions keep the current fov when not set.<br>
+				</li>
+			</ul>
+		</li>
+		<li><b>motiontype</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The type of the motion.</li>
+				<li>Possible settings:
+					<ul>
+						<li><b>linear(speed)</b> - a linear motion
+							<ul>
+								<li>speed = moving speed in degrees/second<br></li>
+							</ul>
+						</li>
+						<li><b>smooth(accel,break,maxspeed)</b> - accelerated smooth movement (=default)
+							<ul>
+								<li>accel    = acceleration in degrees/second² (default=720)</li>
+								<li>break    = negative acceleration in degrees/second² (default=-720)</li>
+								<li>maxspeed = maximum moving speed in degrees/second (default=720)</li>
+							</ul>
+						</li>
+						<li><b>tween(tweentype,time)</b> - tween animation curve
+							<ul>
+								<li>tweentype = one of the <a href="#tweentypes">tween types</a></li>
+								<li>time      = time in seconds for the movement</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><b>shortestway</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The use the shortest possible way from the current to the destination position.</li>
+				<li>Possible settings: <b>true</b> or <b>false</b> (default=true).</li>
+			</ul>
+		</li>
+		<li><b>nonblocking</b> <span class="smallcomment">(optionally, lookto only)</span>
+			<ul>
+				<li>When set to true, then the lookto action will not wait for completing the movement
+					before continue executing the the following actions. The user-interface will also be not blocked.
+				</li>
+				<li>When the lookto movement is done then the <b>donecall</b> action will be called (when defined).</li>
+			</ul>
+		</li>
+		<li><b>donecall</b> <span class="smallcomment">(optionally, lookto only, only when nonblocking is true)</span>
+			<ul>
+				<li>This action will be called when the <b>nonblocking</b> lookto movement is done.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('looktoexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="looktoexamples" class="xmlexamplecontent">
+			<pre>moveto(100.0,5,linear(10));</pre>
+			<pre>zoomto(130,smooth());</pre>
+			<pre>lookto(33,-22,30,smooth(100,50,20));</pre>
+			<pre>looktohotspot(hotspot1);</pre>
+			<pre>looktohotspot(hotspot2, 40);</pre>
+			<pre>looktohotspot(hotspot3, 25, smooth(100,50,20));</pre>
+			<pre>looktohotspot(get(name));</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="adjusthlookat" href="#adjusthlookat" class="selflink"><pre>adjusthlookat(desthlookat)</pre></a>
+<div class="xmlnodetext">
+	Adjusts the <a href="xml.html#view.hlookat">view.hlookat</a> value for manual tweening.<br>
+    It fixes the 360 wrap around for the shortest way to <b>desthlookat</b>.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>desthlookat</b>
+			<ul>
+				<li>The intended destination hlookat value.</li>
+				<li>When <b>desthlookat</b> is the name of a variable, then automatically the value of that variable will be used.</li>
+				<li>The current <a href="xml.html#view.hlookat">view.hlookat</a> variable will be adjusted
+					(without changing the current view) to be next to this value.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('adjusthlookatexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="adjusthlookatexamples" class="xmlexamplecontent">
+			<pre>adjusthlookat(140);
+tween(view.hlookat, 140);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="getlooktodistance" href="#getlooktodistance" class="selflink"><pre>getlooktodistance(result, toH, toV, fromH*, fromV*)</pre></a>
+<div class="xmlnodetext">
+	Get the spherical distance between the <b>fromH</b> / <b>fromV</b> and <b>toH</b> / <b>toV</b> lookto points (in degrees).
+	The result will be always between 0.0 and 180.0 (more than 180 degree distance is not possible on a sphere).<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>result</b>
+			<ul>
+				<li>The name of the variable where the distance value will be stored.</li>
+				<li>The variable will be created when it doesn't exists.</li>
+			</ul>
+		</li>
+		
+		<li><b>toH</b>
+			<ul>
+				<li>Horizontal looking-to position (-180 to +180, wraparound possible).</li>
+				<li>Can be a variable name or a value.</li>
+			</ul>
+		</li>
+		
+		<li><b>toV</b>
+			<ul>
+				<li>Vertical looking-to position (-90 to +90).</li>
+				<li>Can be a variable name or a value.</li>
+			</ul>
+		</li>
+		
+		<li><b>fromH</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Horizontal looking-from position (-180 to +180, wraparound possible).</li>
+				<li>Can be a variable name or a value.</li>
+				<li>When not defined, the current horizontal looking direction (<a href="xml.html#view.hlookat">view.hlookat</a>) will be used by default.</li>
+			</ul>
+		</li>
+		
+		<li><b>fromV</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Vertical looking-from position (-90 to +90).</li>
+				<li>Can be a variable name or a value.</li>
+				<li>When not defined, the current vertical looking direction (<a href="xml.html#view.vlookat">view.vlookat</a>) will be used by default.</li>
+			</ul>
+		</li>
+	</ul>
+
+	
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="stoplookto" href="#stoplookto" class="selflink"><pre>stoplookto()</pre></a>
+<div class="xmlnodetext">
+	Stop a non-blocking lookto / looktohotspot / moveto / zoomto action.<br>
+	<br>
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="stopmovements" href="#stopmovements" class="selflink"><pre>stopmovements()</pre></a>
+<div class="xmlnodetext">
+	Instantly stop all user-driven (by mouse, keyboard or touch) panning and zooming movements.<br>
+	<br>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="wait" href="#wait" class="selflink"><pre>wait(parameter)</pre></a>
+<div class="xmlnodetext">
+	Wait a number of seconds or wait for an event.<br>
+	<br>
+	<i>Note - The user interface and all following actions will be blocked during the waiting. That means 
+	the next action in the current call will be executed when the current wait action is done. The <a href="#oninterrupt">oninterrupt</a>
+	action can be used to make this action interruptable by the user.</i>
+	<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>parameter</b><br>
+			<ul>
+				<li><b>any number</b> - this the time the action will wait in seconds</li>
+				<li><b>LOAD</b> - wait until loading is finished</li>
+				<li><b>BLEND</b> - wait until loading and blending are finished</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('waitexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="waitexamples" class="xmlexamplecontent">
+			<pre>oninterrupt(break);
+lookto(150,30,70);
+wait(3);
+lookto(242,0,150);
+lookto(280,-10,50);
+wait(3);</pre>	
+			<pre>loadpano(pano2.xml,null,MERGE,BLEND(2));
+lookat(100,50,5);
+wait(BLEND);
+lookto(100,50,150);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="oninterrupt" href="#oninterrupt" class="selflink"><pre>oninterrupt(actions)</pre></a>
+<div class="xmlnodetext">
+	This action can be used before starting a set of actions (like lookto, looktohotspot, 
+	moveto, zoomto, wait and tween with WAIT as donecall) that are blocking the user interface.<br>
+	When any of these actions will be interrupted by the user (e.g. by a click) then the these
+	actions will be stopped and the in the <b>oninterrupt</b> action defined <b>actions</b> be executed.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>actions</b><br>
+			<ul>
+				<li>The action commands to call on a user interrupt.</li>
+				<li>Addtionally there is a special command possible here:<br>
+				<b>break</b> - this will just break the current actions.
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('oninterruptexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="oninterruptexamples" class="xmlexamplecontent">
+			<pre>oninterrupt(break);
+lookto(150,30,70);
+wait(3);
+lookto(242,0,150);
+lookto(280,-10,50);
+wait(3);</pre>
+			<pre>oninterrupt( trace(user interrupt); );
+lookto(0,0,90);			
+lookto(90,0,90);
+lookto(180,0,90);
+lookto(270,0,90);
+lookto(0,0,90);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="screentosphere"></a>
+<a name="spheretoscreen"></a>
+<a href="#screentosphere" class="selflink"><pre>screentosphere(x,y, h,v)</pre></a>
+<a href="#spheretoscreen" class="selflink"><pre>spheretoscreen(h,v, x,y, stereoside*)</pre></a>
+<div class="xmlnodetext">
+	Actions for converting between screen and spherical coordinates.<br>
+	<br>
+	The <b>screentosphere</b> action will convert the <b>x/y</b> variables to the <b>h/v</b> variables and
+	the <b>spheretoscreen</b> action the <b>h/v</b> variables to the <b>x/y</b> variables.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>x</b> / <b>y</b>
+			<ul>
+				<li>Variables with screen coordinates in the pixels from the left top edge.</li>
+			</ul>
+		</li>
+		<li><b>h</b> / <b>v</b>
+			<ul>
+				<li>Variables with spherical coordinates in the degrees (360x180).</li>
+			</ul>
+		</li>
+		<li><b>stereoside</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				For stereo rendering - define to which screen side the coordinates should be mapped.
+				Possible settings: <span class="presyntax_inline">l</span> for the left side or <span class="presyntax_inline">r</span>
+				for right side or not-set/undefined for normal non-stereo screen coordinates.
+			</ul>
+		</li>
+	</ul>
+	Notes:<br>
+	<ul>
+		<li>The x,y,h,v parameters must be variable names, using values is not possible!</li>
+		<li>When a variable doesn't exist, it will be created.</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('screentosphereexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="screentosphereexamples" class="xmlexamplecontent">
+			<pre>screentosphere(mouse.x, mouse.y, toh, tov);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="screentolayer"></a>
+<a name="layertoscreen"></a>
+<a href="#screentolayer" class="selflink"><pre>screentolayer(layer, screenx,screeny, layerx,layery)</pre></a>
+<a href="#layertoscreen" class="selflink"><pre>layertoscreen(layer, layerx,layery, screenx,screeny)</pre></a>
+<div class="xmlnodetext">
+	Actions for converting between screen / stage and relative <a href="xml.html#layer" class="selflink">&lt;layer&gt;</a> coordinates.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>layer</b>
+			<ul>
+				<li>The <a href="xml.html#layer.name">name</a> of the <a href="xml.html#layer" class="selflink">&lt;layer&gt;</a> element.</li>
+			</ul>
+		</li>
+		<li><b>screenx</b> / <b>screenx</b>
+			<ul>
+				<li>Variables with screen / stage coordinates in the pixels from the left top edge.</li>
+			</ul>
+		</li>
+		<li><b>layerx</b> / <b>layery</b>
+			<ul>
+				<li>Variables with layer coordinates from the left top layer edge.</li>
+			</ul>
+		</li>
+	</ul>
+	Notes:<br>
+	<ul>
+		<li>The screen /stage coordinates are based on the krpano coordinate system (from left-top 0 / 0 to right-bottom <a href="#stagewidth">stagewidth</a> / <a href="#stageheight">stageheight</a></a>).</li>
+		<li>The layer coordinates will be scaled when <a href="xml.html#layer.scalechildren">scalechildren</a> is enabled.</li>
+		<li>Rotated layers are not supported!</li>
+		<li>All parameters must be variables, using values is not possible!</li>
+		<li>When a variable doesn't exist, it will be created.</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('screentolayerexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="screentolayerexamples" class="xmlexamplecontent">
+			<pre>screentolayer(bar, mouse.stagex,mouse.stagey, lx,ly);<br>div(fill, lx, layer[bar].pixelwidth);<br>mul(fill, 100);<br>clamp(fill, 0, 100);<br>txtadd(layer[barfill].width, get(fill), '%');</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="remapfovtype"></a>
+<a href="#remapfovtype" class="selflink"><pre>remapfovtype(fov, srcfovtype, dstfovtype)</pre></a>
+<a href="#remapfovtype" class="selflink"><pre>remapfovtype(fov, srcfovtype, dstfovtype, width, height)</pre></a>
+<div class="xmlnodetext">
+	Remap a fov value from one <a href="xml.html#view.fovtype">fovtype</a> to another.<br>
+	<br>
+	When changing the viewing fovtype and at the same time, remapping the viewing fov,
+	then the resulting pano zoom will keep the same.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>fov</b>
+			<ul>
+				<li>A variable with the fov value that should be changed.</li>
+				<li>The result will be stored in the same variable.</li>
+			</ul>
+		</li>
+		<li><b>srcfovtype</b>
+			<ul>
+				<li>The current <a href="xml.html#view.fovtype">fovtype</a>.</li>
+				<li>Can be: HFOV, VFOV, DFOV or MFOV.</li>
+			</ul>
+		</li>
+		<li><b>dstfovtype</b>
+			<ul>
+				<li>The new <a href="xml.html#view.fovtype">fovtype</a>.</li>
+				<li>Can be: HFOV, VFOV, DFOV or MFOV.</li>
+			</ul>
+		</li>
+		
+		<li><b>width</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The width of the fov area/frame in pixels.</li>
+				<li>By default the current screen/area size will be used.</li>
+			</ul>
+		</li>
+		
+		<li><b>height</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>The height of the fov area/frame in pixels.</li>
+				<li>By default the current screen/area size will be used.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('remapfovtypeexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="remapfovtypeexamples" class="xmlexamplecontent">
+			<pre>set(view.fovtype, HFOV);
+set(view.fov, 90);
+...
+set(view.fovtype, VFOV);
+remapfovtype(view.fov, HFOV, VFOV);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="showtext" href="#showtext" class="selflink"><pre>showtext(text, textstyle*)</pre></a>
+<div class="xmlnodetext">
+	
+	
+	<i class="html5only">
+		Deprecated - use the new and extended <a href="plugins/showtext.html#top" class="html5only">showtext.xml</a> plugin instead!<br>
+		This one works basically the same, but it works for Flash and for HTML5.<br>
+	</i>
+	<br>
+	
+	
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="updateobject" href="#updateobject" class="selflink"><pre>updateobject(updateall*, updatefov*)</pre></a>
+<div class="xmlnodetext">
+	Updates / rebuilds the internal 3D model of the pano object.<br>
+	<br>
+	This must be called after changes of the <a href="xml.html#display.details">display.details</a> and 
+	<a href="xml.html#display.tessmode">display.tessmode</a> settings.<br>
+	When changing of the <a href="xml.html#image.hfov">image.hfov</a>, <a href="xml.html#image.vfov">image.vfov</a> or
+	<a href="xml.html#image.voffset">image.voffset</a> settings interactivly, this action must be called with <b>updatefov</b>=true
+	to get an updated pano object!<br>
+	<br>
+	<i>Note - the rebuilding of the internal 3D model is a heavy process! This action should be used carefully!
+	</i><br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>updateall</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>For multi-resolution pano - should all levels be updated?</li>
+				<li>Possible settings: <b>true</b> or <b>false</b> (default=false).</li>
+			</ul>
+		</li>
+		<li><b>updatefov</b> <span class="smallcomment">(optionally)</span>
+			<ul>
+				<li>Reparse the <a href="xml.html#image.hfov">image.hfov</a>, <a href="xml.html#image.vfov">image.vfov</a> and 
+					<a href="xml.html#image.voffset">image.voffset</a> settings when updating the pano?
+				</li>
+				<li>Possible settings: <b>true</b> or <b>false</b> (default=false).</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('updateobjectexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="updateobjectexamples" class="xmlexamplecontent">
+			<pre>set(image.hfov,1);
+updateobject(true,true);</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="updatescreen" href="#updatescreen" class="selflink"><pre>updatescreen()</pre></a>
+<div class="xmlnodetext">
+	<ul>
+		<li>Forces a redraw of the screen.</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="invalidatescreen" href="#invalidatescreen" class="selflink"><pre>invalidatescreen()</pre></a>
+<div class="xmlnodetext">
+	<ul>
+		<li>Forces a redraw of the screen.</li>
+		<li>And resets also the <a href="xml.html#krpano.idletime">idletime</a> counter (the time without user interaction).</li>
+	</ul>
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="addlayer"></a>
+<a name="addplugin"></a>
+<a name="addhotspot"></a>
+<a name="addlensflare"></a>
+<a href="#addlayer"     class="selflink"><pre>addlayer(name)</pre></a>
+<a href="#addplugin"    class="selflink"><pre>addplugin(name)</pre></a>
+<a href="#addhotspot"   class="selflink"><pre>addhotspot(name)</pre></a>
+<a href="#addlensflare" class="selflink"><pre>addlensflare(name, ath*, atv*)</pre></a>
+<div class="xmlnodetext">
+	Dynamically create and add a new <a href="xml.html#layer">layer</a>, <a href="xml.html#plugin">plugin</a>, 
+	<a href="xml.html#hotspot">hotspot</a> or <a href="xml.html#lensflare">lensflare</a> element.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>name</b>
+			<ul>
+				<li>Name of the new layer/plugin, hotspot or lensflare element.</li>
+			</ul>
+		</li>
+		<li><b>ath / atv</b> <span class="smallcomment">(lensflare only)</span>
+			<ul>
+				<li>Horizontal and vertical position in degrees for the lensflare element.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('addpluginexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="addpluginexamples" class="xmlexamplecontent">
+			<pre>addlayer(button);
+set(layer[button].url,button.jpg);
+set(layer[button].align,bottom);
+set(layer[button].x,10);
+set(layer[button].y,20);
+set(layer[button].onhover,showtext('hovering the new button'));
+set(layer[button].onclick, removelayer(button) );</pre>
+
+			<pre>addhotspot(newspot);
+set(hotspot[newspot].url,spot.png);
+set(hotspot[newspot].ath,150);
+set(hotspot[newspot].atv,30);
+set(hotspot[newspot].scale,0.7);
+set(hotspot[newspot].zoom,true);
+set(hotspot[newspot].onclick, removehotspot(newspot) );</pre>
+
+			<pre>addhotspot(polyspot);
+set(hotspot[polyspot].fillalpha, 0.25);
+set(hotspot[polyspot].borderalpha, 0.50);
+set(hotspot[polyspot].onclick, removehotspot(polyspot) );
+set(hotspot[polyspot].point[0].ath,-10);
+set(hotspot[polyspot].point[0].atv,-10);
+set(hotspot[polyspot].point[1].ath,-10);
+set(hotspot[polyspot].point[1].atv,+10);
+set(hotspot[polyspot].point[2].ath,+10);
+set(hotspot[polyspot].point[2].atv,+10);
+set(hotspot[polyspot].point[3].ath,+10);
+set(hotspot[polyspot].point[3].atv,-10);</pre>
+
+			<pre>addlensflare(sun, 20, -60);
+set(lensflare[sun].set,  FLARESET2);
+set(lensflare[sun].size, 0.7);</pre>
+			
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="removelayer"></a>
+<a name="removeplugin"></a>
+<a name="removehotspot"></a>
+<a name="removelensflare"></a>
+<a href="#removelayer"     class="selflink"><pre>removelayer(name, removechildren*)</pre></a>
+<a href="#removeplugin"    class="selflink"><pre>removeplugin(name, removechildren*)</pre></a>
+<a href="#removehotspot"   class="selflink"><pre>removehotspot(name)</pre></a>
+<a href="#removelensflare" class="selflink"><pre>removelensflare(name)</pre></a>
+<div class="xmlnodetext">
+	Dynamically remove and destroy a <a href="xml.html#layer">layer</a>, <a href="xml.html#plugin">plugin</a>, <a href="xml.html#hotspot">hotspot</a> 
+	or <a href="xml.html#lensflare">lensflare</a> element.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>name</b>
+			<ul>
+				<li>Name of the layer/plugin, hotspot or lensflare element that should be removed.</li>
+			</ul>
+		</li>
+		<li><b>removechildren</b> <span class="smallcomment">(optionally)</span><br>
+		<ul>
+				<li>When set to true, all children elements will be removed too.</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="js" href="#js" class="selflink"><pre>js( JavascriptFunction(parameters) )</pre></a>
+<div class="xmlnodetext">
+	Call a Javascript function.<br>
+	<br>
+	The <b>parameters</b> will be parsed by krpano before calling the Javascript code. Use get(var) in the parameters to resolve krpano variables.<br>
+	<br>
+	<i class="flashonly">
+		Flash Notes - this action requires the External-Interface of the Flashplayer.
+		This is only available when running inside a browser. When working work offline / locally with 'file://' urls,
+		then the <a href="https://krpano.com/docu/localusage/#top" class="flashonly">security settings</a> of the Flashplayer need to be adjusted. 
+	</i>
+	<br>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('jsexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="jsexamples" class="xmlexamplecontent">
+			<div style="padding-top:6px;">
+				Code in the .html or .js file:
+				<pre>function test(p1, p2, p3)
+{
+  alert(p1 + ": " + p2 + " / " + p3);
+}</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Code in the xml file:
+				<pre>js( test('Lookat', get(view.hlookat), get(view.vlookat)) );</pre>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="xmlnodedesc">
+<a name="jscall" href="#jscall" class="selflink"><pre>jscall( ...any Javascript code... )</pre></a>
+<div class="xmlnodetext">
+	Directly call any kind of Javascript code.<br>
+	<br>
+	Inside the Javascript code a <a href="js_api.html#top">krpano Javascript-Interface object</a> named 'krpano' 
+	will be available for a two-way communication.<br>
+	<br>
+	<i class="flashonly">
+		Flash Notes - this action requires the External-Interface of the Flashplayer.
+		This is only available when running inside a browser. When working work offline / locally with 'file://' urls,
+		then the <a href="https://krpano.com/docu/localusage/#top" class="flashonly">security settings</a> of the Flashplayer need to be adjusted. 
+	</i>
+	<br>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('jscallexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="jscallexamples" class="xmlexamplecontent">
+			<div style="padding-top:6px;">
+				Change the style of a html element:<br>
+				<pre>jscall('document.getElementById("test").style.display="none";');</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Use the <a href="#calc" class="selflink">calc()</a> action to build the Javascript call and pass krpano variables:<br>
+				<pre>jscall(calc('console.log("krpano version: ' + version + '")'));</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Go back to the previous webpage:<br>
+				<pre>jscall('history.back()');</pre>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="xmlnodedesc">
+<a name="jsget" href="#jsget" class="selflink"><pre>jsget(variable, ...Javascript code... )</pre></a>
+<div class="xmlnodetext">
+	Get the value of a Javascript variable or the return value of a Javascript function.<br>
+	<br>
+	Inside the Javascript code a <a href="js_api.html#top">krpano Javascript-Interface object</a> named 'krpano' 
+	will be available for a two-way communication.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>variable</b>
+			<ul>
+				<li>The name of krpano variable where the returned value will be stored.</li>
+				<li>The variable will be created when it doesn't exist.</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	<i class="flashonly">
+		Flash Notes - this action requires the External-Interface of the Flashplayer.
+		This is only available when running inside a browser. When working work offline / locally with 'file://' urls,
+		then the <a href="https://krpano.com/docu/localusage/#top" class="flashonly">security settings</a> of the Flashplayer need to be adjusted. 
+	</i>
+	<br>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('jsgetexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="jsgetexamples" class="xmlexamplecontent">
+			<div style="padding-top:6px;">
+				Get the address of the current webpage:<br>
+				<pre>jsget(ret, 'location.href');<br>trace('location=', get(ret));</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Let the user enter something:<br>
+				<pre>jsget(passwort, 'prompt("Enter Password")');<br>if(password == 'hidden', ...);</pre>
+			</div>
+			<div style="padding-top:6px;">
+				Get the current date in the format YYYY-MM-DD:<br>
+				<pre>jsget(date, 'new Date().toISOString().slice(0,10);');<br>trace('date=', get(date));</pre>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="showlog" href="#showlog" class="selflink"><pre>showlog(state*, position*)</pre></a>
+<div class="xmlnodetext">
+	Show or hide the trace output log.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>state</b> <span class="smallcomment">(optionally)</span><br>
+			<ul>
+				<li><b>true</b> - Show the log window (default).</li>
+				<li><b>false</b> - Hide the log window.</li>
+			</ul>
+		</li>
+		<li><b>position</b> <span class="smallcomment">(optionally, HTML5-only)</span><br>
+			<ul>
+				<li><b>top</b> -  Show the log at the top of the viewer window.</li>
+				<li><b>bottom</b> - Show the log at the bottom of the viewer window (default).</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+<div class="xmlnodedesc">
+<a name="debugvar" href="#debugvar" class="selflink"><pre>debugvar(varname)</pre></a>
+<div class="xmlnodetext">
+	Show / trace details (value and type) about a variable in the output log.<br>
+	When the variable is an object, then also all object properties will be shown.<br>
+	<br>
+	<i>Notes:
+		<ul>
+			<li>Debug messages will be only shown when the <a href="xml.html#krpano.debugmode">debugmode</a> setting is enabled.</li>
+			<li>Consider enabling the <a href="embedpano.html#consolelog">consolelog</a> setting in the html file
+				to see these messages also in the browser console.
+			</li>
+			<li>Doing many traces is affecting the rendering performance!
+				Especially avoid constantly tracing messages every frame!
+			</li>
+		</ul>
+	</i>
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc">
+<a name="debug" href="#debug" class="selflink"><pre>debug(...)</pre></a>
+<a name="trace" href="#trace" class="selflink"><pre>trace(...)</pre></a>
+<a name="warning" href="#warning" class="selflink"><pre>warning(...)</pre></a>
+<a name="error" href="#error" class="selflink"><pre>error(...)</pre></a>
+<div class="xmlnodetext">
+	Traces texts or the content of variables to the output log.<br>
+	<br>
+	<ul>
+		<li>
+			<a href="#debug" class="selflink">debug()</a> will trace 'DEBUG:' messages.<br>
+			These messages will be only shown when the <a href="xml.html#krpano.debugmode">debugmode</a> is enabled.
+		</li>
+		<li>
+			<a href="#trace" class="selflink">trace()</a> will trace 'INFO:' messages.
+		</li>
+		<li>
+			<a href="#warning" class="selflink">warning()</a> will trace 'WARNING:' messages.
+		</li>
+		<li>
+			<a href="#error" class="selflink">error()</a> will trace 'ERROR:' messages and 
+			additionally also open the log (when <a href="xml.html#krpano.showerrors">showerrors</a> is enabled).
+		</li>
+	</ul>
+	
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>....</b>
+			<ul>
+				<li>Any text or variables.</li>
+				<li>When passing a variable, then that variable will be automatically resolved to its value.</li>
+			</ul>
+		</li>
+	</ul>
+	<br>
+	
+	<i>Notes:
+		<ul>
+			<li>Debug messages will be only shown when the <a href="xml.html#krpano.debugmode">debugmode</a> setting is enabled.</li>
+			<li>Consider enabling the <a href="embedpano.html#consolelog">consolelog</a> setting in the html file
+				to see these messages also in the browser console.
+			</li>
+			<li>Doing many traces is affecting the rendering performance!
+				Especially avoid constantly tracing messages every frame!
+			</li>
+		</ul>
+	</i>
+
+	<div class="xmlexample">
+		<div class="xmlexamplebutton" onclick="toggleexample('traceexamples');"><div class="ico_example"></div> Examples</div>
+		<div id="traceexamples" class="xmlexamplecontent">
+			<pre>trace('view.maxpixelzoom=', view.maxpixelzoom);</pre>
+			<pre>&lt;events onkeydown="trace('keycode=',keycode);" /&gt;</pre>
+			<pre>onresize="trace('size=',stagewidth,'x',stageheight);"</pre>
+			<pre>onclick="trace('mouse clicked at ', mouse.x, ' / ', mouse.y);"</pre>
+			<pre>trace('xyz=',xyz,' get(xyz)=',get(xyz));</pre>
+		</div>
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="xmlnodedesc" style="margin-bottom:12px;">
+<a name="error" href="#error" class="selflink"><pre>fatalerror(errormessage)</pre></a>
+<div class="xmlnodetext">
+	Show an error message and stop the user interaction.<br>
+	<br>
+	Parameters:<br>
+	<ul>
+		<li><b>errormessage</b>
+			<ul>
+				<li>The error message to show.</li>
+			</ul>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+﻿<krpano onstart="loadscene(stereopano1);">
+
+	<scene name="stereopano1">
+		
+		<!-- startup view -->
+		<view hlookat="110" vlookat="10" />
+
+		<preview url="panos/pano1_mono/preview.jpg" />
+
+		<image stereo="true" stereolabels="l|r" prealign="0|220|0">
+			<cube url="panos/pano1_stereo_%t/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="spot1"
+			url="spot_curvedarrow.png"
+			ath="74" atv="-17"
+			distorted="true"
+			edge="bottom"
+			depth="700" scale="0.5"
+			flying="0.05"
+			onover="tween(scale,0.55,easeOutExpo,0.2);"
+			onout="tween(scale,0.5,easeOutExpo,0.2);"
+			onclick="tween(alpha,0,0.2,default,WAIT); loadscene(stereopano2,null,MERGE|KEEPMOVING,COLORBLEND(1.0,0x000000,easeOutSine));"
+			/>
+
+	</scene>
+
+
+	<scene name="stereopano2">
+
+		<preview url="panos/pano2_mono/preview.jpg" />
+
+		<image stereo="true" stereolabels="l|r" prealign="0|25|0">
+			<cube url="panos/pano2_stereo_%t/pano_%s.jpg" />
+		</image>
+		
+		<hotspot name="spot2"
+			url="spot_curvedarrow.png"
+			ath="-109" atv="+32"
+			distorted="true"
+			edge="lefttop"
+			depth="5000" scale="4" rotate="180"
+			flying="0.05"
+			onover="tween(scale,4.4,easeOutExpo,0.2);"
+			onout="tween(scale,4.0,easeOutExpo,0.2);"
+			onclick="tween(alpha,0,0.2,default,WAIT); loadscene(stereopano1,null,MERGE|KEEPMOVING,COLORBLEND(1.0,0x000000,easeOutSine));"
+			/>
+
+	</scene>
+
+
+	<!-- gyro plugin enabled by default -->
+	<plugin name="gyro" url="%SWFPATH%/plugins/gyro2.js" keep="true" enabled="true" softstart="1.0" />
+
+	<!-- webvr plugin + webvr.xml with fake-mode for desktop and a hidden enter-vr-button -->
+	<include url="%SWFPATH%/plugins/webvr.xml" />
+	<plugin name="WebVR" mobilevr_fake_support="true" webvr_onavailable="removelayer(webvr_enterbutton); webvr.loadsettings();" onexitvr="webvr_onexitvr(); layer[stereomodes].selectitembyname(item1);" />
+
+
+	<!-- example info text -->
+	<layer name="info" keep="true"
+		type="text"
+		align="top" y="15" width="70%"
+		html="krpano Stereoscopic Display&#160;Modes Example"
+		css="color:#FFFFFF; font-size:18px; text-align:center; font-weight:bold; font-style:italic;"
+		bg="false"
+		txtshadow="0 2 5 0x000000 1.0"
+		autoalpha="true"
+		onclick="set(enabled,false); tween(alpha,0);"
+		onloaded="delayedcall(5, onclick() );"
+		/>
+
+
+	<!-- combobox with several stereoscopic display modes -->
+	<include url="%SWFPATH%/plugins/combobox.xml" />
+
+	<combobox_design name="stereomodesselection" margin="0" open_close_speed="0.25">
+		<style name="combobox_container_style" bgalpha="1.0" bgcolor="0xFFFFFF" bgborder="0 0xFFFFFF 0.5" bgroundedge="3" bgshadow="0 2 5 0x000000 1.0" maskchildren="false" />
+		<style name="combobox_marker_style" css="color:#FFFFFF;" bg="false" />
+		<style name="combobox_item_style" css="text-align:center;color:#000000;font-size:14px;" padding="4 4" bg="false" bgcolor="0xC7E4FC" bgalpha="1.0" bgroundedge="1" txtshadow="0 0 1 0xFFFFFF 1.0" />
+	</combobox_design>
+
+	<!-- for images in html-code the src path need to be relative to the html file - adjust it by using 'calc:' and the current xml path -->
+	<combobox name="stereomodes" align="bottom" design="stereomodesselection" x="0" y="15" callonclickafterclose="false">
+		<item name="item1" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_2d.png[dq]       style=[dq]width:90px;height:55px;[dq] /][br]Monoscopic'"   onclick="set(display.stereo,false); set(display.anaglyph,false); clearinterval(stereotoggle); set(display.monoside,1);" />
+		<item name="item2" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_anaglyph.png[dq] style=[dq]width:90px;height:55px;[dq] /][br]Anaglyph'"     onclick="clearinterval(stereotoggle); set(display.anaglyph,true);" />
+		<item name="item3" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_3dtv.png[dq]     style=[dq]width:90px;height:55px;[dq] /][br]3D TV'"        onclick="clearinterval(stereotoggle); set(display.stereo, true); set(display.stereoscale,0.5); updatescreen();" />
+		<item name="item4" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_sbs.png[dq]      style=[dq]width:90px;height:55px;[dq] /][br]Side by Side'" onclick="clearinterval(stereotoggle); set(display.stereo, true); set(display.stereoscale,1.0); updatescreen();" />
+		<item name="item5" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_vr.png[dq]       style=[dq]width:90px;height:55px;[dq] /][br]WebVR'"        onclick="clearinterval(stereotoggle); set(display.stereo, false); set(display.stereoscale,1.0); if(webvr, webvr.enterVR(), error('WebVR not available'));" />
+		<item name="item6" caption="calc:'[img src=[dq]' + network.currentxmlpath + '/img_toggle.png[dq]   style=[dq]width:90px;height:55px;[dq] /][br]Toggle L/R'"   onclick="set(display.stereo,false); set(display.anaglyph,false); setinterval(stereotoggle, 0.5, switch(display.monoside,1,2); updatescreen(); );" />
+	</combobox>
+
+
+</krpano>

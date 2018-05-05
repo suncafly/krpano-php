@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>ScrollArea Plugin
+		<span class="pluginfilename">scrollarea.swf / scrollarea.js</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>A scroll-able area - automatically scroll children layer/plugin elements within a (<a href="../xml.html#layer.maskchildren">maskchildren="true"</a>) parent layer element.</li>
+			<li>The scrollarea plugin needs to have a defined size and aligment and can be used only as children element inside an other layer element.
+				Within  this parent element, it is possible to scroll the scrollarea plugin by dragging the children elements or by using the mouse-wheel.
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#attributes">Plugin Attributes</a></li>
+			<li><a href="#events">Plugin Events</a></li>
+			<li><a href="#actions">Plugin Actions</a></li>
+		</ul>
+	</div>
+
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+
+		<pre class="xmlpre">&lt;<a href="../xml.html#layer">layer</a> <a href="../xml.html#layer.name">name</a>="scrollarea"
+       <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="scrollarea.swf"
+       <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="scrollarea.js"
+       <a href="../xml.html#layer.parent">parent</a>="..."
+       <a href="../xml.html#layer.align">align</a>="..." <a href="../xml.html#layer.width">width</a>="..." <a href="../xml.html#layer.height">height</a>="..."
+       <a href="#direction" class="pluginattrib">direction</a>="all"
+       <a href="#draggable" class="pluginattrib">draggable</a>="true"
+       <a href="#mwheel" class="pluginattrib">mwheel</a>="true"
+       <a href="#onhover_autoscrolling" class="pluginattrib">onhover_autoscrolling</a>="false"
+       <a href="#overscroll" class="pluginattrib">overscroll</a>="1.0"
+       <a href="#friction" class="pluginattrib">friction</a>="0.95"
+       <a href="#acceleration" class="pluginattrib">acceleration</a>="0.08"
+       <a href="#returnacceleration" class="pluginattrib">returnacceleration</a>="0.15"
+       <a href="#momentum" class="pluginattrib">momentum</a>="0.06"
+       <a href="#onscroll" class="pluginattrib">onscroll</a>=""
+       /&gt;</pre>
+	</div>
+
+
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+	
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="direction"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#direction" class="selflink">direction</a></th><th>String</th><th>"all"</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Set the allowed scrolling directions.</li>
+						<li>Possible settings:
+							<ul>
+								<li><b>all</b> = allow scrolling in all directions</li>
+								<li><b>h</b> = only horizontal scrolling</li>
+								<li><b>v</b> = only vertical scrolling.</li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="draggable"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#draggable" class="selflink">draggable</a></th><th>Boolean</th><th>true</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Should the scroll-area be draggable / allow dragging control.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="mwheel"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#mwheel" class="selflink">mwheel</a></th><th>Boolean</th><th>true</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Mouse-Wheel support / scroll by using the Mouse-Wheel.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="onhover_autoscrolling"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#onhover_autoscrolling" class="selflink">onhover_autoscrolling</a></th><th>Boolean</th><th>false</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Automatic scrolling when the mouse hovers the area.</li>
+						<li>The scrolling will be proportionally relative to the mouse position.</li>
+						<li>This setting has no effect on touch usage.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="overscroll"></a><a name="friction"></a><a name="acceleration"></a><a name="returnacceleration"></a><a name="momentum"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#overscroll" class="selflink">overscroll</a><br>
+					<a href="#friction" class="selflink">friction</a><br>
+					<a href="#acceleration" class="selflink">acceleration</a><br>
+					<a href="#returnacceleration" class="selflink">returnacceleration</a><br>
+					<a href="#momentum" class="selflink">momentum</a><br>
+				</th><th>Number<br>Number<br>Number<br>Number<br>Number</th><th>1.00<br>0.95<br>0.08<br>0.15<br>0.06</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Settings for customizing / fine-tuning the movement behavior.</li>
+						<li><a href="#overscroll" class="selflink">overscroll</a> - The amount of overscrolling (0.0 = no overscroll, 1.0 = full overscroll).</li>
+						<li><a href="#friction" class="selflink">friction</a> - The movement friction.</li>
+						<li><a href="#acceleration" class="selflink">acceleration</a> - The movement acceleration.</li>
+						<li><a href="#returnacceleration" class="selflink">returnacceleration</a> - The returning (from overscrolled) acceleration.</li>
+						<li><a href="#momentum" class="selflink">momentum</a> - The momentum acceleration.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="loverflow"></a><a name="roverflow"></a><a name="toverflow"></a><a name="boverflow"></a><a name="woverflow"></a><a name="hoverflow"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#loverflow" class="selflink">loverflow</a> <span class="smallcomment">(read only)</span><br>
+					<a href="#roverflow" class="selflink">roverflow</a> <span class="smallcomment">(read only)</span><br>
+					<a href="#toverflow" class="selflink">toverflow</a> <span class="smallcomment">(read only)</span><br>
+					<a href="#boverflow" class="selflink">boverflow</a> <span class="smallcomment">(read only)</span><br>
+					<a href="#woverflow" class="selflink">woverflow</a> <span class="smallcomment">(read only)</span><br>
+					<a href="#hoverflow" class="selflink">hoverflow</a> <span class="smallcomment">(read only)</span><br>
+				</th><th>Number<br>Number<br>Number<br>Number<br>Number<br>Number</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>loverflow = left overflow<br>
+							roverflow = right overflow<br>
+							toverflow = top overflow<br>
+							boverflow = bottom overflow<br>
+						</li>
+						<li>woverflow = total width overflow<br>
+							hoverflow = total height overflow<br>
+						</li>
+						<li>The number of pixels that are currenlty outside the viewing area.</li>
+						<li>Positive values indicate outside and negative values inside.</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="events" href="#events" class="selflink">Plugin Events</a></h2>
+
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			<tr class="xmlattrdocdes1"><td style="width:50%;"><a name="onscroll"></a>Attribute name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#onscroll" class="selflink">onscroll</a></th><th>String</th><th></th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>This event will be called when the scroll-area has been scrolled.</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+	
+
+	<div class="paragraph">
+		<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			<tr class="xmlattrdocdes1"><td><a name="setcenter"></a>Action name</td></tr>
+			<tr><th><a href="#setcenter" class="selflink">setcenter(x,y)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Center the plugin at the given children x/y position.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="scrolltocenter"></a>Action name</td></tr>
+			<tr><th><a href="#scrolltocenter" class="selflink">scrolltocenter(x,y)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Scroll the plugin to center itself at the given children x/y position.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="scrollby"></a>Action name</td></tr>
+			<tr><th><a href="#scrollby" class="selflink">scrollby(dx,dy)</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Applies/adds the given delta x/y values to the scrolling velocity vector.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="stopscrolling"></a>Action name</td></tr>
+			<tr><th><a href="#stopscrolling" class="selflink">stopscrolling()</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Stop all current scrollings.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="update"></a>Action name</td></tr>
+			<tr><th><a href="#update" class="selflink">update()</a></th></tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Tell the plugin that the size of the parent element has been changed.</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+
+	
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

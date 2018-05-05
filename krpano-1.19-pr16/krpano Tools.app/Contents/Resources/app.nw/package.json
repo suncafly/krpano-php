@@ -1,0 +1,35 @@
+{
+	"name" : "krpano119",
+	
+	"main"      : "./{appdata}/app.html",
+	"node-main" : "./{appdata}/app_nodejs_main.js",
+	
+	"single-instance" : false,
+	
+	"window":
+	{
+		"show"       : false,
+		"frame"      : true,
+		"width"      : 900,
+		"height"     : 600,
+		"min_width"  : 200,
+		"min_height" : 100,
+		"toolbar"    : false,
+		"icon"       : "./{appdata}/design/ico-krp.png"
+	},
+	
+	"webkit":
+	{
+		"plugin" : false,
+		"java"   : false
+	},
+	
+	"chromium-args" : "--disable-plugins-discovery --ignore-gpu-blacklist --disable-threaded-compositing --disable-deadline-scheduling --enable-image-transport-surface",
+	
+	"maintainers":
+	[{
+		"name"  : "krpano GmbH",
+		"email" : "mail@krpano.com",
+		"web"   : "http://krpano.com"
+	}]
+}

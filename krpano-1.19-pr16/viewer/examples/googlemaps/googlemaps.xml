@@ -1,0 +1,31 @@
+﻿<krpano>
+
+	<!-- pano image -->
+	<preview url="preview.jpg" />
+	<image>
+		<cube url="pano_%s.jpg" />
+	</image>
+
+	<!-- container layer -->
+	<layer name="mapcontainer" type="container" bgcolor="0xFFFFFF" bgalpha="0.5" align="leftbottom" x="5" y="5" width.normal="270" height.normal="370" width.mobile="200" height.mobile="250">
+
+		<!-- maps plugin - use Google for HTML5 and Bing for Flash -->
+		<plugin name="map" keep="true"
+		        url.html5="%SWFPATH%/plugins/googlemaps.js"
+		        url.flash="%SWFPATH%/plugins/bingmaps.swf"
+		        key.html5=""
+		        key.flash=""
+		        maptype="SATELLITE"
+		        lat="41.898761" lng="12.473094" zoom="18"
+		        align="lefttop" x="10" y="10" width="-20" height="-20"
+		        >
+
+			<radar visible="true" size="300" alpha="0.33" fillcolor="0xFFFFFF" fillalpha="1.0" linecolor="0x00FF00" linealpha="0.5" linewidth="0.5" dragable="true" headingoffset="0" />
+
+			<spot name="spot1" lat="41.898761" lng="12.473094" heading="0" active="true" />
+
+		</plugin>
+
+	</layer>
+
+</krpano>

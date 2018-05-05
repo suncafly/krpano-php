@@ -1,0 +1,46 @@
+﻿<krpano>
+	
+	<plugin name="gyro" devices="html5"
+	        url="%SWFPATH%/plugins/gyro2.js"
+	        enabled="false"
+	        onavailable="gyro_available_info();"
+	        onunavailable="gyro_not_available_info();"
+	        softstart="1"
+	        />
+
+	<action name="gyro_available_info">
+		set(layer[infotext].html, 'Gyroscope available, press the gyro button...');
+		set(layer[gyrobutton].visible, true);
+	</action>
+	
+	<action name="gyro_not_available_info" xautorun.flash="onstart">
+		set(layer[infotext].html, 'No gyroscope available...');
+	</action>
+	
+	
+	<view hlookat="0" vlookat="0" fovmin="60" fov="100" fovmax="150" />
+	
+	<!-- the pano image -->
+	<preview url="preview.jpg" />
+	<image>
+		<cube url="pano_%s.jpg" />
+	</image>
+	
+	
+	<layer name="bottombar" type="container" bgcolor="0x000000" bgalpha="0.5" align="leftbottom" width="100%" height="40">
+		
+		<layer name="infotext" url="%SWFPATH%/plugins/textfield.swf"
+		       background="false" border="false" 
+		       enabled="false"
+		       html=""
+		       css="text-align:left; color:#FFFFFF; font-family:Arial; font-size:14px; font-weight:bold;"
+		       align="left" x="10" height="100%" vcenter="true"
+		       />
+			
+		<layer name="gyrobutton" url="gyroicon.png" scale="0.5" align="right" x="10" visible="false" 
+		       onclick="switch(plugin[gyro].enabled);"
+		       />
+		       
+	</layer>
+
+</krpano>

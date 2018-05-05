@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Sound Interface Plugin
+		<span class="pluginfilename">soundinterface.swf / soundinterface.js</span>
+		
+	</h1>
+
+	<div class="paragraph">
+		<ul>
+			<li>
+				The Sound Interface plugin extends krpano with actions for playing and controlling sounds directly from xml.
+			</li>
+			<li>
+				The plugin must be loaded only once for all sounds. The sounds itself will be started / stopped / controlled by calling
+				the Sound Interface actions.<br/>
+			</li>
+			<li>
+				See also the <a href="#html5">HTML5 / iOS (iPhone/iPad)</a> notes.
+			</li>
+		</ul>
+		
+		
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+		<pre class="xmlpre">&lt;<a href="../xml.html#plugin">plugin</a> <a href="../xml.html#plugin.name">name</a>="soundinterface"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="soundinterface.swf"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="soundinterface.js"
+        <a href="../xml.html#plugin.preload">preload</a>="true"
+        <a href="#rootpath" class="pluginattrib">rootpath</a>=""
+        <a href="#volume" class="pluginattrib">volume</a>="1.0"
+        <a href="#mute" class="pluginattrib">mute</a>="false"
+        /&gt;</pre>
+	</div>
+
+
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+
+		<ul>
+			<li>
+				<a name="rootpath" href="#rootpath" class="selflink">rootpath</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>root path for the the sound files</li>
+					<li>relative from the xml file, default=""</li>
+					<li>it's possible to use placeholders like %SWFPATH% here</li>
+				</ul>
+			</li>
+			<li>
+				<a name="volume" href="#volume" class="selflink">volume</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>the global volume for all sounds</li>
+					<li>0.0 - 1.0, default=1.0</li>
+					<li>can be dynamically changed by actions (set(), tween(), ...)</li>
+				</ul>
+			</li>
+			<li>
+				<a name="mute" href="#mute" class="selflink">mute</a>&nbsp; <span class="smallcomment">(optionally)</span>
+				<ul>
+					<li>set the global mute for all sounds</li>
+					<li>true or false, default=false</li>
+					<li>can be dynamically changed by actions (set(), ...)</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+
+	<div class="paragraph">
+		<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+		
+		<div class="subparagraph2">
+			The Sound Interface plugin add its actions directly to the krpano root. 
+			That means the actions can be called like normal krpano actions.
+		</div>
+
+		<ul>
+			<li class="lidd">
+				<a name="preloadsound" href="#preloadsound" class="selflink">preloadsound(audiofile)</a>
+				<ul>
+					<li>preloads a sound file</li>
+					<li>this can be used to reduce the latency when starting to play</li>
+					<li><b>audiofilefile</b> = the path and filename of a sound file</li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="playsound" href="#playsound" class="selflink">playsound(name, audiofile, loops*, oncomplete*)</a>
+				<ul>
+					<li>plays a sound file</li>
+					<li><b>name</b> = unique identification name for the sound <span class="smallcomment">(use "auto" for an automatic id)</span></li>
+					<li><b>audiofile</b> = the path and filename of a sound file</li>
+					<li><b>loops</b> = number of loops, 0=endless, default=1 <span class="smallcomment">(*optional)</span></li>
+					<li><b>oncomplete</b> = actions that will be called on complete <span class="smallcomment">(*optional)</span></li>
+				</ul>
+			</li>
+			
+			<li class="lidd">
+				<a name="playsound2D" href="#playsound2D" class="selflink">playsound2D(name, audiofile, volume*, pan*, loops*, oncomplete*)</a>&nbsp; <span class="smallcomment">(Flash only)</span></h2>
+				<ul>
+					<li>plays a sound file with adjustable volume and panning</li>
+					<li><b>name</b> = unique identification name for the sound <span class="smallcomment">(use "auto" for an automatic id)</span></li>
+					<li><b>audiofile</b> = the path and filename of a sound file</li>
+					<li><b>volume</b> = sound volume (0.0 - 1.0, default=1.0) <span class="smallcomment">(*optional)</span></li>
+					<li><b>pan</b> = left/right panning (-1.0(=left) - +1.0(=right), default=0.0) <span class="smallcomment">(*optional)</span></li>
+					<li><b>loops</b> = number of loops, 0=endless, default=1 <span class="smallcomment">(*optional)</span></li>
+					<li><b>oncomplete</b> = actions that will be called on complete <span class="smallcomment">(*optional)</span></li>
+				</ul>
+			</li>
+			
+			<li class="lidd">
+				<a name="playsound3D" href="#playsound3D" class="selflink">playsound3D(name, audiofile, ath, atv, range*, volume*, loops*, oncomplete*)</a>&nbsp; <span class="smallcomment">(Flash only)</span></h2>
+				<ul>
+					<li>plays a directional 3D sound at a given spherical position</li>
+					<li><b>name</b> = unique identification name for the sound <span class="smallcomment">(use "auto" for an automatic id)</span></li>
+					<li><b>audiofile</b> = the path and filename of a sound file</li>
+					<li><b>ath</b> = horizontal sound source position (-180 .. 180)</li>
+					<li><b>atv</b> = vertical sound source position (-90 .. +90)</li>
+					<li><b>range</b> = range of the sound (in degrees, default=90) <span class="smallcomment">(*optional)</span></li>
+					<li><b>volume</b> = sound volume (0.0 - 1.0, default=1.0) <span class="smallcomment">(*optional)</span></li>
+					<li><b>loops</b> = number of loops, 0=endless, default=1 <span class="smallcomment">(*optional)</span></li>
+					<li><b>oncomplete</b> = actions that will be called on complete <span class="smallcomment">(*optional)</span></li>
+				</ul>
+			</li>
+			
+			<li class="lidd">
+				<a name="playsound3Dh" href="#playsound3Dh" class="selflink">playsound3Dh(name, audiofile, ath, range*, volume*, loops*, oncomplete*)</a>&nbsp; <span class="smallcomment">(Flash only)</span></h2>
+				<ul>
+					<li>plays a directional 3D sound at a given horizontal position</li>
+					<li>independent of the vertical looking direction</li>
+					<li><b>name</b> = unique identification name for the sound <span class="smallcomment">(use "auto" for an automatic id)</span></li>
+					<li><b>audiofile</b> = the path and filename of a sound file</li>
+					<li><b>ath</b> = horizontal sound source position (-180 .. 180)</li>
+					<li><b>atv</b> = vertical sound source position (-90 .. +90)</li>
+					<li><b>range</b> = range of the sound (in degrees, default=90) <span class="smallcomment">(*optional)</span></li>
+					<li><b>volume</b> = sound volume (0.0 - 1.0, default=1.0) <span class="smallcomment">(*optional)</span></li>
+					<li><b>loops</b> = number of loops, 0=endless, default=1 <span class="smallcomment">(*optional)</span></li>
+					<li><b>oncomplete</b> = actions that will be called on complete <span class="smallcomment">(*optional)</span></li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="playsound3DHS" href="#playsound3DHS" class="selflink">playsound3DHS(name, audiofile, hotspotname, range*, volume*, loops*, oncomplete*)</a>&nbsp; <span class="smallcomment">(Flash only)</span></h2>
+				<ul>
+					<li>plays a directional 3D sound at a hotspot position</li>
+					<li>when the hotspot moves the sound will follow it</li>
+					<li><b>name</b> = unique identification name for the sound <span class="smallcomment">(use "auto" for an automatic id)</span></li>
+					<li><b>audiofile</b> = the path and filename of a sound file</li>
+					<li><b>hotspotname</b> = name of the hotspot</li>
+					<li><b>range</b> = range of the sound (in degrees, default=90) <span class="smallcomment">(*optional)</span></li>
+					<li><b>volume</b> = sound volume (0.0 - 1.0, default=1.0) <span class="smallcomment">(*optional)</span></li>
+					<li><b>loops</b> = number of loops, 0=endless, default=1 <span class="smallcomment">(*optional)</span>
+					<li><b>oncomplete</b> = actions that will be called on complete <span class="smallcomment">(*optional)</span></li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="pausesound" href="#pausesound" class="selflink">pausesound(name)</a>
+				<ul>
+					<li>pauses a sound</li>
+					<li><b>name</b> = identification name of the sound</li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="resumesound" href="#resumesound" class="selflink">resumesound(name)</a>
+				<ul>
+					<li>resumes a paused sound</li>
+					<li><b>name</b> = identification name of the sound</li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="pausesoundtoggle" href="#pausesoundtoggle" class="selflink">pausesoundtoggle(name)</a>
+				<ul>
+					<li>pauses OR resumes a sound</li>
+					<li><b>name</b> = identification name of the sound</li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="stopsound" href="#stopsound" class="selflink">stopsound(name)</a>
+				<ul>
+					<li>stops playing a sound</li>
+					<li><b>name</b> = identification name of the sound</li>
+				</ul>
+			</li>
+
+			<li class="lidd">
+				<a name="stopallsounds" href="#stopallsounds" class="selflink">stopallsounds(globalstop*)</a>
+				<ul>
+					<li>stop all playing sounds</li>
+					<li><b>globalstop</b> = true or false, default=false <span class="smallcomment">(*optional)</span><br/>
+						By default only the sounds started by the soundinterface will be stopped,
+						but with true as parameter also all other flash sounds, e.g. from the videoplayer plugin or
+						any other source, will be stopped.
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+	
+	
+	
+	
+	<div class="paragraph">
+		<h2><a name="html5" href="#html5" class="selflink">HTML5 and iOS (iPhone / iPad) Notes</a></h2>
+	
+		<div class="subparagraph2">
+			Some HTML5 browsers doesn't support MP3 or MP4 audio files like the Flashplayer.
+			There different audio formats like OGG or WAV need to be used.
+			To provide several audio formats and let the plugin  automatically choose the appropriate one, 
+			set the paths to all audio files at once and separate them by a pipe <span class="presyntax_inline">|</span> character.<br/>
+			Example:<br/>
+			<pre>playsound(bg, 'sound.mp3|sound.ogg');</pre>
+		</div>
+		
+		<div class="subparagraph2">
+			The technically possibilities with HTML5 are not same as with the Flashplayer. 
+			So when using the krpano HTML5 viewer not all features of the soundinterface plugin are supported.<br/>
+			<br/>
+			Especially the 3D Sound features are not available here, as long as there is no volume panning available in HTML5 '3D Sound' will be not possible.<br/>
+			
+		</div>
+		
+		<h3>iOS (iPhone / iPad) Notes</h3>
+		<div class="subparagraph2">
+			There are additional system limitations on iOS devices (iPhone and iPad):
+			<ul>
+				<li>
+					<b>No Autoplay / Autostart!</b><br/>
+					A sound can't start to play automatically!
+					An user interaction is needed to start playing the sound, e.g. a touch on the screen by the user.
+					The krpano soundinterface plugin automatically detects that situations and when the playing is not possible
+					it automatically queues the playsound() command and waits for the next user interaction to start the sound
+					automatically (e.g. when the user touches the screen to pan the pano or to click a button).
+				</li>
+				<li>
+					<b>Only one sound at one time!</b><br/>
+					Only one sound file can be played at one time! When there is the new playsound() call the last sound will be automatically stopped.
+				</li>
+				<li>
+					<b>No volume change!</b><br/>
+					Changing the volume of a sound is not allowed on iOS devices.
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	
+	
+	
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

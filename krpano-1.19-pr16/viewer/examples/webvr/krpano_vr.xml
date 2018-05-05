@@ -1,0 +1,350 @@
+﻿<krpano>
+
+	<include url="contextmenu.xml" />
+
+	<!-- webvr.xml - WebVR plugin, enter/exit VR buttons, VR cursor, VR setup -->
+	<include url="%SWFPATH%/plugins/webvr.xml" />
+
+	<!-- add/overwrite some settings from the webvr.xml for this example 
+		- enable the fake mode
+		- add events for portrait usage
+	-->
+	<plugin name="WebVR"
+	        mobilevr_fake_support="true"
+	        onentervr="webvr_onentervr(); webvr_act_as_gyro_in_portrait_mode(true);"
+	        onexitvr="webvr_onexitvr(); tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 0.0);"
+	        />
+
+	<!-- re-align the vr button and 'auto-start' the video when pressing the enterVR button -->
+	<layer name="webvr_enterbutton"
+	       align="bottom" y="10%"
+	       ondown="video_touch_auto_start();"
+	       />
+
+	<!-- show a 'rotate the device' info when the mobile device is in portrait orientation in VR mode -->
+	<layer name="webvr_rotate_to_landscape_request" keep="true" vr="true" devices="mobile"
+	       url="rotate_device.png" scale="0.5"
+	       align="top" edge="center" y="28%"
+	       autoalpha="true" alpha="0.0"
+	       enabled="false"
+	       />
+
+	<events name="webvr_events" keep="true" devices="html5"
+	        onresize.mobile="webvr_act_as_gyro_in_portrait_mode();"
+	        />
+
+	<action name="webvr_act_as_gyro_in_portrait_mode">
+		if(device.mobile AND webvr.isenabled,
+			div(aspect, stagewidth, stageheight);
+			if(aspect != lastaspect OR '%1' == 'true',
+				copy(lastaspect, aspect);
+				if(stagewidth GT stageheight,
+					<!-- landscape orientation - use stereo rendering and a direct/fast gyro sensor mode -->
+					set(display.stereo, true);
+					set(webvr.mobilevr_sensor_mode, 3);
+					webvr.update();
+					tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 0.0);
+				  ,
+					<!-- portrait orientation - use normal rendering and a smoother/slower gyro sensor mode -->
+					set(display.stereo, false);
+					set(webvr.mobilevr_sensor_mode, 1);
+					webvr.update();
+					tween(layer[webvr_rotate_to_landscape_request].alpha, 1.0);
+					delayedcall(3.0, tween(layer[webvr_rotate_to_landscape_request].alpha, 0.0, 1.0); );
+				  );
+			  );
+		  ,
+			set(lastaspect, 0);
+		  );
+	</action>
+
+
+	<!-- allow scene switching by the PageUp/PageDown keys -->
+	<events name="keybcontrol" keep="true" onkeyup="if(keycode == 33, nextscene_loop(-1)); if(keycode == 34, nextscene_loop(+1));" />
+
+
+	<!-- the intro pano image -->
+	<view fovtype="VFOV" fov="90" fovmin="40" fovmax="150" />
+	<preview url="panos/intro/preview.jpg" />
+	<image>
+		<cube url="panos/intro/pano_%s.jpg" />
+	</image>
+
+
+	<!--
+		SPECIAL CASE FOR THE VIDEO PANO ON MOBILE DEVICES
+		- on mobile devices its only possible to start a video by as reaction to
+		  a touch-input of the user (a given limitation by the browsers)
+		- but this will be problemtic when using a VR-navigation without any touching,
+		  taking off the headset and touching to start the video would be bad...
+		- as workaround load the video already on startup and use the first
+		  touch on the screen (e.g. the touch to the 'Enter VR' button) to
+		  start playing the video
+		- the video itself will be directly paused after having started and
+		  not shown on the screen (visible=false)
+		- additionally there the new setting 'use_as_videopano' that prepares
+		  the video for a later (=in an other scene) usage as video pano
+	-->
+	<plugin name="video" keep="true"
+	        url.flash="%SWFPATH%/plugins/videoplayer.swf"
+	        url.html5="%SWFPATH%/plugins/videoplayer.js"
+	        videourl.no-ios="video/video-1920x960.mp4|video/video-1920x960.webm"
+	        videourl.ios="video/video-1024x512.mp4"
+	        loop="true"
+	        pausedonstart="true"
+	        visible="false"
+	        panovideo="true"
+	        />
+
+	<events name="video_events" keep="true"
+	        onmousedown="video_touch_auto_start();"
+	        onremovepano="if(xml.scene != video_scene, plugin[video].seek(0); plugin[video].pause(); );"
+	        />
+
+	<action name="video_touch_auto_start">
+		if(video_touch_auto_start_called !== true,
+			if(plugin[video].ispaused,
+				plugin[video].play();
+				delayedcall(0.1, plugin[video].pause() );
+				set(events[video_events].onmousedown, null);
+				set(video_touch_auto_start_called, true);
+			  );
+		  );
+	</action>
+
+	<scene name="video_scene" onstart="plugin[video].play();">
+		<image>
+			<sphere url="plugin:video" />
+		</image>
+	</scene>
+	<!-- SPECIAL CASE END -->
+
+
+	<!-- the VR menu - home button, prev/next scene buttons -->
+	<style name="vr_menu_style" depth="800" scale="0.2" distorted="true" ath="0" atv="45" alpha="0.25" visible="false" />
+
+	<hotspot name="vr_menu_bg"   style="vr_menu_style" keep="true" zorder="5" url="black.png" width="600" height="120" onover="vr_menu_over();" onout="vr_menu_out();" handcursor="false" />
+	<hotspot name="vr_menu_home" style="vr_menu_style" keep="true" zorder="6" url="texts.png" crop="0|95|280|100" onover="vr_menu_over(); delayedcall(0,tween(alpha,0.75,0.1));" onout="vr_menu_out();" startupxml="" onloaded="copy(startupxml, xml.url);" vr_timeout="1000" onclick="vr_menu_loadhome();" />
+	<hotspot name="vr_menu_l"    style="vr_menu_style" keep="true" zorder="6" url="texts.png" crop="302|92|100|100" ox="-48" onover="vr_menu_over(); delayedcall(0,tween(alpha,0.75,0.1));" onout="vr_menu_out();" vr_timeout="700" onclick="nextscene_loop(-1);" />
+	<hotspot name="vr_menu_r"    style="vr_menu_style" keep="true" zorder="6" url="texts.png" crop="392|92|100|100" ox="+48" onover="vr_menu_over(); delayedcall(0,tween(alpha,0.75,0.1));" onout="vr_menu_out();" vr_timeout="700" onclick="nextscene_loop(+1);" />
+
+	<action name="vr_menu_over">
+		callwith(hotspot[vr_menu_bg],   tween(alpha|depth,1.0|650); );
+		callwith(hotspot[vr_menu_home], tween(alpha|depth,0.5|650); );
+		callwith(hotspot[vr_menu_l],    tween(alpha|depth,0.5|650); );
+		callwith(hotspot[vr_menu_r],    tween(alpha|depth,0.5|650); );
+	</action>
+
+	<action name="vr_menu_out">
+		if(hotspot[vr_menu].hovering == false,
+			callwith(hotspot[vr_menu_bg],   tween(alpha|depth,0.25|800); );
+			callwith(hotspot[vr_menu_home], tween(alpha|depth,0.25|800); );
+			callwith(hotspot[vr_menu_l],    tween(alpha|depth,0.25|800); );
+			callwith(hotspot[vr_menu_r],    tween(alpha|depth,0.25|800); );
+		  );
+	</action>
+
+	<action name="vr_menu_loadhome">
+		set(basedir, '');
+		loadpano(get(startupxml), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
+		set(webvr.worldscale,1.0);
+		vr_menu_setvisibility(false);
+	</action>
+
+	<action name="vr_menu_setvisibility">
+		set(hotspot[vr_menu_bg].visible,   %1);
+		set(hotspot[vr_menu_home].visible, %1);
+		if(scene.count GT 1,
+			set(hotspot[vr_menu_bg].width, 600);
+			set(hotspot[vr_menu_l].visible, %1);
+			set(hotspot[vr_menu_r].visible, %1);
+		  ,
+			set(hotspot[vr_menu_bg].width, 320);
+			set(hotspot[vr_menu_l].visible, false);
+			set(hotspot[vr_menu_r].visible, false);
+		  );
+	</action>
+
+	<events name="vr_menu_events" keep="true" onviewchange="vr_menu_following();"  />
+
+	<!-- new krpano 1.19 feature: Javascript actions (can be faster than xml actions, HTML5 only) -->
+	<action name="vr_menu_following" type="Javascript" devices="html5"><![CDATA[
+
+		var hs1 = krpano.get("hotspot[vr_menu_bg]");
+		var hs2 = krpano.get("hotspot[vr_menu_home]");
+		var hs3 = krpano.get("hotspot[vr_menu_l]");
+		var hs4 = krpano.get("hotspot[vr_menu_r]");
+
+		if(!hs1.hovering && !hs2.hovering && !hs3.hovering && !hs4.hovering)
+		{
+			var f = 0.01;	// follow speed factor
+
+			var h = krpano.view.hlookat;
+			var v = krpano.view.vlookat;
+			var hsh = hs1.ath;
+			var hsv = hs1.atv;
+
+			// map to -180 to +180
+			h   = (h  -(h|0))   + (((h|0)  +360180)%360) - 180.0;
+			hsh = (hsh-(hsh|0)) + (((hsh|0)+360180)%360) - 180.0;
+
+			// get the shortest horizontal distance
+			dh = h - hsh;
+			dh += (dh>180) ? -360 : (dh<-180) ? 360 : 0
+
+			// follow slowing horizontally
+			hsh += dh*f;
+
+			// fade out when farther away
+			var a = Math.abs(v - hs1.atv) / 90.0;
+			a = 0.5 * Math.max(1.0 - 2.0*Math.sqrt(a), 0);
+
+			// move up the more looking down
+			v = v + 55.0 - v*1.5;
+			hsv = hsv*(1-f) + v*f;
+
+			// set everything
+			hs2.alpha = hs1.alpha = a;
+			if(!hs3.hovering) hs3.alpha = a;
+			if(!hs4.hovering) hs4.alpha = a;
+			hs4.ath = hs3.ath = hs2.ath = hs1.ath = hsh;
+			hs4.atv = hs3.atv = hs2.atv = hs1.atv = hsv;
+		}
+
+	]]></action>
+
+	<!-- a simpler non-VR fallback version for Flash -->
+	<action name="vr_menu_following" devices="flash">
+		copy(h,view.hlookat);
+		copy(v,view.vlookat);
+		mul(dv,v,1.5);
+		add(v,55);
+		sub(v,dv);
+		getlooktodistance(a,h,v);
+		div(a,90);
+		sub(a,0.5,a);
+		Math.min(a,0.5);
+		copy(hs,hotspot[vr_menu_bg]);
+		copy(hs.ath,h);
+		copy(hs.atv,v);
+		copy(hs.alpha,a);
+		copy(hs,hotspot[vr_menu_home]);
+		copy(hs.ath,h);
+		copy(hs.atv,v);
+		copy(hs.alpha,a);
+		copy(hs,hotspot[vr_menu_l]);
+		copy(hs.ath,h);
+		copy(hs.atv,v);
+		copy(hs.alpha,a);
+		copy(hs,hotspot[vr_menu_r]);
+		copy(hs.ath,h);
+		copy(hs.atv,v);
+		copy(hs.alpha,a);
+	</action>
+
+
+
+	<!-- the intro scene 3d hotspots -->
+
+	<!-- krpano VR logo -->
+	<hotspot name="krpanologo" distorted="true" enabled="false"
+	         url="texts.png" crop="0|0|440|90"
+	         ath="0" atv="0"
+	         depth="2000"
+	         ty="-1000"
+	         />
+
+	<!-- the floor platform -->
+	<hotspot name="floor" zorder="1" distorted="true" enabled="false"
+	         url="black.png" width="250" height="250" alpha="0.5"
+	         depth="0" rx="-90" ty="500"
+	         />
+
+	<!-- start button -->
+	<hotspot name="start" distorted="true"
+	         url="texts.png" crop="80|450|690|100"
+	         ath="0" atv="0"
+	         depth="4000"
+	         vr_timeout="2000"
+	         zorder="99"
+	         onclick="set(enabled,false); tween(ty|alpha, 8000|0.0, 2.5, easeInQuint, removehotspot(start)); delayedcall(2.0,start_vr());"
+	         alpha="0.0"
+	         onloaded="if(vr_start_done === true, removehotspot(start); start_vr(); , tween(alpha,1); );"
+	         />
+
+
+	<!-- start animation -->
+	<action name="start_vr">
+		set(start_ty, 10000);
+		set(start_tt, 3.0);
+		if(vr_start_done === true,
+			set(start_ty, 75);
+			set(start_tt, 0.5);
+		  ,
+			set(vr_start_done, true);
+		  );
+		callwith(hotspot[p1],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
+		callwith(hotspot[p1_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p1_thumb2], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p1_thumb3], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p1_thumb4], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p1_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
+
+		callwith(hotspot[p2],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
+		callwith(hotspot[p2_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p2_thumb2], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p2_thumb3], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p2_thumb4], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p2_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
+
+		callwith(hotspot[p3],        copy(ty,start_ty); tween(alpha|ty, 0.5|75, get(start_tt), easeOutQuad|easeOutQuint); );
+		callwith(hotspot[p3_thumb1], copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint, set(enabled,true) ); );
+		callwith(hotspot[p3_txt],    copy(ty,start_ty); tween(alpha|ty, 1.0|75, get(start_tt), easeOutQuad|easeOutQuint); );
+	</action>
+
+
+	<!-- panel/thumb styles -->
+	<style name="panel" distorted="true" enabled="false" zorder="1" url="black.png" width="300" height="200" alpha="0.0" depth="700" ty="75"  />
+	<style name="thumb" distorted="true" enabled="false" capture="false" alpha="0" depth="700" ty="75" onover="tween(depth,680);" onout="tween(depth,700);" />
+
+
+	<!-- center panel -->
+	<hotspot name="p1" style="panel" ath="0" atv="0" />
+		<hotspot name="p1_thumb2" style="thumb" zorder="3" ath="0" atv="0" url="panos/kuchlerhaus/thumb.jpg" scale="0.5" ox="0" oy="-10" onclick="changepano( loadpanoscene('%CURRENTXML%/panos/kuchlerhaus/tour.xml', 0, null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1)); );" />
+		<hotspot name="p1_txt"    style="thumb" zorder="2" ath="0" atv="0" url="texts.png" crop="4|195|840|88" scale="0.3" oy="+82" enabled="false" />
+
+
+	<!-- left panel -->
+	<hotspot name="p2" style="panel" ath="-55" atv="0" />
+		<hotspot name="p2_thumb2" style="thumb" zorder="3" ath="-55" atv="0" url="panos/bluebonnet/thumb.jpg" scale="0.5" ox="0" oy="-10" onclick="changepano( loadpanoscene('%CURRENTXML%/panos/bluebonnet/tour.xml', 0, null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1)); set(webvr.worldscale,0.5); );" />
+		<hotspot name="p2_txt"    style="thumb" zorder="2" ath="-55" atv="0" url="texts.png" crop="4|360|840|88" scale="0.3" oy="82" enabled="false" />
+
+
+	<!-- right panel -->
+	<hotspot name="p3" style="panel" ath="+55" atv="0" />
+		<hotspot name="p3_thumb1" style="thumb" zorder="3" ath="+55" atv="0" url="video/thumb.jpg" scale="0.5" ox="0" oy="-10" onclick="changepano( loadscene(video_scene, null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(1)); );" />
+		<hotspot name="p3_txt"    style="thumb" zorder="2" ath="+55" atv="0" url="texts.png" crop="4|277|840|88" scale="0.3" oy="82" enabled="false" />
+
+
+
+	<!-- pano changing actions -->
+	<action name="changepano">
+		for(set(i,0), i LT hotspot.count, inc(i),
+			if(hotspot[get(i)].style == 'thumb', set(hotspot[get(i)].enabled, false); );
+			if(hotspot[get(i)].name != 'vr_cursor', tween(hotspot[get(i)].alpha, 0.0, 0.25); );
+		  );
+		delayedcall(0.25, %1; vr_menu_setvisibility(true); );
+	</action>
+
+
+	<action name="nextscene_loop">
+		if(xml.scene != null AND scene.count GT 1,
+			add(newsceneindex, scene[get(xml.scene)].index, %1);
+			sub(lastsceneindex, scene.count, 1);
+			if(newsceneindex LT 0, copy(newsceneindex,lastsceneindex));
+			if(newsceneindex GT lastsceneindex, set(newsceneindex,0));
+			loadscene(get(scene[get(newsceneindex)].name), null, NOPREVIEW|MERGE|KEEPVIEW|KEEPMOVING, BLEND(1));
+		  );
+	</action>
+
+</krpano>

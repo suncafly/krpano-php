@@ -1,0 +1,1036 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Bing Maps Plugin
+		<span class="pluginfilename">bingmaps.swf / bingmaps.js</span>
+		
+	</h1>
+	
+	<div class="paragraph">
+		<ul>
+			<li>The Bing Maps Plugin adds an interactive <a href="http://www.bing.com/maps/" target="_blank">Bing Map</a> to the viewer.</li>
+			<li>The map can be freely placed and sized anywhere on the screen.</li>
+			<li>It's possible to place spots on the map and link them to krpano <a href="../actions.html#top">actions</a> like <a href="../actions.html#loadpano">loadpano</a> to load a new panoramas when clicking a spot.</li>
+			<li>The plugin has an integrated customizable radar which can apear on the activatted spot.</li>
+			<li>'Google Maps' styled controls, like the position and zoom controls can be added.</li>
+			<li>And it's possible to control the whole maps and spots dynamically, e.g. pan/zoom around on the map, add or remove spots...</li>
+			<li>The krpano Bing Maps <u>Flash</u> Plugin is powered by <a href="http://openscales.org/" target="_blank">OpenScales</a>.</li>
+			<li>Google Maps / Bing Maps Notes - the XML interfaces of the Bing Maps and the Google Maps plugins are almost the same. To use the Bing Maps plugin just replace the Google Maps plugin and change the Google Maps key with a Bing Maps key.</li>
+		</ul>
+		
+		<br/>
+		Plugin documentation topics:
+		<ul>
+			<li><a href="#buy">Buy / Order</a></li>
+			<li><a href="#syntax">Usage Syntax</a></li>
+			<li><a href="#attributes">Plugin Attributes</a></li>
+			<li>Plugin Subnodes:
+				<ul>
+					<li><a href="#spotstyle">Spotstyle</a></li>
+					<li><a href="#spot">Spot</a></li>
+					<li><a href="#radar">Radar</a></li>
+					<li><a href="#controls">Controls</a></li>
+				</ul>
+			</li>
+			<li><a href="#actions">Plugin Actions</a></li>
+			<li><a href="#examples">Examples</a></li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="buy" href="#buy" class="selflink">Buy / Order</a></h2>
+		
+		<ul>	
+			<li>The krpano Bing Maps Plugin is an additional <b>Commercial Plugin</b>.</li>
+			<li>To use it a license for the plugin must be bought.</li>
+			<li>The license is valid for the Flash and HTML5 plugin.</li>
+			<li>Without license a krpano watermark will be shown in the map.</li>
+    		<li>The plugin can be bought here on this page or on the krpano <a href="https://krpano.com/buy/">Buy</a> page.</li>
+		</ul>
+		
+		<br/>
+		
+		<div class="dotborder" style="padding-top:0;">
+			<table id="buytabid" class="buytab" cellspacing="0" cellpadding="0">
+			
+				<tr class="buytabitem">
+					<td width="90%" style="border-bottom:0;">
+						<div style="padding-left:5px;padding-bottom:5px;">
+							<span class="buyitemtitle">krpano Maps Plugin License</span>
+						</div>
+						<div>
+							<ul>
+								<li style="margin:2px 6px;">for the <a href="bingmaps.html#top">krpano Bing Maps Plugin</a> <span>(Flash and HTML5)</span>.</li>
+								<li style="margin:2px 6px;">for the <a href="googlemaps.html#top">krpano Google Maps Plugin</a> <span>(HTML5 only)</span>.</li>
+							</ul>
+						</div>
+						<div class="buyitemprice">
+							29 € <span class="buytaxnote">plus sales tax/VAT*</span>
+						</div>
+					</td>
+					
+					<td valign="bottom" style="border-bottom:0;">
+						<div style="text-align:right;padding-top:5px;padding-bottom:0px;">
+							<input id="buybutton" type="button" value="Buy now" onclick="window.location='https://secure.shareit.com/shareit/checkout.html?PRODUCT[300608076]=1&qpc=3bx5d&js=1';" style="padding: 2px 10px 2px 10px;" />
+						</div>
+					</td>
+				</tr>
+		
+			</table>
+		</div>
+
+	</div>
+	
+	
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Usage Syntax</a></h2>
+
+		The Bing Maps Plugin embedding with all attributes / sub-nodes and their default values:
+		<pre class="xmlpre">&lt;<a href="../xml.html#plugin">plugin</a> <a href="../xml.html#plugin.name">name</a>="map"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.flash</a>="bingmaps.swf"
+        <a href="../xml.html#plugin.url">url</a><a href="../xml.html#devicechecksforattributes">.html5</a>="bingmaps.js"
+        <a href="../xml.html#plugin.align">align</a>="leftbottom" <a href="../xml.html#plugin.width">width</a>="400" <a href="../xml.html#plugin.height">height</a>="300" <a href="../xml.html#plugin.x">x</a>="0" <a href="../xml.html#plugin.y">y</a>="0"
+        <a href="../xml.html#plugin.keep">keep</a>="true"
+        <a href="#key" class="pluginattrib"><span class="redtext">key="...your Bing Maps API key..."</span></a>
+        <a href="#maptype" class="pluginattrib">maptype</a>="satellite"
+        <a href="#culturecode" class="pluginattrib">culturecode</a>=""
+        <a href="#lat" class="pluginattrib">lat</a>="..."
+        <a href="#lng" class="pluginattrib">lng</a>="..."
+        <a href="#zoom" class="pluginattrib">zoom</a>="1"
+        <a href="#activespotenabled" class="pluginattrib">activespotenabled</a>="false"
+        <a href="#bgcolor" class="pluginattrib">bgcolor</a>="0x000000" <a href="#bgalpha" class="pluginattrib">bgalpha</a>="0.0"
+        <a href="#onmapready" class="pluginattrib">onmapready</a>=""
+        <a href="#onmaptypechanged" class="pluginattrib">onmaptypechanged</a>=""
+        <a href="#onmapmoved" class="pluginattrib">onmapmoved</a>=""
+        <a href="#onmapzoomed" class="pluginattrib">onmapzoomed</a>=""
+&gt;
+  &lt;<a href="#spotstyle" class="pluginattrib">spotstyle</a> <a href="#spotstyle.name" class="pluginattrib">name</a>="style1" ... /&gt;
+  ...
+  
+  &lt;<a href="#spot" class="pluginattrib">spot</a> <a href="#spot.name" class="pluginattrib">name</a>="spot1" ... <a href="#spot.active" class="pluginattrib">active</a>="true" /&gt;
+  &lt;<a href="#spot" class="pluginattrib">spot</a> <a href="#spot.name" class="pluginattrib">name</a>="spot2" ... /&gt;
+  &lt;<a href="#spot" class="pluginattrib">spot</a> <a href="#spot.name" class="pluginattrib">name</a>="spot3" ... /&gt;
+  ...
+  
+  &lt;<a href="#radar" class="pluginattrib">radar</a> <a href="#radar.visible">visible</a>="true" ... /&gt;
+  
+  &lt;<a href="#positioncontrol" class="pluginattrib">positioncontrol</a> <a href="#positioncontrol.visible">visible</a>="false" ... /&gt;
+  &lt;<a href="#zoomcontrol"     class="pluginattrib">zoomcontrol</a>     <a href="#zoomcontrol.visible">visible</a>="false" ... /&gt;
+  &lt;<a href="#maptypecontrol"  class="pluginattrib">maptypecontrol</a>  <a href="#maptypecontrol.visible">visible</a>="false" ... /&gt;
+&lt;/<a href="../xml.html#plugin">plugin</a>&gt;</pre>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="attributes" href="#attributes" class="selflink">Plugin Attributes</a></h2>
+
+		<ul>
+			<li>
+				<a name="key" href="#key" class="selflink">key</a>
+				<ul>
+					<li>The Bing Maps API key.</li>
+					<li>To be able to use the Bing Maps services a Bing Maps API key is needed!</li>
+					<li>Note - a Bing Maps API key is typically not domain limited!</li>
+					<li><a href="https://www.bingmapsportal.com/" target="_blank">Sign up here for a Bing Maps API key...</a><br/><br/></li>
+					<li><a name="multidomainkeys" href="#multidomainkeys" class="selflink">Multi-Domain-Key-Pairs</a><br/>
+						<ul>
+							<li>It is possible to use several domain-key pairs as <a href="#key" class="selflink">key</a>-attribute to use different keys for different domains.</li>
+							<li>Just separate all the domains and keys by pipe <span class="presyntax_inline">|</span> characters.</li>
+							<li>To set a key for local testing (file://) there is the special domain name "local" available.</li>
+							<li>Syntax / usage example:<br/>
+								<pre>key="yourdomain1.com|key1|yourdomain2.com|key2|local|key1"</pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="maptype" href="#maptype" class="selflink">maptype</a>
+				<ul>
+					<li>Select the type of the map:
+						<ul>
+						 	<li><b>satellite</b> (default)</li>
+						 	<li><b>normal</b></li>
+						 	<li><b>hybrid</b></li>
+						 </ul>
+					 </li>
+				</ul>
+			</li>
+			
+			
+			
+			
+			
+			<li>
+				<a name="culturecode" href="#culturecode" class="selflink">culturecode</a>
+				<ul>
+					<li>Select a custom language for the map labels.</li>
+					<li>For the supported culture codes please see here:
+						<ul>
+							<li>HTML5: <a href="http://msdn.microsoft.com/en-us/library/gg427600.aspx#supportedCultures">http://msdn.microsoft.com/en-us/library/gg427600.aspx</a></li>
+							<li>Flash: <a href="http://msdn.microsoft.com/en-us/library/hh441729.aspx">http://msdn.microsoft.com/en-us/library/hh441729.aspx</a></li>
+						</ul>
+					</li>
+					<li><i>Note - The culturecode setting need to be set already at startup of the plugin, changing it later is not possible!</i></li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="lat" href="#lat" class="selflink">lat</a> / 
+				<a name="lng" href="#lng" class="selflink">lng</a>
+				<ul>
+					<li>Latitude and Longitude in degrees.</li>
+					<li>The geographic coordinates of the current map center position.</li>
+					<li><a name="latlnghowtoget" href="#latlnghowtoget" class="selflink">How / where to get?</a>
+						<ul>
+							<li>Either directly from the <a href="http://maps.google.com" target="_blank">Google Maps</a> or <a href="http://www.bing.com/maps/" target="_blank">Bing Maps</a> pages.</li>
+							<li>Or from here: <a href="http://www.getlatlon.com/" target="_blank">Google Maps Get Lat Lon</a> 
+								or <a href="http://www.doogal.co.uk/VELatLong.php" target="_blank">Bing Maps Lat/Long Finder</a>.<br/>
+								Two nices pages which allow getting the coordinates in the right format in an easy and simple way. 
+								Note - the Google Maps and Bing Maps coordinates are compatible.
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="zoom" href="#zoom" class="selflink">zoom</a>
+				<ul>
+					<li>Set zoom level of the map.</li>
+					<li>Can be from 1 to 25.</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="activespotenabled" href="#activespotenabled" class="selflink">activespotenabled</a>
+				<ul>
+					<li>Should the active spot be enabeld?<br/>
+						That means - should the active spot react to click or over events.
+					</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="maphandcursor" href="#maphandcursor" class="selflink">maphandcursor</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>Show a hand cursor when the mouse is over the map.</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="dragging" href="#dragging" class="selflink">dragging</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>Should it be possible to drag the map by the mouse?</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="scrollwheel" href="#scrollwheel" class="selflink">scrollwheel</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>Should it be possible to zoom in the map by the mouse wheel?</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="dbclicking" href="#dbclicking" class="selflink">dbclicking</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>Should it be possible to use double clicking to zoom in?</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="bgcolor" href="#bgcolor" class="selflink">bgcolor</a> /
+				<a name="bgalpha" href="#bgalpha" class="selflink">bgalpha</a>
+				<ul>
+					<li>The color and alpha of the map background.</li>
+				</ul>
+			</li>
+			
+			<li>
+				<a name="mapsapi" href="#mapsapi" class="selflink">mapsapi</a> <span class="smallcomment">(HTML5 only)</span>
+				<ul>
+					<li>Set manually a different url of the Bing Maps API.</li>
+					<li>The full url, including the protocol and the API version would need to be set.</li>
+					<li>When not set, this default url will be used:<br>
+						For HTTP: <pre style="letter-spacing:-0.4px;">http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0</pre>
+						For HTTPS: <pre style="letter-spacing:-0.4px;"><span style="color:red;">https</span>://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0<span style="color:red;">&amp;s=1</span></pre>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		
+		<h2><a name="events" href="#events" class="selflink">Plugin Attributes - Events</a></h2>
+		<ul>
+			<li>
+				<a name="onmapready" href="#onmapready" class="selflink">onmapready</a>
+				<ul>
+					<li>Will be called when the Bing Maps Plugin is loaded and ready for usage.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="onmaptypechanged" href="#onmaptypechanged" class="selflink">onmaptypechanged</a>
+				<ul>
+					<li>Will be called when the map type was changed.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="onmapmoved" href="#onmapmoved" class="selflink">onmapmoved</a>
+				<ul>
+					<li>Will be called when the map was moved.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="onmapzoomed" href="#onmapzoomed" class="selflink">onmapzoomed</a>
+				<ul>
+					<li>Will be called when the map was zoomed.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="spotstyle" href="#spotstyle" class="selflink">Plugin Subnodes - &lt;spotstyle&gt;</a></h2>
+		
+		<ul>
+			<li>With the &lt;spotstyle&gt; subnode it is possible to define styles for the spots.</li>
+			<li>A spot can be assigned to a spotstyle by the <a href="#spot.spotstyle">spotstyle</a> attribute.</li>
+			<li>There is a predefined style named "DEFAULT".</li>
+		</ul>
+		
+		<br/>
+		The &lt;spotstyle&gt; node with all settings and their default values: 
+		<pre class="xmlpre">&lt;<a href="#spotstyle" class="pluginattrib">spotstyle</a> <a href="#spotstyle.name">name</a>="DEFAULT"
+           <a href="#spotstyle.url">url</a>=""
+           <a href="#spotstyle.overurl">overurl</a>=""
+           <a href="#spotstyle.activeurl">activeurl</a>=""
+           <a href="#spotstyle.edge">edge</a>="center"
+           <a href="#spotstyle.x">x</a>="0"
+           <a href="#spotstyle.y">y</a>="0"
+           <a href="#spotstyle.scale">scale</a>="1.0"
+           /&gt;</pre>
+		<br/>
+           
+		<h2><a name="spotstyleattributes" href="#spotstyleattributes" class="selflink">&lt;spotstyle&gt; Attributes</a></h2>
+		<ul>
+			<li>
+				<a name="spotstyle.name" href="#spotstyle.name" class="selflink">name</a>
+				<ul>
+					<li>
+						The name of the spotstyle.<br/>
+						Use this name in the <a href="#spot.spotstyle">spotstyle</a> attribute of a <a href="#spot">spot</a>.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spotstyle.url" href="#spotstyle.url" class="selflink">url</a>
+				<ul>
+					<li>
+						The url / path to an image that should be used for the spot.<br/>
+						When not defined the default image (a blue dot) will be used.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spotstyle.overurl" href="#spotstyle.overurl" class="selflink">overurl</a>
+				<ul>
+					<li>
+						The url / path to an image that will be used for the spot when it mouse is over the spot.<br/>
+						When not defined the default image (a blue dot) will be used.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spotstyle.activeurl" href="#spotstyle.activeurl" class="selflink">activeurl</a>
+				<ul>
+					<li>
+						The url / path to an image that will be used when the spot is activated.<br/>
+						When not defined the default image (a green dot) will be used.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spotstyle.edge" href="#spotstyle.edge" class="selflink">edge</a>
+				<ul>
+					<li>The alignment edge / anchor point of the spot image.<br/>
+						Possible values: lefttop, left, leftbottom, top, center, bottom, righttop, right, rightbottom.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spotstyle.x" href="#spotstyle.x" class="selflink">x</a> /
+				<a name="spotstyle.y" href="#spotstyle.y" class="selflink">y</a>
+				<ul>
+					<li>The offset in pixels from the edge point to the image.</li>
+				</ul>
+			</li>
+
+			<li>
+				<a name="spotstyle.scale" href="#spotstyle.scale" class="selflink">scale</a> 
+				<ul>
+					<li>Scaling for the spotstyle images.</li>
+					<li>Can be used to use higher resolution (2x scaled) images for the iPad 3 retina screen. Use the bigger image and scale="0.5" to
+						get a 1:1 display of the image on the iPad 3.</li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="spot" href="#spot" class="selflink">Plugin Subnodes - &lt;spot&gt;</a></h2>
+		
+		<ul>
+			<li>With the &lt;spot&gt; subnode it is possible to define spots on the map.</li>
+			<li>A spot will be placed at lat/lng coordinates and can be linked to panos
+				by using the <a href="../actions.html#loadpano">loadpano / loadscene</a> actions in the onclick event.</li>
+		</ul>
+		
+		<br/>
+		The &lt;spot&gt; node with all settings and their default values: 
+		<pre class="xmlpre">&lt;<a href="#spot" class="pluginattrib">spot</a> <a href="#spot.name">name</a>="..."
+      <a href="#spot.spotstyle">spotstyle</a>="DEFAULT"
+      <a href="#spot.url">url</a>="..."
+      <a href="#spot.lat">lat</a>="..."
+      <a href="#spot.lng">lng</a>="..."
+      <a href="#spot.heading">heading</a>="0"
+      <a href="#spot.active">active</a>="false"
+      <a href="#spot.onover">onover</a>=""
+      <a href="#spot.onhover">onhover</a>=""
+      <a href="#spot.onout">onout</a>=""
+      <a href="#spot.onclick">onclick</a>=""
+      /&gt;</pre>
+		<br/>
+
+		<h2><a name="spotattributes" href="#spotattributes" class="selflink">&lt;spot&gt; Attributes</a></h2>
+		<ul>
+			<li>
+				<a name="spot.name" href="#spot.name" class="selflink">name</a>
+				<ul>
+					<li>The name of the current spot <i>(see the <a href="../xml.html#name-notes">xml name notes</a>)</i>.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.style"></a>
+				<a name="spot.spotstyle" href="#spot.spotstyle" class="selflink">spotstyle</a>
+				<ul>
+					<li>The name of the <a href="#spotstyle">spotstyle</a> that should be used for that spot.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.url" href="#spot.url" class="selflink">url</a>
+				<ul>
+					<li>The url / path to an image that should be used for the spot.<br/>
+						When not defined the image from the <a href="#spotstyle">spotstyle</a> will be used.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.lat" href="#spot.lat" class="selflink">lat</a> / 
+				<a name="spot.lng" href="#spot.lng" class="selflink">lng</a>
+				<ul>
+					<li>Latitude and Longitude in degrees.</li>
+					<li>The geographic coordinates of the spot.</li>
+					<li><a name="spotlatlnghowtoget" href="#spotlatlnghowtoget" class="selflink">How / where to get?</a>
+						<ul>
+							<li>Either directly from the <a href="http://maps.google.com" target="_blank">Google Maps</a> or <a href="http://www.bing.com/maps/" target="_blank">Bing Maps</a> pages.</li>
+							<li>Or from here: <a href="http://www.getlatlon.com/" target="_blank">Google Maps Get Lat Lon</a> 
+								or <a href="http://www.doogal.co.uk/VELatLong.php" target="_blank">Bing Maps Lat/Long Finder</a>.<br/>
+								Two nices pages which allow getting the coordinates in the right format in an easy and simple way. 
+								Note - the Google Maps and Bing Maps coordinates are compatible.
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.heading" href="#spot.heading" class="selflink">heading</a>
+				<ul>
+					<li>
+						The heading of the pano in degrees, needed to align the pano orientation with the radar on the map.
+					</li>
+					<li>
+						See also the <a href="#radar.headingoffset">radar headingoffset</a> setting for details.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.active" href="#spot.active" class="selflink">active</a>
+				<ul>
+					<li>
+						State of the spot. When set to true the spot will be activated.
+						That means the spot will show the active spotstyle image (when no url was set) and that 
+						the radar will be shown at the spot location.
+					</li>
+					<li>To activate a spot dynamically use the <a href="#activatespot">activatespot()</a> action.</li>
+				</ul>
+			</li>
+		</ul>
+		
+		<h2><a name="spotevents" href="#spotevents" class="selflink">&lt;spot&gt; Events</a></h2>
+		<ul>
+			<li>
+				<a name="spot.onover" href="#spot.onover" class="selflink">onover</a>
+				<ul>
+					<li>Actions / functions that will be called when the mouse moves over the spot element.</li>
+				</ul>
+				<a name="spot.onhover" href="#spot.onhover" class="selflink">onhover</a>
+				<ul>
+					<li>Actions / functions that will be called in intervals (several times per second) when the mouse stays over / hovers the spot element.</li>
+				</ul>
+				<a name="spot.onout" href="#spot.onout" class="selflink">onout</a>
+				<ul>
+					<li>Actions / functions that will be called when the mouse moves out of the spot element.</li>
+				</ul>
+				<a name="spot.onclick" href="#spot.onclick" class="selflink">onclick</a>
+				<ul>
+					<li>Actions / functions that will be called when there is a mouse click on the spot element.</li>
+				</ul>
+			</li>
+		</ul>
+		
+		<h2><a name="spotactions" href="#spotactions" class="selflink">&lt;spot&gt; Actions</a></h2>
+		<ul>
+			<li>
+				<a name="spot.activatespot" href="#spot.activatespot" class="selflink">activatespot()</a>
+				<ul>
+					<li>
+						Activate the current spot.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.pantospot" href="#spot.pantospot" class="selflink">pantospot()</a>
+				<ul>
+					<li>
+						Pan the map center to the current spot.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="spot.getstagepos" href="#spot.getstagepos" class="selflink">getstagepos(xvar,yvar)</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>
+						Saves the current position of the spot on the flash stage to the given krpano variables.
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="radar" href="#radar" class="selflink">Plugin Subnodes - &lt;radar&gt;</a></h2>
+		
+		<ul>
+			<li>Add and style a radar.</li>
+			<li>The radar will be shown at the active spot position.</li>
+		</ul>
+		
+		<br/>
+		The &lt;radar&gt; node with all settings and their default values: 
+		<pre class="xmlpre">&lt;<a href="#radar" class="pluginattrib">radar</a> <a href="#radar.visible">visible</a>="true"
+       <a href="#radar.dragable">dragable</a>="true"
+       <a href="#radar.size">size</a>="100"
+       <a href="#radar.zoomwithmap">zoomwithmap</a>="false"
+       <a href="#radar.headingoffset">headingoffset</a>="90"
+       <a href="#radar.alpha">alpha</a>="0.5"
+       <a href="#radar.fillcolor">fillcolor</a>="0xFFFFFF"
+       <a href="#radar.fillalpha">fillalpha</a>="1.0"
+       <a href="#radar.linewidth">linewidth</a>="0.0"
+       <a href="#radar.linecolor">linecolor</a>="0xFFFFFF"
+       <a href="#radar.linealpha">linealpha</a>="0.0"
+       <a href="#radar.glow">glow</a>="true"
+       <a href="#radar.glowcolor">glowcolor</a>="0xFFFFFF"
+       <a href="#radar.glowwidth">glowwidth</a>="4"
+       <a href="#radar.glowstrength">glowstrength</a>="4"
+       /&gt;</pre>
+		<br/>
+		
+		<h2><a name="radarattributes" href="#radarattributes" class="selflink">&lt;radar&gt; Attributes</a></h2>
+		<ul>
+			<li>
+				<a name="radar.visible" href="#radar.visible" class="selflink">visible</a>
+				<ul>
+					<li>Show or hide the radar.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.dragable" href="#radar.dragable" class="selflink">dragable</a>
+				<ul>
+					<li>Should the radar cone be dragable by the mouse?</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.size" href="#radar.size" class="selflink">size</a>
+				<ul>
+					<li>The size / range of the radar cone.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.zoomwithmap" href="#radar.zoomwithmap" class="selflink">zoomwithmap</a>
+				<ul>
+					<li>Should the radar cone also be zoomed when zooming the map?</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.headingoffset" href="#radar.headingoffset" class="selflink">headingoffset</a>
+				<ul>
+					<li>An offset for the <a href="#spot.heading">heading</a> value of the spots.</li>
+					<li>
+						The default value for headingoffset is 90, which means heading=0 is pointing to right/east by default.
+						Use headingoffset=0 to let heading=0 pointing to top/north.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.alpha" href="#radar.alpha" class="selflink">alpha</a>
+				<ul>
+					<li>The alpha transparency of the whole radar element.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.fillcolor" href="#radar.fillcolor" class="selflink">fillcolor</a> / 
+				<a name="radar.fillalpha" href="#radar.fillalpha" class="selflink">fillalpha</a>
+				<ul>
+					<li>The color and alpha of the filling of the radar cone.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.linewidth" href="#radar.linewidth" class="selflink">linewidth</a> / 
+				<a name="radar.linecolor" href="#radar.linecolor" class="selflink">linecolor</a> / 
+				<a name="radar.linealpha" href="#radar.linealpha" class="selflink">linealpha</a>
+				<ul>
+					<li>The linewidth, color and alpha of the line around the radar cone.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="radar.glow" href="#radar.glow" class="selflink">glow</a> /
+				<a name="radar.glowcolor" href="#radar.glowcolor" class="selflink">glowcolor</a> /
+				<a name="radar.glowwidth" href="#radar.glowwidth" class="selflink">glowwidth</a> /
+				<a name="radar.glowstrength" href="#radar.glowstrength" class="selflink">glowstrength</a> <span class="smallcomment">(Flash only)</span>
+				<ul>
+					<li>Add and style the glowwing effect of the radar cone.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="controls" href="#controls" class="selflink">Bing Maps Controls</a></h2>
+		
+		<ul>
+			<li>These Controls are available:
+				<ul>
+					<li>The <a href="#positioncontrol">Position Control</a> - a simple position moving control. <span class="smallcomment">(Flash only)</span>
+					</li>
+					<li>The <a href="#zoomcontrol">Zoom Control</a> - a simple zooming control. <span class="smallcomment">(Flash only)</span>
+					</li>
+					<li>The <a href="#maptypecontrol">Map-Type Control</a> - select the current <a href="#maptype">maptype</a>.
+					</li>
+				</ul>
+			</li>
+			<li>
+				Note - beside of these included controls it's possible to use own images as controls
+				by using normal krpano <a href="../xml.html#plugin">plugin</a> elements and
+				adding them with the <a href="../xml.html#plugin.parent">parent</a> setting to the map.
+			</li>
+		</ul>
+		<br/>
+		
+		<h3>All controls with all settings and their default values:</h3>
+		<br/>
+		<a name="positioncontrol" href="#positioncontrol" class="selflink">Position Control:</a> <span class="smallcomment">(Flash only)</span>
+		<pre class="xmlpre">&lt;<a href="#positioncontrol " class="pluginattrib">positioncontrol</a> <a href="#positioncontrol.visible">visible</a>="true" <a href="#positioncontrol.align">align</a>="lefttop" <a href="#positioncontrol.x">x</a>="2" <a href="#positioncontrol.y">y</a>="2" /&gt;</pre>
+		
+		<br/>
+		<a name="zoomcontrol" href="#zoomcontrol" class="selflink">Zoom Control:</a> <span class="smallcomment">(Flash only)</span>
+		<pre class="xmlpre">&lt;<a href="#zoomcontrol" class="pluginattrib">zoomcontrol</a> <a href="#zoomcontrol.visible">visible</a>="true" <a href="#zoomcontrol.align">align</a>="righttop" <a href="#zoomcontrol.x">x</a>="2" <a href="#zoomcontrol.y">y</a>="2" 
+             <a href="#zoomcontrol.hasscrolltrack">hasscrolltrack</a>="true"
+             /&gt;</pre>
+		
+		<br/>
+		<a name="maptypecontrol" href="#maptypecontrol" class="selflink">Map-Type Control:</a>
+		<pre class="xmlpre">&lt;<a href="#maptypecontrol" class="pluginattrib">maptypecontrol</a> <a href="#maptypecontrol.visible">visible</a>="true" <a href="#maptypecontrol.align">align</a>="rightbottom" <a href="#maptypecontrol.x">x</a>="2" <a href="#maptypecontrol.y">y</a>="2"
+                <a href="#maptypecontrol.buttonalign">buttonalign</a>="H"
+                <a href="#maptypecontrol.buttontexts">buttontexts</a>="Map|Satellite|Hybrid"
+                <a href="#maptypecontrol.scale">scale</a>="1.0"
+                /&gt;</pre>
+		 
+		<br/>
+		
+		<h2><a name="controlattributes" href="#controlattributes" class="selflink">Control Attributes</a></h2>
+		<ul>
+			<li>
+				<a name="positioncontrol.visible"></a>
+				<a name="zoomcontrol.visible"></a>
+				<a name="maptypecontrol.visible"></a>
+				<a name="control.visible" href="#control.visible" class="selflink">visible</a>
+				<ul>
+					<li>Show or hide the control.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="positioncontrol.align"></a>
+				<a name="zoomcontrol.align"></a>
+				<a name="maptypecontrol.align"></a>
+				<a name="control.align" href="#control.align" class="selflink">align</a>
+				<ul>
+					<li>Alignment of the control.<br/>
+						Possible settings: lefttop, righttop, leftbottom, rightbottom.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a name="positioncontrol.x"></a>
+				<a name="zoomcontrol.x"></a>
+				<a name="maptypecontrol.x"></a>
+				<a name="control.x" href="#control.x" class="selflink">x</a> / 
+				<a name="positioncontrol.y"></a>
+				<a name="zoomcontrol.y"></a>
+				<a name="maptypecontrol.y"></a>
+				<a name="control.y" href="#control.y" class="selflink">y</a>
+				<ul>
+					<li>Offset in pixels from the alignment point.<br/><br/></li>
+				</ul>
+			</li>
+			<li>
+				<a name="zoomcontrol.hasscrolltrack" href="#zoomcontrol.hasscrolltrack" class="selflink">zoomcontrol.hasscrolltrack</a>
+				<ul>
+					<li>Show zoom scroll track or not.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="maptypecontrol.buttonalign" href="#maptypecontrol.buttonalign" class="selflink">maptypecontrol.buttonalign</a>
+				<ul>
+					<li>Alignment of the map type buttons. Possible settings: "H" or "V".</li>
+				</ul>
+			</li>
+			<li>
+				<a name="maptypecontrol.buttontexts" href="#maptypecontrol.buttontexts" class="selflink">maptypecontrol.buttontexts</a> <span class="smallcomment">(HTML5 only)</span>
+				<ul>
+					<li>The button maptype texts.</li>
+				</ul>
+			</li>
+			<li>
+				<a name="maptypecontrol.scale" href="#maptypecontrol.scale" class="selflink">maptypecontrol.scale</a> <span class="smallcomment">(HTML5 only)</span>
+				<ul>
+					<li>The scaling of the maptype buttons.</li>
+					<li>With the default scaling (1.0) the buttons might be too small for easy usage on mobile devices (iPhone, Android phones),
+						so they can be scaled optionally by using this setting and the xml <a href="../xml.html#devices-notes">devices</a> setting. For example:
+						<pre>&lt;maptypecontrol visible="true" align="righttop" x="5" y="5" /&gt;
+&lt;maptypecontrol scale=<span class="redtext">"1.5"</span> buttonalign=<span class="redtext">"V"</span> <span class="redtext">devices="mobile"</span> /&gt;</pre>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+		
+	
+	<div class="paragraph">
+		<h2><a name="actions" href="#actions" class="selflink">Plugin Actions</a></h2>
+		
+		<div class="subparagraph2">
+			Actions of the Bing Maps Plugin object.<br/>
+			<br/>
+			Usage example:
+			<pre>plugin[map].activatespot(spot1);
+plugin[map].pantospot(spot1);</pre>
+		</div>
+		
+		<div class="subparagraph2">
+			<h3>All actions:</h3>
+			<ul>
+				<li><a href="#activatespot">activatespot</a></li>
+				<li><a href="#addimagespot">addimagespot</a></li>
+				<li><a href="#addspot">addspot</a></li>
+				<li><a href="#addspotstyle">addspotstyle</a></li>
+				<li><a href="#addstylespot">addstylespot</a></li>
+				<li><a href="#panby">panby</a></li>
+				<li><a href="#panto">panto</a></li>
+				<li><a href="#pantospot">pantospot</a></li>
+				<li><a href="#removeallspots">removeallspots</a></li>
+				<li><a href="#removespot">removespot</a></li>
+				<li><a href="#setcenter">setcenter</a></li>
+				<li><a href="#setmaptype">setmaptype</a></li>
+				<li><a href="#setzoom">setzoom</a></li>
+				<li><a href="#zoomin">zoomin</a></li>
+				<li><a href="#zoomout">zoomout</a></li>
+				<li><a href="#zoomtospotsextent">zoomtospotsextent</a></li>
+			</ul>
+		</div>
+		
+		<div class="subparagraph2">
+		<h3>Actions documenation:</h3>
+
+		<ul>
+			<li class="lidd">
+				<a name="activatespot" href="#activatespot" class="selflink">activatespot(name)</a>
+				<ul>
+					<li>Activate the spot wih the given name.</li>
+					<li>That means the spot will show the active spotstyle image (when no url was set) and that 
+						the radar will be shown at the spot location.
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="addimagespot" href="#addimagespot" class="selflink">addimagespot(name, lat, lng, heading, spotstyle, url, <i>onclick, onhover, onover, onout</i>)</a>
+				<ul>
+					<li>Add a new spot with a custom image.</li>
+					<li><a href="#spot.name" class="selflink">name</a> = name of the new spot.</li>
+					<li><a href="#spot.lat" class="selflink">lat</a> / <a href="#spot.lng" class="selflink">lng</a> = the geographic coordinates of the spot.</li>
+					<li><a href="#spot.heading" class="selflink">heading</a> = pano heading for the spot.</li>
+					<li><a href="#spot.spotstyle" class="selflink">spotstyle</a> = <a href="#spotstyle">spotstyle</a> for the spot.</li>
+					<li><a href="#spot.url" class="selflink">url</a> = url of the image for the spot.</li>
+					<li><a href="#spot.onclick" class="selflink">onclick</a>, <a href="#spot.onhover" class="selflink">onhover</a>, <a href="#spot.onover" class="selflink">onover</a>, <a href="#spot.onout" class="selflink">onout</a> = mouse events for the spot. <span class="smallcomment">(optionally)</span></li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="addspot" href="#addspot" class="selflink">addspot(name, lat, lng, heading, <i>active, onclick, onhover, onover, onout</i>)</a>
+				<ul>
+					<li>Add a new spot <span class="smallcomment">(with the DEFAULT style)</span>.</li>
+					<li><a href="#spot.name" class="selflink">name</a> = name of the new spot.</li>
+					<li><a href="#spot.lat" class="selflink">lat</a> / <a href="#spot.lng" class="selflink">lng</a> = the geographic coordinates of the spot.</li>
+					<li><a href="#spot.heading" class="selflink">heading</a> = pano heading for the spot.</li>
+					<li><a href="#spot.active" class="selflink">active</a> = activate the spot? <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spot.onclick" class="selflink">onclick</a>, <a href="#spot.onhover" class="selflink">onhover</a>, <a href="#spot.onover" class="selflink">onover</a>, <a href="#spot.onout" class="selflink">onout</a> = mouse events for the spot. <span class="smallcomment">(optionally)</span></li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="addspotstyle" href="#addspotstyle" class="selflink">addspotstyle(name, <i>url, overurl, activeurl, edge, x, y</i>)</a>
+				<ul>
+					<li>Add a new <a href="#spotstyle">spotstyle</a>.</li>
+					<li><a href="#spotstyle.name" class="selflink">name</a> = name of the new spotstyle.</li>
+					<li><a href="#spotstyle.url" class="selflink">url</a> = url of the default image. <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spotstyle.overurl" class="selflink">overurl</a> = url of the over image. <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spotstyle.activeurl" class="selflink">activeurl</a> = url of the active image. <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spotstyle.edge" class="selflink">edge</a> = alignment edge / anchor point of the spot images. <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spotstyle.x" class="selflink">x</a> / <a href="#spotstyle.x" class="selflink">y</a> = pixeloffset from the edge point. <span class="smallcomment">(optionally)</span></li>
+					
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="addstylespot" href="#addstylespot" class="selflink">addstylespot(name, lat, lng, heading, spotstyle, <i>active, onclick, onhover, onover, onout</i>)</a>
+				<ul>
+					<li>Add a new spot with a custom style.</li>
+					<li><a href="#spot.name" class="selflink">name</a> = name of the new spot.</li>
+					<li><a href="#spot.lat" class="selflink">lat</a> / <a href="#spot.lng" class="selflink">lng</a> = the geographic coordinates of the spot.</li>
+					<li><a href="#spot.heading" class="selflink">heading</a> = pano heading for the spot.</li>
+					<li><a href="#spot.spotstyle" class="selflink">spotstyle</a> = <a href="#spotstyle">spotstyle</a> for the spot.</li>
+					<li><a href="#spot.active" class="selflink">active</a> = activate the spot? <span class="smallcomment">(optionally)</span></li>
+					<li><a href="#spot.onclick" class="selflink">onclick</a>, <a href="#spot.onhover" class="selflink">onhover</a>, <a href="#spot.onover" class="selflink">onover</a>, <a href="#spot.onout" class="selflink">onout</a> = mouse events for the spot. <span class="smallcomment">(optionally)</span></li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="panby" href="#panby" class="selflink">panby(dx,dy)</a>
+				<ul>
+					<li>Pan the map.</li>
+					<li><b>dx</b> / <b>dy</b> = distance in pixels to pan.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="panto" href="#panto" class="selflink">panto(lat,lng)</a>
+				<ul>
+					<li>Pan to the given coordinates.</li>
+					<li><b>lat</b> / <b>lng</b> = the map coordinates.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="pantospot" href="#pantospot" class="selflink">pantospot(name)</a>
+				<ul>
+					<li>Pan to the coordinates of the given spot.</li>
+					<li><b>name</b> = name of the spot.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="removeallspots" href="#removeallspots" class="selflink">removeallspots()</a>
+				<ul>
+					<li>Remove all spots from the map.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="removespot" href="#removespot" class="selflink">removespot(name)</a>
+				<ul>
+					<li>Remove the given spot.</li>
+					<li><b>name</b> = name of the spot to be removed.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="setcenter" href="#setcenter" class="selflink">setcenter(lat,lng)</a>
+				<ul>
+					<li>Set a new center for the map.</li>
+					<li><b>lat</b> / <b>lng</b> = the map center coordinates.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="setmaptype" href="#setmaptype" class="selflink">setmaptype(maptype)</a>
+				<ul>
+					<li>Select a new <a href="#maptype">maptype</a>.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="setzoom" href="#setzoom" class="selflink">setzoom(zoom)</a>
+				<ul>
+					<li>Set a new zoom level for the map.</li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="zoomin" href="#zoomin" class="selflink">zoomin(<i>lat, lng, center</i>)</a>
+				<ul>
+					<li>Zoom in the map by one zoom level.</li>
+					<li>Can be used for own controls.</li>
+					<li><b>lat</b> / <b>lng</b> = zoom toward this coordinates. <span class="smallcomment">(optionally)</span></li></li>
+					<li><b>zoom</b> = set to true to center the map at the lat/lng coordinates. <span class="smallcomment">(optionally)</span></li></li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="zoomout" href="#zoomout" class="selflink">zoomout(<i>lat, lng</i>)</a>
+				<ul>
+					<li>Zoom out the map by one zoom level.</li>
+					<li>Can be used for own controls.</li>
+					<li><b>lat</b> / <b>lng</b> = zoom toward this coordinates. <span class="smallcomment">(optionally)</span></li></li>
+				</ul>
+			</li>
+			<li class="lidd">
+				<a name="zoomtospotsextent" href="#zoomtospotsextent" class="selflink">zoomtospotsextent()</a>
+				<ul>
+					<li>Zoom and pan the map automatically to show all spots.</li>
+				</ul>
+			</li>
+			
+			
+		</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="examples" href="#examples" class="selflink">Examples</a></h2>
+		
+		Example xml code:
+<pre>&lt;krpano onstart="loadscene(stpeterssquare,null,MERGE);"&gt;
+
+    &lt;layer name="map" keep="true"
+           url="bingmaps.swf" alturl="bingmaps.js"
+           align="lefttop" x="0" y="0" width="30%" height="100%"
+           key="...your Bing Maps API key..."
+           maptype="satellite"
+           lat="41.90050" lng="12.46705" zoom="15"
+           &gt;
+        &lt;spot name="stpeterssquare" active="true"
+              lat="41.90255" lng="12.45708" heading="64.5"
+              onclick="loadscene(stpeterssquare,null,MERGE,BLEND(1));activatespot();"
+              /&gt;
+        &lt;spot name="fourrivers"
+              lat="41.89877" lng="12.47311" heading="270.0"
+              onclick="loadscene(fourrivers,null,MERGE,BLEND(1));activatespot();"
+              /&gt;
+        &lt;radar visible="true" zoomwithmap="true" size="50" /&gt;
+        &lt;maptypecontrol visible="true" buttonalign="V" /&gt;
+    &lt;/layer&gt;
+
+    &lt;scene name="stpeterssquare"&gt;
+        &lt;view hlookat="103" vlookat="-2" fov="100" /&gt;
+        &lt;preview type="stpeterssquare_preview.jpg" /&gt;
+        &lt;image&gt;
+            &lt;cube url="stpeterssquare_%s.jpg" /&gt;
+        &lt;/image&gt;
+    &lt;/scene&gt;
+
+    &lt;scene name="fourrivers"&gt;
+        &lt;view hlookat="-1" vlookat="-4" fov="100" /&gt;
+        &lt;preview type="fourrivers_preview.jpg" /&gt;
+        &lt;image&gt;
+            &lt;cube url="fourrivers_%s.jpg" /&gt;
+        &lt;/image&gt;
+    &lt;/scene&gt;
+
+&lt;/krpano&gt;
+</pre>
+	</div>
+
+	<div class="paragraph">
+		
+
+		
+	</div>
+
+	
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

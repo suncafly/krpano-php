@@ -6,11 +6,13 @@
  * Time: 5:50 AM
  */
 
-$KRPANO_TOOL = "/usr/local/krpano-1.19-pr16/krpanotools";
-$MAKEPANO = "makepano";
-$CONFIG_KEY = "-config=";
-$CONFIG = "/usr/local/krpano-1.19-pr16/templates/vtour-multires.config";
-$_URL = "/Applications/MAMP/htdocs/demo/data/";
+
+//$KRPANO_TOOL = "/usr/local/krpano-1.19-pr16/krpanotools";
+//$MAKEPANO = "makepano";
+//$CONFIG_KEY = "-config=";
+//$CONFIG = "/usr/local/krpano-1.19-pr16/templates/vtour-multires.config";
+//$_URL = "/Applications/MAMP/htdocs/demo/data/";
+include "Config.php";
 $_uuid = $_POST["timestamp"];
 $_dir = "../data/";
 $result = array();
@@ -30,7 +32,7 @@ if (file_exists($_dir . $_uuid)) {
     $dst = "../data/" . $_uuid . "/vtour";
     copyFile($src, $dst);
     updateTourXml($_uuid);
-    echo $result;
+    echo json_encode($result);
 }
 
 //拷贝公共文件

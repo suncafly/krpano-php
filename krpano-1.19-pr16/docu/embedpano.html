@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Embedding into HTML
+		
+	</h1>
+
+	<div class="paragraph">
+		<div class="subparagraph">
+			For embedding the krpano viewer into a HTML page the core 'krpano.js' script file (the filename can differ) need to be included
+			and the <a href="#embedpano">embedpano()</a> function be called.
+			The embedpano function detects the browser support and decides which krpano viewer to use (the krpano HTML5 or krpano Flash viewer).
+			When using the krpano Flash viewer, the embedding script also applies several Flashplayer and Browser fixes and workarounds (e.g. 
+			to enable the Mouse-wheel usage inside Flash on systems where this isn't supported).
+			This makes the embedding of the krpano viewer easy and simple - just one script include and one line embedding code.
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		Documentation topics:
+		<ul>
+			
+			<li class="uldd"><a href="#including">Script Including</a></li>
+			<li class="uldd"><a href="#syntax">Viewer Embedding</a></li>
+			<li class="uldd"><a href="#embeddingparameters">Embedding Parameters</a></li>
+			
+			<li class="uldd"><a href="#removing">Viewer Removing</a></li>
+			
+			
+		</ul>
+	</div>
+
+	<div class="paragraph">
+		<h2><a class="selflink" name="including" href="#including">Script Including</a></h2>
+	
+		The krpano script file need to be included once anywhere (but before the embedpano() usage) in the html page:
+		<pre>&lt;script src="krpano.js"&gt;&lt;/script&gt;</pre>
+		<br>
+		Some details and notes:
+		<ul>
+			<li>The 'krpano.js' file can be named different - e.g. when using the MAKE PANO or MAKE VTOUR droplets it's typically named 'pano.js' or 'tour.js'.</li>
+			<li>The file itself contains two parts - the krpano embedding script and the krpano HTML5 viewer.
+				The krpano Flash viewer is a separate external file (e.g. the 'krpano.swf' file).
+			</li>
+			<li>The file is always the same, it doesn't contain any pano or tour specific information, 
+				that means it could be shared across several panos/tours or projects.<br>
+				E.g. to make later updates easier just use only one global folder for the krpano viewer and plugins files
+				and link from all other projects to them. Then all projects can be updated by only updating the global krpano files.
+			</li>
+		</ul>
+	</div>
+		
+	<div class="paragraph">
+		<h2><a class="selflink" name="syntax" href="#syntax">Viewer Embedding</a></h2>
+		
+		Create anywhere on the html page a <b>&lt;div&gt;</b> element where the viewer should be embedded,
+		give that div element an unique <b>'id'</b> name and define its size via css styles:
+		<pre>&lt;div id="<b>pano</b>" style="width:100%;height:100%;"&gt;&lt;/div&gt;</pre>
+		<br/>
+		After defining the <b>&lt;div&gt;</b> element, create a <b>&lt;script&gt;</b> element with the embedding script code.<br>
+		For the embedding itself there is the global <a href="#embedpano">embedpano()</a> function:
+		<br/>
+		<div>
+			<br/><a name="embedpano"></a>
+			<pre><a class="selflink" href="#embedpano">embedpano</a>({...<a class="selflink" href="#embeddingparameters">embedding parameters</a>...});</pre>
+			<div class="preinfo">
+				<ul>
+					<li>
+						The embedpano() function needs an object with the <a href="#embeddingparameters">embedding parameters</a>.<br>
+						<br>
+					</li>
+					<li>Full example:
+						<pre>
+&lt;script src="krpano.js"&gt;&lt;/script&gt;
+
+&lt;div id="<span style="color:red;">pano</span>" style="width:600px; height:400px;"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  embedpano({swf:"krpano.swf", xml:"pano.xml", target:"<span style="color:red;">pano</span>"});
+&lt;/script&gt;</pre>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a class="selflink" name="embeddingparameters" href="#embeddingparameters">Embedding Parameters</a></h2>
+		
+		The embedpano() function needs a Javascript object as argument.
+		This object is used to pass all parameters (in random order) by using <b>parametername:value</b> pairs.
+		Almost all parameters (except the <a href="#target">target</a> parameter) are optional - when they were not defined, their default values will be used.
+		
+		<div class="subparagraph">
+			The <a name="embeddingobjectparameters" href="#embeddingobjectparameters" class="selflink">parameters object</a> 
+			provides the following settings:<br/>
+			
+			
+				
+			<br/><a name="xml"></a>
+			<pre><a class="selflink" href="#xml">xml</a>:"krpano.xml"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Name and path to the startup xml file (relative to the html file).</li>
+					<li>When not set, the filename of .swf file will be used (e.g. 'krpano.xml' for 'krpano.swf').</li>
+					<li>When no xml file should be loaded on startup, the value <span class="presyntax_inline">null</span> can be used.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="target"></a>
+			<pre><a class="selflink" href="#target">target</a>:"...pano-div-id..."</pre>
+			<div class="preinfo">
+				<ul>
+					<li>The #id of the html element where the viewer should be embedded.</li>
+					<li>There will be an 'alert()' error when no target will be set.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="swf"></a>
+			<pre><a class="selflink" href="#swf">swf</a>:"krpano.swf"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Name and path to the viewer '.swf' file (relative to the html file).</li>
+					<li>The default is <b>"krpano.swf"</b>.</li>
+					<li>This file will be only used for the Flashplayer, when using only HTML5 this file will be not required.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="id"></a>
+			<pre><a class="selflink" href="#id">id</a>:"krpanoSWFObject"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>The id of the internal viewer object.</li>
+					<li>This will be the object for interfacing the viewer via the <a href="js_api.html#top">Javascript-Interface</a>.</li>
+					<li>The default id is <b>"krpanoSWFObject"</b>.</li>
+					<li>It is important that each viewer will have an unique id!</li>
+					<li>When there already exists an object with the given id, then the embedding script will automatically add numbers at the end of the id until it is unique.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="bgcolor"></a>
+			<pre><a class="selflink" href="#bgcolor">bgcolor</a>:"#000000"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>The background color of the viewer (in html color format).</li>
+					<li>The default is <b>"#000000"</b> (=Black).</li>
+				</ul>
+			</div>
+			
+			<br/><a name="html5"></a>
+			<pre><a class="selflink" href="#html5">html5</a>:"auto"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Set the <a href="https://krpano.com/html5/#top">krpano HTML5 Viewer</a> usage.</li>
+					<li>Possible settings:
+						<ul>
+							<li><b>auto</b> - The default setting - automatically use the krpano HTML5 viewer.<br/>
+								With that setting, the krpano HTML5 viewer will be used when possible by default (since version 1.19, in older versions Flash was used as default)!
+								When HTML5 will be not possible, then the Flash viewer will be used as fallback.
+							</li>
+							<li><b>prefer</b> - Prefer the usage of the krpano HTML5 viewer when possible, otherwise use Flash (same as <b>auto</b> since version 1.19).<br/>
+							</li>
+							
+							<li><b>fallback</b> - Prefer the usage of the krpano Flash viewer when possible.
+								Use the krpano HTML5 viewer only as fallback when Flash is not available.
+							</li>
+							<li><b>only</b> - Only use the krpano HTML5 viewer - never use the krpano Flash viewer.<br/>
+								With that setting, the krpano HTML5 viewer will be used when possible.
+								When the system/browser is not HTML5-compatible, then an <a href="#onerror">error message</a> will be shown.
+							</li>
+							
+							<li><b>always</b> - Always use the krpano HTML5 viewer, regardless if the system and browser are
+								supporting the therefore necessary capabilities!<br>
+								<i class="redtext">Note - This setting should be only used for internal testing, never for publishing!</i>
+							</li>
+							<li><b>never</b> - Never use the krpano HTML5 viewer, force using the krpano Flash viewer.
+					
+							</li>
+						</ul>
+					</li>
+					<li style="padding-top:10px;">Additional extensions settings (for controlling the rendering method):
+						<ul>
+							<li><b>+webgl</b> - Use the krpano HTML5 viewer only when WebGL is available.<br>
+								Note - some features are only available when WebGL is available - e.g. panoramic-video-support,
+								WebVR-support, stereo-rendering,
+								spherical and cylindrical images, view distortions (fisheye, littleplanet), ...
+							</li>
+							<li><b>+css3d</b> - Prefer the usage of CSS3D rendering instead of WebGL rendering (by default WebGL will be preferred when available).
+								<i class="redtext">The css3d setting should be only used for internal testing, never for publishing!</i>
+							</li>
+						</ul>
+						Usage examples:
+						<ul>
+							<li><b>prefer+webgl</b> - Use the krpano HTML5 viewer only when WebGL is available, otherwise use Flash.<br/>
+							</li>
+							<li><b>only+webgl</b> - Use the krpano HTML5 viewer only when WebGL is available, otherwise show an <a href="#onerror">error message</a>.<br/>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="flash"></a>
+			<pre><a class="selflink" href="#flash">flash</a>:""</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Set the krpano Flash Viewer usage.</li>
+					<li>This is a basically the same as the <a href="#html5">html5</a> setting, just the inverse.
+						It can be used for nicer urls, e.g. by using <span class="presyntax_inline">flash=prefer</span> instead of <span class="presyntax_inline">html5=fallback</span>.
+					</li>
+					<li>When the <a href="#flash">flash</a> setting will be set, it will be mapped to a <a href="#html5">html5</a> setting and overwrite it.
+					</li>
+					<li>Possible settings:
+						<ul>
+							<li><b>auto</b> or no setting - use the <a href="#html5">html5</a> setting.</li>
+							<li><b>prefer</b> - Prefer the usage of the krpano Flash viewer when possible.<br/>
+								Use the krpano HTML5 Viewer only when there is no Flashplayer and the system/browser is HTML5-compatible.<br>
+								This setting will be mapped to <span class="presyntax_inline">html5=fallback</span>.
+							</li>
+							<li><b>fallback</b> - Prefer the usage of the krpano HTML5 viewer when possible.
+								Use the krpano Flash viewer only as fallback when HTML5 is not available.<br>
+								This setting will be mapped to <span class="presyntax_inline">html5=prefer</span>.
+							</li>
+							<li><b>only</b> - Only use the krpano Flash viewer - never use the krpano HTML5 viewer.<br/>
+								With that setting, the krpano Flash viewer will be used when possible.
+								When there is no Flashplayer, then an error message will be shown.<br>
+								This setting will be mapped to <span class="presyntax_inline">html5=never</span>.
+							</li>
+							<li><b>never</b> - Never use the krpano Flash viewer, only use the krpano Flash viewer.<br>
+								This setting will be mapped to <span class="presyntax_inline">html5=only</span>.
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="wmode"></a>
+			<pre><a class="selflink" href="#wmode">wmode</a>:"..."</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Set the <a href="http://helpx.adobe.com/flash/kb/flash-object-embed-tag-attributes.html#main_Using_Window_Mode__wmode__values_" target="_blank">Flashplayer wmode</a> <div class="ico_extlink"></div> setting.</li>
+					<li>Possible settings:
+						<ul>
+							<li><b>window</b> - The Flashplayer default, a compromise between system support and performance.
+								<i>Note - on some systems and browsers html elements can't overlap the Flashplayer in this mode!
+								See this <a href="http://helpx.adobe.com/flash/kb/flash-object-embed-tag-attributes.html#main_Using_Window_Mode__wmode__values_" target="_blank">wmode</a> link for details.
+								</i>
+							</li>
+							<li><b>opaque</b> - Allow other html elements to overlap the Flashplayer (depending on the system and browser 
+								this can cause slower and jerky rendering).
+							</li>
+							<li><b>opaque-flash</b> - Same as <b>opaque</b> but only for the Flashplayer (will be ignored by the HTML5 viewer - see the HTML5 notes below).
+							</li>
+							<li><b>transparent</b> - Make the Flashplayer background transparent to allow seeing html elements 
+								behind the Flashplayer and additionally also allow other html elements to overlap the Flashplayer 
+								(depending on the system and browser this can cause slower and jerky rendering).
+							</li>
+							<li><b>transparent-flash</b> - Same as <b>transparent</b> but only for the Flashplayer (will be ignored by the HTML5 viewer - see the HTML5 notes below).
+							</li>
+							<li><b>direct</b> - Best performance, hardware accelerated presentation, no html overlapping on many systems and browsers
+								(this is typically the fastest mode but on incompatible or older systems and browsers this can cause slowdowns).
+							</li>
+						</ul>
+					</li>
+					<li>krpano will use <b>wmode=direct</b> by default, except for Chrome - there <b>wmode=window</b> will be used
+						by default (better performance and no black window during resizing).
+					</li>
+					<li style="padding-top:15px;"><i>HTML5 notes: The wmode setting is typically a Flashplayer setting, 
+						but wmode=<b>opaque</b> and wmode=<b>transparent</b> will be evaluated also by the krpano HTML5 viewer and make
+						the viewer background transparent there too. Overlapping html elements itself are always possible when
+						using the HTML5 viewer.</i>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="localfallback"></a>
+			<pre><a class="selflink" href="#localfallback">localfallback</a>:"http://localhost:8090"</pre>
+			<div class="preinfo">
+				<ul>
+					<li>When running HTML5 content locally with <span class="presyntax_inline">file://</span> urls
+						several browsers (especially Chrome and Safari) are restricting the dynamic loading of data files!
+						In the krpano HTML5 viewer this affects the xml and plugin loading.
+					</li>
+					<li>
+						For more information about this case please see here - <a href="https://krpano.com/docu/localusage/#top">Local Usage</a>.
+					</li>
+					<li>To avoid just getting a xml loading error in this case, the embedding script checks in
+						this case if loading would be possible and if not, it offers some alternative solutions.
+					</li>
+					<li>Possible settings:
+						<ul>
+							<li><b>An url of the krpano Testing Server</b> (by default <span class="presyntax_inline">http://localhost:8090</span>)<br>
+								<ul>
+									<li>When the localfallback setting will be set to an url of the 
+										<a href="https://krpano.com/tools/ktestingserver/#top">krpano&nbsp;Testing&nbsp;Server</a> (the default case)
+										and the server is currently already running, then the current page will be
+										automatically redirected to the testing server to allow a full featured local usage.
+									</li>
+									<li>When the server is not running, the <b>error</b> fallback case will be used.
+									</li>
+								</ul>
+							</li>
+							<li><b>flash</b> - Use the krpano Flash viewer instead. The Flashplayer is not affected by the local browser restrictions.
+							</li>
+							<li><b>error</b> - Show an error and information message about local usage.<br>
+								The error message could be customized by using the <a href="#onerror">onerror</a> callback.
+							</li>
+							<li><b>none</b> - Ignore that they are local restrictions and start the HTML5 viewer anyway...
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="vars"></a>
+			<pre><a class="selflink" href="#vars">vars</a>:{...}</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Pass a Javascript Object with krpano <b>variable:value</b> pairs.</li>
+					
+					<li>The variables will be set <u>AFTER</u> the xml file has been be loaded and parsed.<br>
+						So these variables can be used to add new settings or to overwrite settings that were already defined in the xml.
+					</li>
+					<li>Example:
+						<pre>
+var <span style="color:red;">settings</span> = {};
+<span style="color:red;">settings</span>["onstart"] = "trace('on start...')";
+<span style="color:red;">settings</span>["view.hlookat"] = 30;
+embedpano({xml:"pano.xml", target:"pano", vars:<span style="color:red;">settings</span>});</pre>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="initvars"></a>
+			<pre><a class="selflink" href="#initvars">initvars</a>:{...}</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Pass a Javascript Object with krpano <b>variable:value</b> pairs.</li>
+					<li>This is basically the same as the <a href="#vars">vars</a> setting, 
+						but these variables will be set <u>BEFORE</u> the xml file wil be loaded and parsed.
+					</li>
+					<li>The main usage of this setting will be to set custom path variables that can be 
+						used as <a href="xml.html#url-notes">placeholders</a> inside <a href="xml.html#url-notes">url paths</a> in the xml files
+						and / or to set variables that can be used inside <a href="xml.html#if">xml-if-checks</a> for <a href="xml.html#include">&lt;include&gt;</a> elements.
+					</li>
+					<li>Example:
+						<pre>embedpano({..., initvars:{<span style="color:red;">mypath</span>:"./panos1/"} });</pre>
+						XML:
+						<pre>url="<span style="color:red;">%$mypath%</span>image.jpg"</pre>
+					</li>
+					<li>To be able to pass <a href="#initvars">initvars</a> variables via <a href="#passQueryParameters">http queries</a> directly
+						at the url of the html file this syntax need to be used:
+						<pre>tour.html?<span style="color:red;">initvars.</span>variable=value</pre>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="basepath"></a>
+			<pre><a class="selflink" href="#basepath">basepath</a>:...</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Sets a custom base-path for resolving paths that are relative to the krpano swf file.</li>
+					<li>Can be used in Flash and HTML5 for adjusting relative paths in the xml.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="consolelog"></a>
+			<pre><a class="selflink" href="#consolelog">consolelog</a>:false</pre>
+			<div class="preinfo">
+				<ul>
+					<li>A Boolean setting that defines if krpano log/trace-messages should be sent also
+						to the browser Javascript console.
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="mwheel"></a>
+			<pre><a class="selflink" href="#mwheel">mwheel</a>:true</pre>
+			<div class="preinfo">
+				<ul>
+					<li>A Boolean setting to control the mouse-wheel usage.</li>
+					<li>When set to <b>true</b> (the default), then the mouse-wheel events will be captured and can be used in the viewer (e.g. for zooming).</li>
+					<li>When set to <b>false</b>, then any mouse-wheel usage will be ignored and the browser will do its default mouse-wheel handling (typically scrolling the webpage).</li>
+				</ul>
+			</div>
+			
+			<br/><a name="capturetouch"></a>
+			<pre><a class="selflink" href="#capturetouch">capturetouch</a>:true</pre>
+			<div class="preinfo">
+				<ul>
+					<li>A Boolean setting to control the captureing of touch events.</li>
+					<li>When set to <b>true</b> (the default), then the touch events will be captured and can be used in the viewer (e.g. for panning and zooming).</li>
+					<li>When set to <b>false</b>, then touch events itself will be still used by the viewer, but their default event processing will be not stopped.
+						That means in this case the browser might pan or zoom the webpage.
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="focus"></a>
+			<pre><a class="selflink" href="#focus">focus</a>:true</pre>
+			<div class="preinfo">
+				<ul>
+					<li>A Boolean setting to give the viewer the input / keyboard focus on startup.</li>
+					<li>When not set, the setting will be set automatically depending on the viewer size - 
+						when the viewer will cover the whole webpage, focus will be set to true, otherwise to false.
+					</li>
+					<li>This works only in HTML5 (all browsers) and in the Chrome Flashplayer. 
+						In other browsers the Flash element requires an initial click by the user for getting the focus.
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="webglsettings"></a>
+			<pre><a class="selflink" href="#webglsettings">webglsettings</a>:{preserveDrawingBuffer:false, depth:false, stencil:false}</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Pass an object with special settings for the WebGL context creation.</li>
+					<li>The WebGL context will be created at startup and can't be changed at runtime, therefore these settings
+						need to be specified already during embedding.
+					</li>
+					<li>Available settings:
+						<ul>
+							<li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.2.1">preserveDrawingBuffer</a> - Keep the drawing buffer content. Would need to be enabled for when trying to make screenshots of the WebGL canvas via toDataURL or readPixels, false by default.</li>
+							<li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.2.1">depth</a> - Create a depth buffer, false by default.
+								Would need to be enabled for the correct <a href="https://krpano.com/forum/wbb/index.php?page=Thread&threadID=12479">ThreeJS</a> plugin usage.
+							</li>
+							<li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.2.1">stencil</a> - Create a stencil buffer, false by default.</li>
+							<li><a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.2.1">failIfMajorPerformanceCaveat</a> - Don't use WebGL when the rendering performance would be dramatically lower than the OpenGL rendering performance of a native application, false by default.</li>
+						</ul>
+					</li>
+					<li>All these settings are disabled by default for performance and memory reasons (especially on mobile devices).</li>
+				</ul>
+			</div>
+			
+			<br/><a name="mobilescale"></a>
+			<pre><a class="selflink" href="#mobilescale">mobilescale</a>:0.5</pre>
+			<div class="preinfo">
+				<ul>
+					<li>By default all krpano content on mobile devices will be scaled by 0.5.</li>
+					<li>To disable that scaling, set the <a href="#mobilescale">mobilescale</a> setting to 1.0.</li>
+					<li>This can be useful for implementing responsive webdesigns.</li>
+					<li>See also the xml <a href="actions.html#stagescale">stagescale</a> setting.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="fakedevice"></a>
+			<pre><a class="selflink" href="#fakedevice">fakedevice</a>:""</pre>
+			<div class="preinfo">
+				<ul>
+					<li>Fake the krpano <a href="xml.html#devices-notes">device</a> detection settings.</li>
+					<li>Available settings: "mobile", "tablet", "desktop".</li>
+					<li><i class="redtext">Note - This setting should be only used for internal testing, never for publishing!</i></li>
+				</ul>
+			</div>
+			
+			<br/><a name="onready"></a>
+			<pre><a class="selflink" href="#onready">onready</a>:...Javascript-Function...</pre>
+			<div class="preinfo">
+				<ul>
+					<li>The <b>onready</b> setting can be used to set a call-back-function to get notified when the embedding is done and the krpano viewer is ready for usage.</li>
+					<li>The given function will be called with the <a href="js_api.html#interfaceobject">krpano Javascript-Interface object</a>.</li>
+					<li>Example:
+						<pre>embedpano({target:"krpanoDIV", onready:krpanoReady});
+
+function krpanoReady(<span class="redtext">krpano</span>)
+{
+    <span class="redtext">krpano</span>.call("trace(krpano is ready...)");
+}</pre>
+					</li>
+					<li style="padding-top:15px;"><i>Flashplayer Notes: This function requires the External Interface of the Flashplayer!
+						This means the call-back will work offline/locally only when the security settings of the Flashplayer were adjusted. 
+						See here for more detatils - <a href="https://krpano.com/docu/localusage/#top">Local / Offline Usage</a>.</i>
+					</li>
+				</ul>
+			</div>
+			
+			<br/><a name="onerror"></a>
+			<pre><a class="selflink" href="#onerror">onerror</a>:...Javascript-Function...</pre>
+			<div class="preinfo">
+				<ul>
+					<li>The <b>onerror</b> setting can be used to set a custom embedding-error-handling function.</li>
+					<li>The given function will be called with an error-message string as parameter.</li>
+				</ul>
+			</div>
+			
+			<br/><a name="passQueryParameters"></a>
+			<pre><a class="selflink" href="#passQueryParameters">passQueryParameters</a>:false</pre>
+			<div class="preinfo">
+				<ul>
+					<li>A Boolean setting. When set to <b>true</b>, all query parameters from the html url will be passed to the viewer as variables.</li>
+					<li>When enabled, it will be also possible to pass the
+						<a href="#html5">html5</a>, <a href="#flash">flash</a>, <a href="#wmode">wmode</a>, 
+						<a href="#mobilescale">mobilescale</a>, <a href="#fakedevice">fakedevice</a> and
+						<a href="#initvars">initvars</a> settings directly at the html url.<br>
+					</li>
+					<li>Usage example:
+						<pre>tour.html?<span style="color:red;">html5=only</span>&amp;<span style="color:red;">startscene=scene2</span>&amp;<span style="color:red;">initvars.design=flat</span></pre>
+					</li>
+				</ul>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="paragraph">
+		<h2><a href="#removing" name="removing" class="selflink">Viewer Removing</a></h2>
+		
+		For removing the pano viewer from the html page the <a href="#removepano">removepano()</a> function need to be used!
+		The removepano() function will remove all internally attached mouse-fixes (Flash) and all DOM elements and events (HTML5).<br/>
+		<br/>
+		
+		<br/><a name="removepano"></a>
+		<pre><a class="selflink" href="#removepano">removepano</a>(<a class="selflink" href="#id">id</a>);</pre>
+		<div class="preinfo">
+			<ul>
+				<li>
+					The removepano() function need to be called with the unique <a href="#id">id</a> of the viewer object.
+				</li>
+				<li>Example:
+					<pre>embedpano({target:"panoDIV", id:"<span class="redtext">pano1</span>"});
+
+...
+
+removepano("<span class="redtext">pano1</span>");
+</pre>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	
+	
+	
+	
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

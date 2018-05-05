@@ -1,0 +1,595 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="../design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="../embedpano.html#top">Embedding</a></li>
+						<li><a href="../xml.html#top">XML Reference</a></li>
+						<li><a href="../actions.html#top">Actions / Scripting</a></li>
+						<li><a href="../plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="../js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="combobox.html#top">Combobox</a></li>
+						<li><a href="googlemaps.html#top">Google Maps</a></li>
+						<li><a href="gyro2.html#top">Gyro2</a></li>
+						<li><a href="moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="radar.html#top">Radar</a></li>
+						<li><a href="scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="showtext.html#top">Showtext</a></li>
+						<li><a href="snow.html#top">Snow / Rain</a></li>
+						<li><a href="soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="../textfield.html#top">Textfield</a></li>
+						<li><a href="videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="../tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>Showtext Plugin
+		<span class="pluginfilename">showtext.xml</span>
+		
+	</h1>
+	
+	<div class="paragraph">
+		<ul>
+			<li>This plugin extends the krpano viewer with an advanced <a href="../actions.html#showtext">showtext()</a> action 
+				and advanced <a href="../xml.html#textstyle">&lt;textstyle&gt;</a> settings that are working the same in Flash and HTML5.
+			</li>
+			<li>To get <a href="../actions.html#showtext">showtext()</a> support in HTML5, just include the 'showtext.xml' file once in your xml.</li>
+		</ul>
+	</div>
+
+	
+	<div class="paragraph">
+		<h2><a name="topics" href="#topics" class="selflink">Topics</a></h2>
+		<ul>
+			<li><a href="#syntax">Syntax</a></li>
+			<li><a href="#textstyle">Textstyle</a></li>
+			<li><a href="#textstyle.attributes">Textstyle Attributes</a></li>
+		</ul>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="syntax" href="#syntax" class="selflink">Syntax</a></h2>
+		
+		<i>Include:</i>
+		<pre>&lt;<a href="../xml.html#include" class="selflink">include</a> <a href="../xml.html#url-notes" class="selflink">url</a>="%SWFPATH%/plugins/showtext.xml" /&gt;</pre>
+		<br>
+		<i>Usage:</i>
+		<a name="showtext" href="#showtext" class="selflink"><pre>showtext(text, textstyle*)</pre></a>
+		<div class="preinfo">
+			The showtext() action shows a text message on the screen.<br>
+			<br>
+			<i>Note - by default only one text can be shown at one time! When calling showtext() again the current shown text will be removed!</i><br>
+			<br>
+			Parameters:<br>
+			<ul>
+				<li><a name="showtext.text" href="#showtext.text" class="selflink">text</a><br>
+					<ul>
+						<li>The text to show.</li>
+						<li>HTML tags can be used to format the text.</li>
+						<li>Using the <span class="presyntax_inline">&lt;</span> and <span class="presyntax_inline">&gt;</span> characters will be not possible due xml syntax limitations,
+							but the <span class="presyntax_inline">[</span> and <span class="presyntax_inline">]</span> characters can be used instead.
+							To get the real <span class="presyntax_inline">[</span> and <span class="presyntax_inline">]</span> characters use
+							them twice - <span class="presyntax_inline">[[</span> and <span class="presyntax_inline">]]</span>.
+						</li>
+						<li>The Flashplayer and the HTML5 Browsers have a different level of HTML support.
+							To get the same results in both cases this needs to be respected. More details here - <a href="../textfield/#html">Textfield plugin</a>.
+						</li>
+					</ul>
+					<br>
+		
+					Examples for formating:<br>
+					<ul>
+						<li><span class="presyntax_inline">[b]bold[/b]</span> &rArr; <b>bold text</b></li>
+						<li><span class="presyntax_inline">[i]italic[/i]</span> &rArr; <i>italic text</i></li>
+						<li><span class="presyntax_inline">[u]underline[/u]</span> &rArr; <u>underlined text</u></li>
+						<li><span class="presyntax_inline">[br]</span> &rArr; line break</li>
+						<li><span class="presyntax_inline">[font size='10' style='font-size:10px;']smaller text[/font]</span> &rArr; use a different font size ('size' for Flash and 'style' for HTML5)</li>
+						<li><span class="presyntax_inline">[font color='#FF0000' style='color:#FF0000;']red text[/font]</span> &rArr; use a different font color ('color' for Flash and 'style' for HTML5)</li>
+					</ul>
+					<br>
+				</li>
+				<li><a name="showtext.textstyle" href="#showtext.textstyle" class="selflink">textstyle</a> <span class="smallcomment">(optionally)</span><br>
+					<ul>
+						<li>The name of the <a href="#textstyle" class="selflink">&lt;textstyle&gt;</a> to use for this text.</li>
+						<li>When not defined, the DEFAULT <a href="#textstyle" class="selflink">&lt;textstyle&gt;</a> will be used.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="textstyle" href="#textstyle" class="selflink">Textstyle</a></h2>
+		
+		<pre class="xmlpre">&lt;<a href="#textstyle" class="selflink">textstyle</a> <a class="pluginattrib" href="#textstyle.name">name</a>="DEFAULT"
+           <a class="pluginattrib" href="#textstyle.origin">origin</a>="cursor"
+           <a class="pluginattrib" href="#textstyle.edge">edge</a>="bottom"
+           <a class="pluginattrib" href="#textstyle.xoffset">xoffset</a>="0"
+           <a class="pluginattrib" href="#textstyle.yoffset">yoffset</a>="-3"
+           <a class="pluginattrib" href="#textstyle.fadeintime">fadeintime</a>="0.0"
+           <a class="pluginattrib" href="#textstyle.showtime">showtime</a>="0.1"
+           <a class="pluginattrib" href="#textstyle.fadetime">fadetime</a>="0.0"
+           <a class="pluginattrib" href="#textstyle.font">font</a>="Times"
+           <a class="pluginattrib" href="#textstyle.fontsize">fontsize</a>="12.0"
+           <a class="pluginattrib" href="#textstyle.bold">bold</a>="true"
+           <a class="pluginattrib" href="#textstyle.italic">italic</a>="false"
+           <a class="pluginattrib" href="#textstyle.textcolor">textcolor</a>="0x000000"
+           <a class="pluginattrib" href="#textstyle.textalign">textalign</a>="none"
+           <a class="pluginattrib" href="#textstyle.padding">padding</a>="1"
+           <a class="pluginattrib" href="#textstyle.css">css</a>=""
+           <a class="pluginattrib" href="#textstyle.width">width</a>=""
+           <a class="pluginattrib" href="#textstyle.height">height</a>=""
+           <a class="pluginattrib" href="#textstyle.vcenter">vcenter</a>=""
+           <a class="pluginattrib" href="#textstyle.background">background</a>="true"
+           <a class="pluginattrib" href="#textstyle.backgroundcolor">backgroundcolor</a>="0xFFFFFF"
+           <a class="pluginattrib" href="#textstyle.backgroundalpha">backgroundalpha</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.border">border</a>="true"
+           <a class="pluginattrib" href="#textstyle.bordercolor">bordercolor</a>="0x000000"
+           <a class="pluginattrib" href="#textstyle.borderalpha">borderalpha</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.borderwidth">borderwidth</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.roundedge">roundedge</a>="0"
+           <a class="pluginattrib" href="#textstyle.shadow">shadow</a>="0.0"
+           <a class="pluginattrib" href="#textstyle.shadowrange">shadowrange</a>="4.0"
+           <a class="pluginattrib" href="#textstyle.shadowangle">shadowangle</a>="45"
+           <a class="pluginattrib" href="#textstyle.shadowcolor">shadowcolor</a>="0x000000"
+           <a class="pluginattrib" href="#textstyle.shadowalpha">shadowalpha</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.textshadow">textshadow</a>="0.0"
+           <a class="pluginattrib" href="#textstyle.textshadowrange">textshadowrange</a>="4.0"
+           <a class="pluginattrib" href="#textstyle.textshadowangle">textshadowangle</a>="45"
+           <a class="pluginattrib" href="#textstyle.textshadowcolor">textshadowcolor</a>="0x000000"
+           <a class="pluginattrib" href="#textstyle.textshadowalpha">textshadowalpha</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.alpha">alpha</a>="1.0"
+           <a class="pluginattrib" href="#textstyle.parent">parent</a>=""
+           <a class="pluginattrib" href="#textstyle.noclip">noclip</a>="true"
+           /&gt;</pre>
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="textstyle.attributes" href="#textstyle.attributes" class="selflink">Textstyle Attributes</a></h2>
+		
+		<div style="padding-left:1px;padding-top:0;">
+		<table class="xmlattrdoc">
+			
+			<tr class="xmlattrdocdes1"><td><a name="textstyle.name"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.name" class="selflink">name</a></th>
+				<th><a href="#textstyle.name" class="selflink">textstyle[name].name</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					The name of the textstyle <i>(see the <a href="../xml.html#name-notes">name notes</a>)</i>.<br/>
+					Use DEFAULT as name to overwrite the default textstyle settings.
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.origin"></a><a name="textstyle.edge"></a><a name="textstyle.xoffset"></a><a name="textstyle.yoffset"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.origin" class="selflink">origin</a><br>
+					<a href="#textstyle.edge" class="selflink">edge</a><br>
+					<a href="#textstyle.xoffset" class="selflink">xoffset</a><br>
+					<a href="#textstyle.yoffset" class="selflink">yoffset</a>
+				</th>
+				<th><a href="#textstyle.origin" class="selflink">textstyle[name].origin</a><br>
+					<a href="#textstyle.edge" class="selflink">textstyle[name].edge</a><br>
+					<a href="#textstyle.xoffset" class="selflink">textstyle[name].xoffset</a><br>
+					<a href="#textstyle.yoffset" class="selflink">textstyle[name].yoffset</a>
+				</th>
+				<th>String<br>String<br>int<br>int</th>
+				<th>"cursor"<br>"bottom"<br>0<br>-3</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Position of the text.<br/>
+					<br>
+					Possible settings for <a href="#textstyle.origin" class="selflink">origin</a>:
+					<ul>
+						<li><b>cursor</b> - show the text at the mouse position</li>
+						<li><b>lefttop, left, leftbottom, top, center, bottom, righttop, right, rightbottom</b> -
+							show the text on the screen at the given position.
+						</li>
+					</ul>
+					Possible settings for <a href="#textstyle.edge" class="selflink">edge</a>:
+					<ul>
+						<li><b>lefttop, left, leftbottom, top, center, bottom, righttop, right, rightbottom</b> -
+							the alignment edge of the text at the origin position.
+						</li>
+					</ul>
+					The <a href="#textstyle.xoffset" class="selflink">xoffset</a> and <a href="#textstyle.yoffset" class="selflink">yoffset</a> settings are defining the distance from the <a href="#textstyle.origin" class="selflink">origin</a> point to the <a href="#textstyle.edge" class="selflink">edge</a> point in pixels.
+				</td>
+			</tr>
+	
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.fadeintime"></a><a name="textstyle.showtime"></a><a name="textstyle.fadetime"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.fadeintime" class="selflink">fadeintime</a><br>
+					<a href="#textstyle.showtime" class="selflink">showtime</a><br>
+					<a href="#textstyle.fadetime" class="selflink">fadetime</a>
+				</th>
+				<th><a href="#textstyle.fadeintime" class="selflink">textstyle[name].fadeintime</a><br>
+					<a href="#textstyle.showtime" class="selflink">textstyle[name].showtime</a><br>
+					<a href="#textstyle.fadetime" class="selflink">textstyle[name].fadetime</a>
+				</th>
+				<th>Number<br>Number<br>Number</th>
+				<th>0.0<br>0.1<br>0.0</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					The times (in seconds) how long the text will be shown:
+					<ul>
+						<li><a href="#textstyle.fadeintime" class="selflink">fadeintime</a> - the fade-in time.</li>
+						<li><a href="#textstyle.showtime" class="selflink">showtime</a> - the time how long the text will be shown.</li>
+						<li><a href="#textstyle.fadetime" class="selflink">fadetime</a> - the fade-out time.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.font"></a><a name="textstyle.fontsize"></a><a name="textstyle.bold"><a name="textstyle.italic"></a></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.font" class="selflink">font</a><br>
+					<a href="#textstyle.fontsize" class="selflink">fontsize</a><br>
+					<a href="#textstyle.bold" class="selflink">bold</a><br>
+					<a href="#textstyle.italic" class="selflink">italic</a>
+				</th>
+				<th><a href="#textstyle.font" class="selflink">textstyle[name].font</a><br>
+					<a href="#textstyle.fontsize" class="selflink">textstyle[name].fontsize</a><br>
+					<a href="#textstyle.bold" class="selflink">textstyle[name].bold</a><br>
+					<a href="#textstyle.italic" class="selflink">textstyle[name].italic</a>
+				</th>
+				<th>String<br>Number<br>Boolean<br>Boolean</th>
+				<th>"Times"<br>12.0<br>true<br>false</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li><a href="#textstyle.font" class="selflink">font</a> - the name of the font-family.</li>
+						<li><a href="#textstyle.fontsize" class="selflink">fontsize</a> - the point size of the font.</li>
+						<li><a href="#textstyle.bold" class="selflink">bold</a> - bold font-style <i>(true by default)</i>.</li>
+						<li><a href="#textstyle.italic" class="selflink">italic</a> - italic font-style.</li>
+					</ul>
+				</td>
+			</tr>
+	
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.textcolor"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.textcolor" class="selflink">textcolor</a></th>
+				<th><a href="#textstyle.textcolor" class="selflink">textstyle[name].textcolor</a></th>
+				<th>int</th>
+				<th>0x000000</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					The default color of the text.
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.textalign"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.textalign" class="selflink">textalign</a></th>
+				<th><a href="#textstyle.textalign" class="selflink">textstyle[name].textalign</a></th>
+				<th>String</th>
+				<th>"none"</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Align of the text: <b>none, left, center, right</b>.
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.padding"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.padding" class="selflink">padding</a></th><th><a href="#textstyle.padding" class="selflink">textstyle[name].padding</a></th><th>String</th><th>"2"</th></tr>
+			<tr>
+				<td colspan="4">
+					Padding / space in pixels around the text. Can be individually for each side.<br>
+					<br>
+					There are 4 different ways to set the paddings (same as in CSS):
+					<ul>
+						<li><b>padding="25"</b>
+							<ul>
+								<li class="lisd">all four paddings are 25px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50"</b>
+							<ul>
+								<li class="lisd">top and bottom paddings are 25px</li>
+								<li class="lisd">right and left paddings are 50px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50 75"</b>
+							<ul>
+								<li class="lisd">top padding is 25px</li>
+								<li class="lisd">right and left paddings are 50px</li>
+								<li class="lisd">bottom  padding is 75px</li>
+							</ul>
+						</li>
+						<li><b>padding="25 50 75 100"</b>
+							<ul>
+								<li class="lisd">top padding is 25px</li>
+								<li class="lisd">right padding is 50px</li>
+								<li class="lisd">bottom padding is 75px</li>
+								<li class="lisd">left padding is 100px</li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.css"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.css" class="selflink">css</a></th><th><a href="#css" class="selflink">textstyle[name].css</a></th><th>String</th><th>""</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li class="uldd">Add custom CSS styles for the text.</li>
+						
+						<li class="uldd">The HTML / CSS code will be rendered by the Flashplayer (Flash-viewer) or by the Browser (HTML5-viewer)!
+							The Flashplayer itself supports only a very small subset of CSS1!
+							For equal results in Flash and HTML5 only very simple css styles code should be used.
+							The usage of CSS classes is not supported<br>
+						</li>
+						<li class="uldd">	
+							<i>Here a link to the Flashplayer documentation about the CSS support:
+							<a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/text/StyleSheet.html" target="_blank">http://help.adobe.com/.../StyleSheet.html</a>
+							</i><br>
+						</li>
+											
+						<li class="uldd">
+							When setting font-sizes, it is important to use 'px' as entity to get the same results in Flash and HTML5.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.width"></a><a name="textstyle.height"><a name="textstyle.vcenter"></a></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.width" class="selflink">width</a><br>
+					<a href="#textstyle.height" class="selflink">height</a><br>
+					<a href="#textstyle.vcenter" class="selflink">vcenter</a>
+				</th>
+				<th><a href="#textstyle.width" class="selflink">textstyle[name].width</a><br>
+					<a href="#textstyle.height" class="selflink">textstyle[name].height</a><br>
+					<a href="#textstyle.vcenter" class="selflink">textstyle[name].vcenter</a>
+				</th>
+				<th>String<br>String<br>Boolean</th><th>""<br>""<br>false</th></tr>
+			<tr>
+				<td colspan="4">
+					Set fixed pixel-sizes for the text-field.<br>
+					By default the size will depend on the text content.<br>
+					<br>
+					<a href="#textstyle.vcenter" class="selflink">vcenter</a> - vertically center the text within a given fixed height.
+				</td>
+			</tr>
+					
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.background"></a><a name="textstyle.backgroundcolor"></a><a name="textstyle.backgroundalpha"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.background" class="selflink">background</a><br>
+					<a href="#textstyle.backgroundcolor" class="selflink">backgroundcolor</a><br>
+					<a href="#textstyle.backgroundalpha" class="selflink">backgroundalpha</a><br>
+				</th>
+				<th><a href="#textstyle.background" class="selflink">textstyle[name].background</a><br>
+					<a href="#textstyle.backgroundcolor" class="selflink">textstyle[name].backgroundcolor</a><br>
+					<a href="#textstyle.backgroundalpha" class="selflink">textstyle[name].backgroundalpha</a><br>
+				</th>
+				<th>Boolean<br>int<br>Number</th>
+				<th>true<br>0xFFFFFF<br>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Draw a background behind the textfield.</li>
+						<li><a href="#textstyle.backgroundcolor" class="selflink">backgroundcolor</a> - The color of the background (white by default).</li>
+						<li><a href="#textstyle.backgroundalpha" class="selflink">backgroundalpha</a> - The alpha transparency of the background.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.border"><a name="textstyle.bordercolor"><a name="textstyle.borderalpha"><a name="textstyle.borderwidth"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th>
+					<a href="#textstyle.border" class="selflink">border</a><br>
+					<a href="#textstyle.bordercolor" class="selflink">bordercolor</a><br>
+					<a href="#textstyle.borderalpha" class="selflink">borderalpha</a><br>
+					<a href="#textstyle.borderwidth" class="selflink">borderwidth</a><br>
+				</th>
+				<th>
+					<a href="#textstyle.border" class="selflink">textstyle[name].border</a><br>
+					<a href="#textstyle.bordercolor" class="selflink">textstyle[name].bordercolor</a><br>
+					<a href="#textstyle.borderalpha" class="selflink">textstyle[name].borderalpha</a><br>
+					<a href="#textstyle.borderwidth" class="selflink">textstyle[name].borderwidth</a><br>
+				</th>
+				<th>Boolean<br>int<br>Number<br>Number</th><th>false<br>0x000000<br>1.0<br>1.0</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Draw a border around the textfield.</li>
+						<li><a href="#textstyle.bordercolor" class="selflink">bordercolor</a> - The color of the textfield border.</li>
+						<li><a href="#textstyle.borderalpha" class="selflink">borderalpha</a> - The alpha transparency of the textfield border.</li>
+						<li><a href="#textstyle.borderwidth" class="selflink">borderwidth</a> - The line-width of the textfield border (will be added outside of the textfield).</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.roundedge"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.roundedge" class="selflink">roundedge</a></th><th><a href="#textstyle.roundedge" class="selflink">textstyle[name].roundedge</a></th><th>Number</th><th>0.0</th></tr>
+			<tr>
+				<td colspan="4">
+					<ul>
+						<li>Make the textfield edges round.</li>
+						<li>The value defines the size of the rounded edges.</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.shadow"></a><a name="textstyle.shadowrange"></a><a name="textstyle.shadowangle"></a><a name="textstyle.shadowcolor"></a><a name="textstyle.shadowalpha"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.shadow"      class="selflink">shadow</a><br>
+					<a href="#textstyle.shadowrange" class="selflink">shadowrange</a><br>
+					<a href="#textstyle.shadowangle" class="selflink">shadowangle</a><br>
+					<a href="#textstyle.shadowcolor" class="selflink">shadowcolor</a><br>
+					<a href="#textstyle.shadowalpha" class="selflink">shadowalpha</a><br>
+				</th>
+				<th><a href="#textstyle.shadow"      class="selflink">textstyle[name].shadow</a><br>
+					<a href="#textstyle.shadowrange" class="selflink">textstyle[name].shadowrange</a><br>
+					<a href="#textstyle.shadowangle" class="selflink">textstyle[name].shadowangle</a><br>
+					<a href="#textstyle.shadowcolor" class="selflink">textstyle[name].shadowcolor</a><br>
+					<a href="#textstyle.shadowalpha" class="selflink">textstyle[name].shadowalpha</a><br>
+				</th>
+				<th>Number<br>Number<br>Number<br>int<br>Number</th>
+				<th>0.0<br>4.0<br>45.0<br>0x000000<br>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Put a box-shadow behind the textfield.<br>
+					<ul>
+						<li><a href="#textstyle.shadow" class="selflink">shadow</a> - The shadow value defines the distance of the shadow. 
+							A value of 0.0 disables the shadow. For a 'centered shadow' or 'glowing effects' use very small values like 0.01.
+						</li>
+						<li><a href="#textstyle.shadowrange" class="selflink">shadowrange</a> - The blurring range of the shadow.</li>
+						<li><a href="#textstyle.shadowangle" class="selflink">shadowangle</a> - The angle of the shadow in degrees.</li>
+						<li><a href="#textstyle.shadowcolor" class="selflink">shadowcolor</a> - The color of the shadow</li>
+						<li><a href="#textstyle.shadowalpha" class="selflink">shadowalpha</a> - The alpha transparency of the shadow</li>
+					</ul>
+				</td>
+			</tr>
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.textshadow"></a><a name="textstyle.textshadowrange"></a><a name="textstyle.textshadowangle"></a><a name="textstyle.textshadowcolor"></a><a name="textstyle.textshadowalpha"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default value</td></tr>
+			<tr><th><a href="#textstyle.textshadow"      class="selflink">textshadow</a><br>
+					<a href="#textstyle.textshadowrange" class="selflink">textshadowrange</a><br>
+					<a href="#textstyle.textshadowangle" class="selflink">textshadowangle</a><br>
+					<a href="#textstyle.textshadowcolor" class="selflink">textshadowcolor</a><br>
+					<a href="#textstyle.textshadowalpha" class="selflink">textshadowalpha</a><br>
+				</th>
+				<th><a href="#textstyle.textshadow"      class="selflink">textstyle[name].textshadow</a><br>
+					<a href="#textstyle.textshadowrange" class="selflink">textstyle[name].textshadowrange</a><br>
+					<a href="#textstyle.textshadowangle" class="selflink">textstyle[name].textshadowangle</a><br>
+					<a href="#textstyle.textshadowcolor" class="selflink">textstyle[name].textshadowcolor</a><br>
+					<a href="#textstyle.textshadowalpha" class="selflink">textstyle[name].textshadowalpha</a><br>
+				</th>
+				<th>Number<br>Number<br>Number<br>int<br>Number</th>
+				<th>0.0<br>4.0<br>45.0<br>0x000000<br>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Put a shadow behind the text.<br>
+					<ul>
+						<li><a href="#textstyle.textshadow" class="selflink">textshadow</a> - The textshadow value defines the distance of the shadow. 
+							A value of 0.0 disables the shadow. For a 'centered shadow' or 'glowing effects' use very small values like 0.01.
+						</li>
+						<li><a href="#textstyle.textshadowrange" class="selflink">textshadowrange</a> - The blurring range of the shadow.</li>
+						<li><a href="#textstyle.textshadowangle" class="selflink">textshadowangle</a> - The angle of the shadow in degrees.</li>
+						<li><a href="#textstyle.textshadowcolor" class="selflink">textshadowcolor</a> - The color of the shadow</li>
+						<li><a href="#textstyle.textshadowalpha" class="selflink">textshadowalpha</a> - The alpha transparency of the shadow</li>
+					</ul>
+				</td>
+			</tr>
+			
+			
+	
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.alpha"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.alpha" class="selflink">alpha</a></th>
+				<th><a href="#textstyle.alpha" class="selflink">textstyle[name].alpha</a></th>
+				<th>Number</th>
+				<th>1.0</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					The alpha (transparency) value (0.0 - 1.0) of the textfield.
+				</td>
+			</tr>
+	
+			
+			
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.parent"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.parent" class="selflink">parent</a></th>
+				<th><a href="#textstyle.parent" class="selflink">textstyle[name].parent</a></th>
+				<th>String</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Assign a custom layer as parent element for the textfield:
+					<ul>
+						<li>either use the name of <a href="../xml.html#layer" class="selflink">&lt;layer&gt;</a> element,</li>
+						<li>
+							or use <b>STAGE</b> to align the textfield outside / on-top of the pano  <a href="../xml.html#area">area</a>.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
+		
+			<tr class="xmlattrdocdesc"><td><a name="textstyle.noclip"></a>Attribute name</td><td>Full variable name</td><td>Type</td><td>Default&nbsp;value</td></tr>
+			<tr>
+				<th><a href="#textstyle.noclip" class="selflink">noclip</a></th>
+				<th><a href="#textstyle.noclip" class="selflink">textstyle[name].noclip</a></th>
+				<th>Boolean</th>
+				<th>true</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					Avoid the clipping of the textfield on the screen borders. The textfield will be always fully within the screen.
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+	
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

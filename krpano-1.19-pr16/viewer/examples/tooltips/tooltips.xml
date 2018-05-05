@@ -1,0 +1,75 @@
+﻿<!--
+	krpano - tooltips example (for Flash and HTML5)
+-->
+<krpano>
+
+	<!-- pano -->
+	<preview type="grid(cube,32,32,256,0x223344,0x000011,0xFFFFFF);" />
+
+	<!-- default view -->
+	<view hlookat="0" vlookat="0" fovtype="VFOV" fov="100" fovmin="60" fovmax="150" />
+
+
+	<!-- some example buttons for the tooltip testing -->
+	<style name="button" url="buttons.png" width="40" height="40" align="left" />
+
+	<!-- a container layer with the default navigation buttons -->
+	<layer name="buttons" keep="true" type="container" align="bottom" width="240" height="40" y="10">
+		<layer name="in"       style="button|tooltip" tooltip="Zoom In"    x="0"   crop="160|0|40|40" onovercrop="160|40|40|40" ondowncrop="160|80|40|40" ondown="set(fov_moveforce,-1);"      onup="set(fov_moveforce,0);" />
+		<layer name="out"      style="button|tooltip" tooltip="Zoom Out"   x="40"  crop="200|0|40|40" onovercrop="200|40|40|40" ondowncrop="200|80|40|40" ondown="set(fov_moveforce,+1);"      onup="set(fov_moveforce,0);" />
+		<layer name="left"     style="button|tooltip" tooltip="Look Left"  x="80"  crop=  "0|0|40|40" onovercrop=  "0|40|40|40" ondowncrop=  "0|80|40|40" ondown="set(hlookat_moveforce,-1);"  onup="set(hlookat_moveforce,0);" />
+		<layer name="right"    style="button|tooltip" tooltip="Look Right" x="120" crop= "40|0|40|40" onovercrop= "40|40|40|40" ondowncrop= "40|80|40|40" ondown="set(hlookat_moveforce,+1);"  onup="set(hlookat_moveforce,0);" />
+		<layer name="up"       style="button|tooltip" tooltip="Look Up"    x="160" crop= "80|0|40|40" onovercrop= "80|40|40|40" ondowncrop= "80|80|40|40" ondown="set(vlookat_moveforce,-1);"  onup="set(vlookat_moveforce,0);" />
+		<layer name="down"     style="button|tooltip" tooltip="Look Down"  x="200" crop="120|0|40|40" onovercrop="120|40|40|40" ondowncrop="120|80|40|40" ondown="set(vlookat_moveforce,+1);"  onup="set(vlookat_moveforce,0);" />
+	</layer>
+
+	<!-- when fullscreen is supported - add fullscreen buttons and make the container larger -->
+	<layer name="buttons" width="280" devices="fullscreensupport">
+		<layer name="openfs"   style="button|tooltip" tooltip="Enter Fullscreen Mode" x="240" crop="280|0|40|40" onovercrop="280|40|40|40" ondowncrop="280|80|40|40" onclick="set(fullscreen,true);"  visible="true"  />
+		<layer name="closefs"  style="button|tooltip" tooltip="Exit Fullscreen Mode"  x="240" crop="320|0|40|40" onovercrop="320|40|40|40" ondowncrop="320|80|40|40" onclick="set(fullscreen,false);" visible="false" />
+	</layer>
+
+	<!-- events to change the fullscreen buttons, set cursor on start -->
+	<events name="buttonevents" keep="true"
+	        onenterfullscreen="set(layer[openfs].visible,false); set(layer[closefs].visible,true);"
+	        onexitfullscreen ="set(layer[openfs].visible,true);  set(layer[closefs].visible,false);"
+	        />
+
+
+	<!-- some example hotspots -->
+	<hotspot name="spot1" url="css3d_logo.png"  style="tooltip" distorted="true" tooltip="CSS-3D Transforms Logo" ath="+33" atv="-16" />
+	<hotspot name="spot2" url="flashlogo80.png" style="tooltip" distorted="true" tooltip="Flash Logo" ath="+28" atv="+11" />
+	<hotspot name="spot3" url="html5logo80.png" style="tooltip" distorted="true" tooltip="HTML5 Logo" ath="-22" atv="-22" />
+	<hotspot name="spot4" url="webgl_logo.png"  style="tooltip" distorted="true" tooltip="WebGL Logo" ath="-33" atv="+10" />
+	<hotspot name="spot5" url="krpano_logo.png" style="tooltip" distorted="true" tooltip="krpano Logo" ath="0" atv="+20" />
+
+
+	<!-- the 'tooltip' style - show the tooltip textfield and update its position as long as hovering -->
+	<style name="tooltip"
+	       onover="copy(layer[tooltip].html, tooltip);
+	               set(layer[tooltip].visible, true);
+	               tween(layer[tooltip].alpha, 1.0, 0.5);
+	               asyncloop(hovering, copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
+	       onout="tween(layer[tooltip].alpha, 0.0, 0.25, default, set(layer[tooltip].visible,false), copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
+	       />
+
+
+	<!-- the 'tooltip' textfield -->
+	<layer name="tooltip" keep="true"
+	       url="%SWFPATH%/plugins/textfield.swf"
+	       parent="STAGE"
+	       visible="false" alpha="0"
+	       enabled="false"
+	       align="lefttop"
+	       edge="bottom"
+	       oy="-2"
+	       background="false" backgroundcolor="0xFFFFFF" backgroundalpha="1.0"
+	       border="false" bordercolor="0x000000" borderalpha="1.0"
+	       borderwidth="1.0" roundedge="0"
+	       shadow="0.0" shadowrange="4.0" shadowangle="45" shadowcolor="0x000000" shadowalpha="1.0"
+	       textshadow="1" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
+	       css="text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:14px;"
+	       html=""
+	       />
+
+</krpano>

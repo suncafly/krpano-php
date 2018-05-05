@@ -1,0 +1,10 @@
+﻿<krpano>
+
+	<layer name="flashlogo" url="flashlogo80.png" align="lefttop" scale="0.5" x="5" y="5" enabled="false" devices="flash" /> 
+	<layer name="html5logo" url="html5logo80.png" align="lefttop" scale="0.5" x="5" y="5" enabled="false" devices="html5" />
+	
+	<image>
+		<cubestrip url="pano.jpg" />
+	</image>
+	
+</krpano>

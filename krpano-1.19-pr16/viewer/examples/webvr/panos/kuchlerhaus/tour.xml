@@ -1,0 +1,53 @@
+﻿<krpano>
+
+	<style name="arrowspot" url="skin/pfeil1.png" distorted="true" vr_timeout="1000" oy="0" scale="2" />
+	
+	<action name="goto">
+		mul(newdepth, depth, 2);
+		tween(depth, get(newdepth), 0.25);
+		tween(oy|alpha|rx, -400|0|45, 0.25, default, loadscene(%1, null, NOPREVIEW|MERGE|KEEPMOVING, BLEND(1)) );
+	</action>
+
+
+	<scene name="scene_aussen" title="aussen" onstart="" thumburl="aussen/thumb.jpg">
+
+		<preview url="aussen/preview.jpg" />
+
+		<image>
+			<cube url="aussen/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="scene_galerie" style="arrowspot" ath="-66.1" atv="3.3" rotate="70"  depth="10000" onclick="goto(scene_galerie);" />
+		<hotspot name="spot_eingang"  style="arrowspot" ath="1"     atv="10"  rotate="0"   depth="5000"  onclick="goto(scene_verkaufsraum3eingang);" />
+		
+	</scene>
+
+
+	<scene name="scene_verkaufsraum3eingang" title="verkaufsraum3eingang" onstart="" thumburl="verkaufsraum3eingang/thumb.jpg">
+
+		<preview url="verkaufsraum3eingang/preview.jpg" />
+
+		<image prealign="0|90|0">
+			<cube url="verkaufsraum3eingang/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="spot_aussen"  style="arrowspot" ath="182" atv="20"   rotate="0"   depth="6000"  onclick="goto(scene_aussen);" />
+		<hotspot name="spot_galerie" style="arrowspot" ath="-5"  atv="0"    rotate="-70" depth="10000" onclick="goto(scene_galerie);" />
+
+	</scene>
+
+
+	<scene name="scene_galerie" title="galerie" onstart="" thumburl="galerie/thumb.jpg">
+
+		<preview url="galerie/preview.jpg" />
+
+		<image prealign="0|180|0">
+			<cube url="galerie/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="spot_eingang" style="arrowspot" ath="40"  atv="5"  rotate="70" depth="8000" onclick="goto(scene_verkaufsraum3eingang);" />
+		<hotspot name="scene_aussen" style="arrowspot" ath="-74" atv="23" rotate="0"  depth="6000" onclick="goto(scene_aussen);" />
+
+	</scene>
+
+</krpano>

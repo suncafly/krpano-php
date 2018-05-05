@@ -1,0 +1,69 @@
+﻿<krpano>
+
+	<!-- use the 'demotour-corfu' tour as example tour -->
+	<include url="../demotour-corfu/tour.xml" />
+	
+	<!-- remove the loading text -->
+	<skin_settings loadingtext="" />
+	
+	<style name="textfield" type="text" background="false" css="font-size:14px; color:#FFFFFF; font-style:italic;" />
+	<style name="scrollarea" url.flash="%SWFPATH%/plugins/scrollarea.swf" url.html5="%SWFPATH%/plugins/scrollarea.js" />
+	<style name="button" type="text" background="true" backgroundalpha="0.2" css="font-size:14px; color:#FFFFFF;" border="true" bordercolor="0xFFFFFF" padding="2 4" />
+	<style name="dragable" ondown="copy(sx,x);copy(sy,y);copy(mx,mouse.x);copy(my,mouse.y);asyncloop(pressed,set(x,calc(sx-mx+mouse.x));set(y,calc(sy-my+mouse.y)););" />
+	
+	<layer name="blenddemo" keep="true" type="container" width="200" height.normal="410" height.mobile="180" align="center" bgcolor="get:skin_settings.design_bgcolor" bgalpha="get:skin_settings.design_bgalpha" bgborder="get:skin_settings.design_bgborder" bgroundedge="get:skin_settings.design_bgroundedge" bgshadow="get:skin_settings.design_bgshadow" bgcapture="true" x="0" y="0" style="dragable">
+		<layer name="bd_title" style="textfield" html="Select Blend Mode" align="top" y="4" background="false" enabled="false" />
+		<layer name="bd_scroller_container" type="container" align="top" y="30" width="-20" height="-40" bgborder="1 0xFFFFFF 0.8">
+			<layer name="bd_scroller" style="scrollarea" direction="v" width="100%" height="100" align="top" y="0" /> 
+		</layer>
+	</layer>
+
+	<!-- some custom example blend modes ('blendmodes' is a custom xml structure) -->
+	<blendmodes name="no blending"          blend="NOBLEND" />
+	<blendmodes name="simple crossblending" blend="BLEND(1.0, easeInCubic)" />
+	<blendmodes name="zoom blend"           blend="ZOOMBLEND(2.0, 2.0, easeInOutSine)" />
+	<blendmodes name="black-out"            blend="COLORBLEND(2.0, 0x000000, easeOutSine)" />
+	<blendmodes name="white-flash"          blend="LIGHTBLEND(1.0, 0xFFFFFF, 2.0, linear)" />
+	<blendmodes name="right-to-left"        blend="SLIDEBLEND(1.0, 0.0, 0.2, linear)" />
+	<blendmodes name="top-to-bottom"        blend="SLIDEBLEND(1.0, 90.0, 0.01, linear)" />
+	<blendmodes name="diagonal"             blend="SLIDEBLEND(1.0, 135.0, 0.4, linear)" />
+	<blendmodes name="circle open"          blend="OPENBLEND(1.0, 0.0, 0.2, 0.0, linear)" />
+	<blendmodes name="vertical open"        blend="OPENBLEND(0.7, 1.0, 0.1, 0.0, linear)" />
+	<blendmodes name="horizontal open"      blend="OPENBLEND(1.0, -1.0, 0.3, 0.0, linear)" />
+	<blendmodes name="elliptic + zoom"      blend="OPENBLEND(1.0, -0.5, 0.3, 0.8, linear)" />
+
+	<action name="add_blendmodes" autorun="onstart">
+		for(set(i,0), i LT blendmodes.count, inc(i),
+			set(ln, calc('bd_blend_'+i));
+			addlayer(get(ln));
+			copy(lr, layer[get(ln)]);
+			set(lr.parent, bd_scroller);
+			set(lr.keep, true);
+			lr.loadstyle(button);
+			copy(lr.html, blendmodes[get(i)].name);
+			copy(lr.blend, blendmodes[get(i)].blend);
+			set(lr.align, top);
+			set(lr.onclick, 'do_blending(get(blend))');
+			set(lr.y, calc(8+i*30));
+		  );
+		set(layer[bd_scroller].height, calc((blendmodes.count)*30+8));
+	</action>
+		
+	<action name="do_blending">
+		<!-- save current blending settings -->
+		push(skin_settings.loadscene_blend_prev);
+		push(skin_settings.loadscene_blend_next);
+		
+		<!-- overwrite the skin blending settings -->
+		set(skin_settings.loadscene_blend_prev, %1);
+		set(skin_settings.loadscene_blend_next, %1);
+		
+		<!-- load the next pano in the tour -->
+		skin_nextscene_loop(+1);
+		
+		<!-- restore the saved blending settings -->
+		pop(skin_settings.loadscene_blend_next);
+		pop(skin_settings.loadscene_blend_prev);
+	</action>
+
+</krpano>

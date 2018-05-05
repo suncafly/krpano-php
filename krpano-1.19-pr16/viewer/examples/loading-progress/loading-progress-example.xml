@@ -1,0 +1,36 @@
+﻿<krpano>
+	
+	<!-- include some example loading progress animations -->
+	<include url="loadinganimation.xml" />
+	<include url="loadingpercenttext.xml" />
+	<include url="loadingbar.xml" />
+	
+	
+	<!-- looking direction -->	
+	<view hlookat="-1" vlookat="11" fovtype="MFOV" fov="120" fovmin="70" fovmax="140" limitview="auto"/>
+
+	<!-- allow access to the server files (for Flash) -->
+	<security>
+		<crossdomainxml url="http://krpano.com/tours/corfu/panos/achilleion-hof-unten.tiles/crossdomain.xml" />
+	</security>
+	
+	<!-- load images directly from the krpano server - with a random value as url extension to avoid caching -->
+	<preview url="https://krpano.com/tours/corfu/panos/achilleion-hof-unten.tiles/preview.jpg"/>
+	<image>
+		<cube url="https://krpano.com/tours/corfu/panos/achilleion-hof-unten.tiles/pano_%s.jpg?nocache=%$random%" devices="tablet|desktop" />
+		<cube url="https://krpano.com/tours/corfu/panos/achilleion-hof-unten.tiles/mobile_%s.jpg?nocache=%$random%" devices="mobile" />
+	</image>
+
+	<!-- a button for reloading to test loading again -->
+	<layer name="reloadbutton"
+	       url="%SWFPATH%/plugins/textfield.swf"
+	       backgroundcolor="0x2D3E50" backgroundalpha="0.8" roundedge="1"
+	       shadow="2" shadowrange="4" shadowcolor="0x000000"
+	       css="text-align:center; color:#FFFFFF; font-family:Arial; font-size:14px;"
+	       html="Reload Pano[br][font size='10px' style='font-size:12px;'](without cache)[/font]"
+	       padding="6 10"
+	       align="bottom" y="40"
+	       onclick="set(basedir,''); loadpano(get(xml.url),null,KEEPALL);"
+	       />
+
+</krpano>

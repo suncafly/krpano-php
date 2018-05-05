@@ -1,0 +1,819 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="design.css"/>
+	<title>krpano Documentation</title>
+</head>
+<body>
+	<div id="krpano_root">
+		<div id="krpano_headerwrapper">
+			<div id="krpano_header">
+				<div id="krpano_langsel">&nbsp;</div>
+				<div id="krpano_mainmenu">
+					krpano 1.19-pr16 <span class="smallcomment">(build 2018-04-04)</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="krpano_imagebar" class="docu_bg"></div>
+			<div id="krpano_logo"></div>
+		</div>
+		<div id="krpano_imagebar_space"></div>
+		<div id="krpano_contentwrapper">
+			<div id="krpano_content">
+				<div id="krpano_contentnav">
+					<h2><a href="#top" class="selflink">Documentation</a></h2>
+					<ul>
+						<li><a href="embedpano.html#top">Embedding</a></li>
+						<li><a href="xml.html#top">XML Reference</a></li>
+						<li><a href="actions.html#top">Actions / Scripting</a></li>
+						<li><a href="plugin_api.html#top">Plugin&nbsp;Interface</a></li>
+						<li><a href="js_api.html#top">Javascript Interface</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Plugins</a></h2>
+					<ul>
+						<li><a href="plugins/bingmaps.html#top">Bing Maps</a></li>
+						<li><a href="plugins/combobox.html#top">Combobox</a></li>
+						<li><a href="plugins/googlemaps.html#top">Google Maps</a></li>
+						<li><a href="plugins/gyro2.html#top">Gyro2</a></li>
+						<li><a href="plugins/moretweentypes.html#top">MoreTweenTypes</a></li>
+						<li><a href="plugins/postprocessing.html#top">Postprocessing</a></li>
+						<li><a href="plugins/radar.html#top">Radar</a></li>
+						<li><a href="plugins/scrollarea.html#top">ScrollArea</a></li>
+						<li><a href="plugins/showtext.html#top">Showtext</a></li>
+						<li><a href="plugins/snow.html#top">Snow / Rain</a></li>
+						<li><a href="plugins/soundinterface.html#top">Soundinterface</a></li>
+						<li><a href="textfield.html#top">Textfield</a></li>
+						<li><a href="plugins/videoplayer.html#top">Videoplayer</a></li>
+						<li><a href="plugins/webvr.html#top">WebVR</a></li>
+					</ul>
+					<h2><a href="#top" class="selflink">Tools</a></h2>
+					<ul>
+						<li><a href="tools/config.html#top">Config File Reference</a></li>
+					</ul>
+				</div>
+				<div id="krpano_contenttext">
+					<a name="top"></a>
+
+					<noscript>
+						<table style="width:100%; height:400px; position:fixed; left:95px; top:220px;"><tr valign="middle"><td><center><h1>
+							<span style="color:#FFFFFF; background:#FF0000; padding:15px;">
+								Javascript must be activated for this page!
+							</span>
+						</h1></center></td></tr></table>
+					</noscript>
+
+					
+
+	<h1>krpano Plugin Interface
+		
+	</h1>
+	
+	<script>
+		function adjustiframesize(iframeid)
+		{
+			var t=0;
+			function adjusttimer()
+			{
+				var ascodeiframe = document.getElementById(iframeid);
+				ascodeiframe.scrolling = "no";
+				ascodeiframe.style.overflow = "hidden";
+				var h = ascodeiframe.contentDocument && ascodeiframe.contentDocument.body && ascodeiframe.contentDocument.body.scrollHeight;
+				if (h > 500)
+				{
+					var s = ascodeiframe.contentDocument.body.children[0].style;
+					s.width = "518px";
+					s.overflowX = "scroll";
+					s.overflowY = "hidden";
+					s["-webkit-overflow-scrolling"] = "touch";
+					
+					//s.height = "500px";						// mode1 - vertically scroll inside the iframe (for iOS)
+					ascodeiframe.style.height = (h + 8) + "px";	// mode2 - expand the iframe height
+					
+					updateanchorscrolling();
+				}
+				else
+				{
+					t += 16;
+					if (t > 500)
+					{
+						// stop after a ~0.5 sec, use scrolling instead
+						ascodeiframe.scrolling = "yes";
+						ascodeiframe.style.overflow = "auto";
+					}
+					else
+					{
+						setTimeout( adjusttimer, 16 ); 
+					}
+				}
+			}
+
+			adjusttimer();
+		}
+		
+		var updateanchorscrolling_hash = null;
+		var updateanchorscrolling_timer = null;
+		
+		function updateanchorscrolling()
+		{
+			if (updateanchorscrolling_hash == null)
+				updateanchorscrolling_hash = location.hash;
+			
+			if (updateanchorscrolling_timer)
+				clearTimeout(updateanchorscrolling_timer);
+			
+			if (updateanchorscrolling_hash)
+			{
+				updateanchorscrolling_timer = setTimeout(function()
+				{
+					if (updateanchorscrolling_hash)
+					{
+						var hashlink = document.getElementsByName(updateanchorscrolling_hash.slice(1))[0];
+						if (hashlink)
+						{
+							updateanchorscrolling_hash = null;
+							hashlink.scrollIntoView();
+						}
+					}
+				},
+				10);
+			}
+		}
+	</script>
+	
+	<div class="paragraph">
+		krpano provides a small and simple interface for developing own plugins.
+		A plugin can be either a 'code-only' plugin that extends krpano with additional functionality
+		or controls krpano and / or it can be a 'graphical-plugin' which shows or does something on the screen.<br>
+		<br>
+		There are two types of plugins:
+		<ul>
+			<li><a href="#js">HTML5 Javascript plugins</a> (.js) for the krpano HTML5 viewer and</li>
+			<li><a href="#as3">Flash Actionscript3 plugins</a> (.swf) for the krpano Flash viewer.</li>
+		</ul>
+		The basic plugin-to-krpano and krpano-to-plugin interfaces are almost the same for HTML5 
+		and Flash plugins, only system and language specific code is different.<br>
+		<br>
+		The basic structure is that the plugin has these public functions, which will be called from krpano:<br>
+		<ul>
+			<li>A <a href="#registerplugin">registerplugin</a> function - this function will be called from krpano when the
+				plugin will be loaded. The function provides a <a href="#krpanointerface">krpano Interface Object</a>
+				and a <a href="#plugininterface">krpano Plugin Object</a>.</li>
+			<li>An <a href="#unloadplugin">unloadplugin</a> function - when the plugin will be removed from krpano, 
+				then this function will be called. Here all elements and events that the plugin has added should be removed.</li>
+			<li>And optionally an <a href="#onresize">onresize</a> function to allow the plugin reacting on size changes of the plugin element.</li>
+		</ul>
+		The plugin itself can add custom functions or attributes to krpano just by adding / setting them 
+		directly to the krpano object or to the plugin object. For custom attributes that can be set from the xml 
+		there is additionally the <a href="#registerattribute">registerattribute</a> function - it allows adding an
+		attribute with a default value while keeping the value from the xml. 
+		And the <a href="#registerattribute">registerattribute</a> function can be used to add setter/getter attributes -
+		this are attributes which will cause automatically calling a get or set function when accessing the variable -
+		this can be used to get notified when an attribute will been changed.
+	</div>
+	
+	
+	<div class="paragraph">
+		<h2><a name="js" href="#js" class="selflink">HTML5 Javascript Plugins</a></h2>
+
+		<div class="subparagraph">
+			The krpano Javascript plugins are just plain Javascript code.
+			Special tools for compiling or building are not necessary, but to reduce the filesize of the final plugin file
+			<a href="#jsmin">compressing or minimizing the Javascript code</a> is recommended.</h2>
+		</div>
+		
+		Here an example plugin code with the basic structure for a krpano Javascript plugin:<br>
+		<div style="position:relative;">
+			<iframe id="jscodeiframe" src="https://krpano.com/viewsource.html?docu/plugininterface/pluginexample.js" scrolling="no" class="iframecode" style="width:528px;height:500px;overflow:hidden;" ></iframe>
+			<span style="position:absolute;top:4px;right:4px;">
+				<a href="https://krpano.com/krpano.html?html5=only&preview.type=grid()&plugin[test].url=docu/plugininterface/pluginexample.js&plugin[test].align=center&plugin[test].onclick=dosomething(hello,plugin)&onstart=showlog();" class="togglebutton" style="float:none;text-decoration:none;">test</a>
+				<a href="https://krpano.com/viewsource.html?docu/plugininterface/pluginexample.js" class="togglebutton" style="float:none;text-decoration:none;">view</a>
+				<a href="https://krpano.com/docu/plugininterface/pluginexample.js" class="togglebutton" style="float:none;text-decoration:none;">raw</a>
+				<a href="https://krpano.com/docu/plugininterface/pluginexample.zip" class="togglebutton" download style="float:none;text-decoration:none;">download</a>
+			</span>
+			<script>
+				adjustiframesize("jscodeiframe");
+			</script>
+		</div>
+		
+		
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="jsmin" href="#jsmin" class="selflink">Compress / Minimize the HTML5 Javascript Plugin Code</a></h2>
+
+		<div class="subparagraph">
+			This step or part is optionally, but to reduce the filesize of the plugin, compressing or minizing the Javascript file is recommended.
+			Good tools for that are the <a href="http://code.google.com/closure/compiler/" target="_blank">Google&nbsp;Closure&nbsp;Compiler</a>,
+			the <a href="http://developer.yahoo.com/yui/compressor/" target="_blank">YUI&nbsp;Compressor</a> or other similar tools.<br>
+			<br>
+			Both of the above tools can be used offline, but there are also online tools available:<br>
+			<ul>
+				<li><a href="http://closure-compiler.appspot.com/home" target="_blank">Online Google Closure Compiler</a></li>
+				<li><a hreF="http://www.refresh-sf.com/yui/" target="_blank">Online YUI Compressor</a></li>
+			</ul>
+			<br>
+			Additionally the (minimized) Javascript files can be even more compressed and encrypted and protected by using the <a href="https://krpano.com/tools/kencrypt/#top">krpano Encrypt Tool</a>.
+		</div>
+	</div>
+	
+	<br>
+	
+
+	<div class="paragraph">
+		<h2><a name="as3" href="#as3" class="selflink">Actionscript3 Flash Plugins</a></h2>
+
+		<div class="subparagraph">
+			Flash plugins for the krpano Flash viewer can be build either with the 
+			free <b>mxmlc compiler</b> from the 
+			<a href="https://sourceforge.net/adobe/flexsdk/wiki/Downloads/" target="_blank">Flex SDK</a> (recommended) 
+			or with <a href="http://www.adobe.com/products/flash.html" target="_blank">Flash Professional CS</a>.
+		</div>
+		
+		Here an example plugin code with the basic structure for a krpano Flash plugin:<br>
+		<div style="position:relative;">
+			<iframe id="ascodeiframe" src="https://krpano.com/viewsource.html?docu/plugininterface/pluginexample.as" scrolling="no" class="iframecode" style="width:528px;height:500px;overflow:hidden;"></iframe>
+			<span style="position:absolute;top:4px;right:4px;">
+				<a href="https://krpano.com/krpano.html?flash=only&preview.type=grid()&plugin[test].url=docu/plugininterface/pluginexample.swf&plugin[test].align=center&plugin[test].onclick=dosomething(hello,plugin)&onstart=showlog();" class="togglebutton" style="float:none;text-decoration:none;">test</a>
+				<a href="https://krpano.com/viewsource.html?docu/plugininterface/pluginexample.as" class="togglebutton" style="float:none;text-decoration:none;">view</a>
+				<a href="https://krpano.com/docu/plugininterface/pluginexample.as" class="togglebutton" style="float:none;text-decoration:none;">raw</a>
+				<a href="https://krpano.com/docu/plugininterface/pluginexample.zip" class="togglebutton" download style="float:none;text-decoration:none;">download</a>
+			</span>
+			<script>
+				adjustiframesize("ascodeiframe");
+			</script>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div class="paragraph">
+		<h2><a name="plugininterface" href="#plugininterface" class="selflink">The krpano Plugin Interface</a></h2>
+		
+		<div class="subparagraph">
+			These are the interface functions of the plugin that will be called from krpano.
+			In Flash/Actionscript3 these functions must be public functions of the startup Flash object.<br>
+			In HTML5/Javascript these functions must be members of a globally defined function object named 'krpanoplugin'.
+		</div>
+		
+		<div class="subparagraph">
+			<ul>
+				<li><a name="registerplugin" href="#registerplugin" class="selflink">registerplugin(krpanointerface, pluginpath, pluginobject)</a>
+					<ul>
+						<li>The registerplugin() function will be called when the plugin was loaded into krpano and is ready for usage.</li>
+						<li>Here the plugin can add / register attributes, functions, add graphical content to the plugin or to the viewer and do many things more.</li>
+						<li>Parameters that will be passed with the registerplugin() function:
+							<ul>
+								<li><b>krpanointerface</b><br>
+									The <a href="#krpanointerface">krpano Interface Object</a> - this object provides access
+									to interfacing functions and to the whole krpano data structure.
+								</li>
+								<li><b>pluginpath</b><br>
+									A String with the 'full path' to the plugin object, e.g. "plugin[name]".
+								</li>
+								<li><b>pluginobject</b><br>
+									The <a href="#krpanopluginobject">krpano Plugin Object</a> - this object provides direct access to all plugin attributes and functions.
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				
+				<li><a name="unloadplugin" href="#unloadplugin" class="selflink">unloadplugin()</a>
+					<ul>
+						<li>The unloadplugin() function will be called from krpano when plugin will be removed.</li>
+						<li>Here the plugin should remove all content that it has added (e.g. graphical objects, event listeners, timers, ...).</li>
+					</ul>
+				</li>
+				
+				<li><a name="onresize" href="#onresize" class="selflink">onresize(width, height)</a> <span class="smallcomment">(optionally)</span>
+					<ul>
+						<li>The onresize() function will be called when the plugin will be resized.</li>
+						<li>The parameters width and height are the new size in pixels.</li>
+						<li>Here the plugin can adjust or resize own graphical content.</li>
+						<li>The onresize() function can optionally return a Boolean value - when it returns true then krpano will try 
+							to scale the plugin automatically, when false will be returned then krpano will not scale the plugin.
+						</li>
+							
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="krpanointerface" href="#krpanointerface" class="selflink">krpano Interface Object</a></h2>
+		
+		<div class="subparagraph">
+			The 'krpano' object (the 'krpanointerface' parameter in the <a href="#registerplugin">registerplugin</a> call) 
+			is the direct interface to krpano. It provides direct access to the whole krpano structure and all functions there.
+			All mapped xml nodes, arrays, objects and attributes can be accessed directly with it.
+			Additionally it provides some functions for data access, action-code calling/executing and more - see below.
+		</div>
+		
+		<div class="subparagraph">
+			Functions of the 'krpano' object:
+			<ul>
+				<li><a name="set" href="#set" class="selflink">set(variable, value)</a>
+					<ul>
+						<li>Sets a variable to a given value.</li>
+						<li>When the variable or the path to it, don't exist then the variable and path will be created.</li>
+						<li>Works like the xml <a href="actions.html#set">set()</a> action.</li>
+					</ul>
+				</li>
+				<li><a name="get" href="#get" class="selflink">get(variable)</a>
+					<ul>
+						<li>Returns the value of a variable.</li>
+						<li>Returns 'null' when the variable doesn't exist.</li>
+					</ul>
+				</li>
+				<li><a name="call" href="#call" class="selflink">call(actionscode, callerobject*)</a>
+					<ul>
+						<li>Call <a href="actions.html#top">action code</a> to the krpano actions code.<br>
+							When the action system is currently not blocked, then the given actions will be directly executed.
+						</li>
+						
+						<li><b>actionscode</b> = a String with one or more krpano <a href="actions.html#top">actions</a>.
+						</li>
+						
+						<li><b>callerobject</b> <span class="smallcomment">(optionally)</span> = the object that was calling the actions
+							(e.g. the plugin object itself).
+							This allowes direct access to the object attributes in the actions code, e.g. just set(x,1) instead of set(plugin[name].x,1).
+						</li>
+					</ul>
+				</li>
+				<li><a name="trace" href="#trace" class="selflink">trace(code, message</a>)
+					<ul>
+						<li>Trace out messages to the krpano log.</li>
+						<li><b>code</b> = numeric code of the message-type:<br>
+							<ul>
+								<li>0 = DEBUG message - will be only shown with enabled <a href="xml.html#krpano.debugmode">debugmode</a></li>
+								<li>1 = INFO message</li>
+								<li>2 = WARNING message</li>
+								<li>3 = ERROR message - will also open the log automatically.</li>
+								<li>4 = FATAL ERROR - this message will be shown in the middle of the viewer.</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a name="parsepath" href="#parsepath" class="selflink">parsepath(path)</a><br>
+					<a name="parsePath" href="#parsePath" class="selflink">parsePath(path)</a>
+					<ul>
+						<li>Resolves the krpano <a href="xml.html#urlplaceholders">placeholders</a> in the given path string.</li>
+						<li>Return value: the resolved path string.</li>
+					</ul>
+				</li>
+				<li><a name="loadFile" href="#loadFile" class="selflink">loadFile(file, donecallback, errorcallback*)</a><br>
+					<ul>
+						<li>Request to load a file as String in Javascript or as <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/ByteArray.html" target="_blank">ByteArray</a> in Flash.</li>
+						<li><b>donecallback</b> and <b>errorcallback</b> - these functions will be called when the loading was successfully or has failed.
+							The usage of the errorcallback is optionally.<br>
+							Both functions will be called with an Object as parameter - and this Object has these attributes:<br>
+							<ul>
+								<li><b>rqurl</b><br>
+									The request url that was used on the loadFile call.
+								</li>
+								<li><b>url</b><br>
+									The parsed and resolved url of the file.
+								</li>
+								<li><b>data</b><br>
+									<i>Javascript:</i> The loaded file as String.<br>
+									<i>Flash:</i> The loaded file as <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/ByteArray.html" target="_blank">ByteArray</a>.<br>
+								</li>
+								<li><b>errmsg</b><br>
+									A boolean flag with the default value 'true' that indicates if krpano should show an automatic loading error message.
+									Only for usage in the errorcallback function! Set it to 'false' to disable the default loading error message.
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a name="screentosphere" href="#screentosphere" class="selflink">screentosphere(x,y)</a><br>
+					<a name="spheretoscreen" href="#spheretoscreen" class="selflink">spheretoscreen(h,v)</a>
+					<ul>
+						<li>Functions for converting between screen and spherical coordinates.</li>
+						<li>Return value: an Object with x and y properties. The values of these properties can be NaN (Not a Number) when the conversion wasn't possible.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="krpanopluginobject" href="#krpanopluginobject" class="selflink">krpano Plugin Object</a></h2>
+		
+		<div class="subparagraph">
+			The 'plugin' object (the 'pluginobject' parameter in the <a href="#registerplugin">registerplugin</a> call)
+			it the internal representation of the xml <a href="xml.html#plugin" class="selflink">&lt;plugin&gt;</a> element.
+			All plugin attriutes and actions are directly accessible by it.
+		</div>
+		
+		<div class="subparagraph">
+			Special plugin-related attributes of the 'plugin' object:
+			<ul>
+				<li><a name="plugin.sprite" href="#plugin.sprite" class="selflink">sprite</a><br>
+					<ul>
+						<li>Flash - The Actionscript 3 <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Sprite.html" target="_blank">Sprite</a> object of the hotspot.
+						</li>
+						<li>HTML5 - The HTML &lt;div&gt; element of the plugin object.<br>
+							<i>Note - when using the plugin as hotspot, then the sprite object is only available
+								when rendering the hotspot via CSS3D (see the <a href="xml.html#hotspot.renderer">renderer</a> setting)!
+							</i>
+						</li>
+						<li>The sprite object can be used for adding custom display elements (DisplayList elements in Flash, HTML DOM elements in HTML5) to the plugin itself.</li>
+					</ul>
+				</li>
+				<li><a name="plugin.videoDOM" href="#plugin.videoDOM" class="selflink">videoDOM</a> <span class="smallcomment">(HTML5 only)</span><br>
+					<ul>
+						<li>A special attribute to allow the plugin providing a HTML5 video object for rendering.</li>
+						<li>The krpano viewer will use that video object for rendering when using the plugin as hotspots 
+							or as pano image (via url="plugin:video").
+						</li>
+						<li>Setup: <b>videowidth</b> and <b>videoheight</b> attributes with the size of the video need to be added to plugin object,
+							and once the video is ready for rendering the <b>onvideoreadyCB</b> function of the plugin be called.
+							For all details please see the example source code of the <a href="plugins/videoplayer.html#opensource">videoplayer plugin</a>.
+						</li>
+						<li><i>
+							Special usage: with some tricks it's also possible to use a HTML5 canvas object
+							as video source. Use the canvas as videoDOM and add these 'faked'
+							properties to it: readyState=4, videoWidth=canvas.width, currentTime=time or frame number (should change when the content changes).
+							</i>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="subparagraph">
+			Special plugin-related functions of the 'plugin' object:
+			<ul>
+				
+				<li><a name="plugin.registercontentsize" href="#plugin.registercontentsize" class="selflink">registercontentsize(width, height)</a>
+					<ul>
+						<li>Define the 'default' size of the plugin display content.</li>
+						<li>This is the size that will be used when the user hasn't set the width or height.</li>
+					</ul>
+				</li>
+				<li><a name="plugin.updatepos" href="#plugin.updatepos" class="selflink">updatepos()</a>
+					<ul>
+						<li>Parse the position related settings and update the internal display object of the plugin.
+						</li>
+						<li>After calling this function the <a href="xml.html#plugin.pixelwidth">pixelwidth</a> and 
+							<a href="xml.html#plugin.pixelheight">pixelheight</a> variables will 
+							contain the final pixel sizes of the plugin element.
+						</li>
+					</ul>
+				</li>
+				<li><a name="plugin.getfullpath" href="#plugin.getfullpath" class="selflink">getfullpath()</a>
+					<ul>
+						<li>Returns the xml embedding path/name - e.g. "plugin[name]" or "hotspot[name]".</li>
+					</ul>
+				</li>
+				<li><a name="plugin._assignEvents" href="#plugin._assignEvents" class="selflink">_assignEvents(htmlelement, mode)</a> <span class="smallcomment">(HTML5 only)</span>
+					<ul>
+						<li>Assign the krpano plugin events to the given html element.</li>
+						<li>mode - "add" for adding the events, "remove" for removing.</li>
+						<li>This can be used for special custom added html elements, e.g. svg path elements.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="baseobject" href="#baseobject" class="selflink">krpano 'Base' Object</a> 
+			<a href="http://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29#Subclasses_and_superclasses" target="_blank" class="selflink"><span class="smallcomment">(the 'base-class' or 'super-class' in programming language)</span></a></h2>
+		
+		<div class="subparagraph">
+			All krpano mapped-xml-nodes, objects or array-elements and also the <a href="#krpanointerface">krpano Interface Object</a> are derived from a krpano 'Base' object.
+			The 'base' object has some basic functions for adding / registering new attributes and for creating sub array structures.
+		</div>
+		
+		<div class="subparagraph">
+			Functions of 'Base' objects:
+			<ul>
+				<li><a name="registerattribute" href="#registerattribute" class="selflink">registerattribute(attributename, defaultvalue, setter*, getter*)</a>
+					<ul>
+						<li>Adds a new attribute to the object and sets it the given default value.
+							When the object already has that attribute (e.g. from xml) then the current value will be kept but the
+							type of the attribute will be converted to the type of the default value.
+							The automatic type conversion will work for 'Number' and 'Boolean' datatypes.
+							
+							<div class="subparagraph">
+								<i>For example: When the attribute was set in the xml file to "123" then the type of the attribute is a 'String',
+								but when registering that attribute with a 'Number' default value, then the attribute will be also converted to 'Number' with the Value 123.</i>
+							</div>
+							
+							<div class="subparagraph">
+								<a name="settergetter" href="#settergetter" class="selflink">Setter / Getter</a> <span class="smallcomment">(optionally)</span><br>
+								Optionally it's possible to use setter and getter functions instead of a normal attribute.
+								In this case when the attribute will be set from xml or via the <a href="#set">set</a> interface then the setter function with the new value will be called, 
+								and when the value of the attribute will be read then the getter function will be called to return the value (Note - the setter/getter functions
+								will need to store the value anywhere in this case).<br>
+								<br>
+								<i>Accessing the setter/getters from Actionscript or from Javascript:</i><br>
+								<ul>
+									<li>In Actionscript the setter/getter are special objects. Accessing them direct like normal variables/attributes is not possible
+										because the Actionscript language doesn't have/support dynamic setter/getters.
+										For accessing the value these objects have a <b>set(value)</b> function for setting the new value
+										and a <b>get()</b> function for getting the value.
+									</li>
+									<li>In Javascript the setter/getter behave as normal attributes. They can be used directly like normal variables/attributes.
+									</li>
+								</ul>
+								<br>
+								<i>Notes about setter / getters:</i>
+								<ul>
+									<li>Setter and getters are a very powerful instrument for building data structures.</li>
+									<li>They can be used to get informed anytime when the value of an attribute will be changed / updated.</li>
+									<li>With them it possible to check and if necessary correct the value on setting.</li>
+									<li>And/or to set flags and call other functions when the value will be changed.</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li><a name="removeattribute" href="#removeattribute" class="selflink">removeattribute(attributename)</a>
+					<ul>
+						<li>Removes an attribute from the current object.</li>
+					</ul>
+				</li>
+				<li><a name="getattributes" href="#getattributes" class="selflink">getattributes()</a>
+					<ul>
+						<li>Get all current attributes of the object.</li>
+						<li>Returns a Flash/Javascript 'Array' with the names of all attributes.</li>
+					</ul>
+				</li>
+				<li><a name="createobject" href="#createobject" class="selflink">createobject(objectname)</a>
+					<ul>
+						<li>Create a new <a href="#baseobject">krpano Base Object</a> inside / under the current object.</li>
+						<li>Returns the new created krpano Base Object.</li>
+						<li>If the object already exists then the exiting object will be kept and returned.</li>
+					</ul>
+				</li>
+				<li><a name="removeobject" href="#removeobject" class="selflink">removeobject(objectname)</a>
+					<ul>
+						<li>Removes an object from the current object.</li>
+					</ul>
+				</li>
+				<li><a name="createarray" href="#createarray" class="selflink">createarray(arrayname)</a>
+					<ul>
+						<li>Create a new <a href="#array">krpano Array</a> inside the current object.</li>
+						<li>Returns the new created krpano Array Object.</li>
+						<li>If the array exists already then the current Array will be kept and the exiting Array will be returned.</li>
+					</ul>
+				</li>
+				<li><a name="removearray" href="#removearray" class="selflink">removearray(arrayname)</a>
+					<ul>
+						<li>Removes and destroys a krpano Array object.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="array" href="#array" class="selflink">krpano 'Array'  and 'Array-Item' Objects</a></h2>
+		
+		<div class="subparagraph">
+			Arrays in krpano are internally special objects, not native Javascript or Actionscript Arrays. 
+			An array will be automatically created when a node in the xml has a 'name' attribute or when
+			a variable with a 'array path' like 'arrayname[itenname].variable' will be set.<br>
+			The items of the arrays are derived from <a href="#baseobject">krpano 'Base' objects</a> and have additional attributes 
+			for <a href="#arrayitem.name">name</a> and <a href="#arrayitem.index">index</a>.
+			Beside of that, these objects can store any kind of attributes or functions, also additional krpano arrays.
+		</div>
+		
+		<div class="subparagraph">
+			Attributes of the krpano 'Array' objects:
+			<ul>
+				<li><a name="array.count" href="#array.count" class="selflink">count</a><br>
+					<ul>
+						<li>The number of elements in the array.</li>
+						<li>Can be changed dynamically, but only decreasing makes sense, e.g. set it to 0 to remove all items.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="subparagraph">
+			Functions of the krpano 'Array' objects:
+			<ul>
+				<li><a name="array.createItem" href="#array.createItem" class="selflink">createItem(name or index)</a> <span class="smallcomment">or</span><br>
+					<a name="array.createarrayitem" href="#array.createarrayitem" class="selflink">createarrayitem(name or index)</a> <span class="smallcomment">(callable from xml)</span>
+					<ul>
+						<li>Create a new item inside the array.</li>
+						<li>Returns the new created array item object.</li>
+					</ul>
+				</li>
+				<li><a name="array.getItem" href="#array.getItem" class="selflink">getItem(name or index)</a>
+					<ul>
+						<li>Get an existing array item.</li>
+						<li>Returns the array item object or null when the items doesn't exist.</li>
+					</ul>
+				</li>
+				<li><a name="array.renameItem" href="#array.renameItem" class="selflink">renameItem(oldname:String, newname:String)</a>
+					<ul>
+						<li>Changes the name of an existing item.</li>
+					</ul>
+				</li>
+				<li><a name="array.removeItem" href="#array.removeItem" class="selflink">removeItem(name or index)</a> <span class="smallcomment">or</span><br>
+					<a name="array.removearrayitem" href="#array.removearrayitem" class="selflink">removearrayitem(name or index)</a> <span class="smallcomment">(callable from xml)</span>
+					<ul>
+						<li>Removes an item from the array.</li>
+						<li>The removeItem() function returns the removed item object.</li>
+						<li>The removearrayitem() function is the same like the removeItem() function but without return value and also callable from XML / krpano Actions.</li>
+					</ul>
+				</li>
+				<li><a name="array.getArray" href="#array.getArray" class="selflink">getArray()</a>
+					<ul>
+						<li>Returns a native Actionscript/Javascript 'Array' of all array items.</li>
+						<li>Can be used for direct fast access.</li>
+						<li>The array item attributes can be changed, but the array itself (length, item order, ...) not!</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<br>
+		
+		<div class="subparagraph">
+			Default Attributes of the krpano 'Array-Item' Objects:
+			<ul>
+				<li><a name="arrayitem.name" href="#arrayitem.name" class="selflink">name</a><br>
+					<ul>
+						<li>The name of the current array item  (read-only).</li>
+						<li>This name can be used for direct access to the array item.</li>
+					</ul>
+				</li>
+				<li><a name="arrayitem.index" href="#arrayitem.index" class="selflink">index</a><br>
+					<ul>
+						<li>The 0-based index of the current array item (read-only).</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	
+	<div class="paragraph">
+		<h2><a name="krpanowebglapi" href="#krpanowebglapi" class="selflink">krpano WebGL API</a></h2>
+		
+		<div class="subparagraph">
+			The krpano HTML5 viewer exposes a WebGL API for getting access to the internal WebGL canvas and context
+			and for managing custom post-processing shaders. 
+		</div>
+		
+		<div class="subparagraph">
+			<ul>
+				<li><a name="krpano.webGL" href="#krpano.webGL" class="selflink">krpano.webGL</a>
+					<ul>
+						<li>The krpano WebGL API object.</li>
+						<li>When the object is null, then there is no WebGL support.</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.canvas" href="#krpano.webGL.canvas" class="selflink">krpano.webGL.canvas</a>
+					<ul>
+						<li>The internal krpano WebGL &lt;canvas&gt; element.</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.context" href="#krpano.webGL.context" class="selflink">krpano.webGL.context</a>
+					<ul>
+						<li>The <a href="https://developer.mozilla.org/en/docs/Web/API/WebGLRenderingContext" target="_blank">WebGL rendering context</a> for the &lt;canvas&gt;.</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.createPostProcessingShader" href="#krpano.webGL.createPostProcessingShader" class="selflink">krpano.webGL.createPostProcessingShader(fragment_shader_source, uniforms)</a>
+					<ul>
+						<li>Create a krpano post-processing shader (a WebGL GLSL fragment shader).</li>
+						<li><i>Parameters:</i>
+							<ul>
+								<li><b>fragment_shader_source</b>
+									<ul>
+										<li class="lisd">A GLSL shader source code as string.</li>
+										<li class="lisd">The shaders code needs to have:
+											<ul>
+												<li class="lisd">A <span class="presyntax_inline">sm</span> named sampler2D - this will be the current screen as input texture.</li>
+												<li class="lisd">A <span class="presyntax_inline">tx</span> named vec2 varying - this will be the current texture coordinate.</li>
+												<li class="lisd">Optionally a <span class="presyntax_inline">sz</span> vec2 uniform - this will contain the screen size.</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><b>uniforms</b>
+									<ul>
+										<li class="lisd">A comma separated list of the uniform names used in the shader.</li>
+										<li class="lisd">The 'uniform location' will be automatically stored at the returned shader object with the same name.</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li><i>Return:</i>
+							<ul>
+								<li class="lisd">A krpano 'Shader' object.</li>
+								<li class="lisd">Can be added to the <a href="#krpano.webGL.ppShaderArray">ppShaderArray</a> Array,</li>
+								<li class="lisd">or used for <a href="#krpano.webGL.useShader">useShader</a>.</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.ppShaderArray" href="#krpano.webGL.ppShaderArray" class="selflink">krpano.webGL.ppShaderArray</a>
+					<ul>
+						<li>An Array of post-processing shaders.</li>
+						<li>Here custom shaders can be added, inserted or removed.</li>
+						<li>The shaders will be processed by the order in that Array.</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.useShader" href="#krpano.webGL.useShader" class="selflink">krpano.webGL.useShader(shader)</a>
+					<ul>
+						<li>Select/activate the shader for interfacing, e.g. for setting uniform values.</li>
+						<li><b>NOTE - after usage <span class="presyntax_inline" style="font-weight:normal;">useShader(null)</span> needs be called to restore the previous shader! IMPORTANT!</b></li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.deleteShader" href="#krpano.webGL.deleteShader" class="selflink">krpano.webGL.deleteShader(shader)</a>
+					<ul>
+						<li>Delete the shader (free-up the WebGL resources).</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.restoreProgram" href="#krpano.webGL.restoreProgram" class="selflink">krpano.webGL.restoreProgram()</a>
+					<ul>
+						<li>Notify krpano that it need to restore the krpano WebGL program on the next usage.</li>
+						<li>This need to be called when an external WebGL code had changed the current WebGL program.</li>
+					</ul>
+				</li>
+				<li><a name="krpano.webGL.makeScreenshot" href="#krpano.webGL.makeScreenshot" class="selflink">krpano.webGL.makeScreenshot(width,&nbsp;height,&nbsp;hotspots,&nbsp;type,&nbsp;jpegquality,&nbsp;crop,&nbsp;sizeinfo,&nbsp;cache)</a>
+					<ul>
+						<li>Make a screenshot in the given size and given type.</li>
+						
+						
+						<li>Parameters:
+							<ul>
+								<li><b>width</b>, <b>height</b> - The size in pixels. When set to 0 the current size will be used.<br>
+									When the size will be larger than possible by the browser, then the size will be automatically proportionally downscaled.
+								</li>
+								<li><b>hotspots</b> - Render also the (webgl) hotspots: true or false (false by default).</li>
+								<li><b>type</b> - This setting defines what will be returned by the function:
+									<ul>
+										<li>"jpeg" - A JPEG image as data-url / base64 encoded string. (default)</li>
+										<li>"png" - A PNG image as data-url / base64 encoded string.</li>
+										<li>"raw" - The direct pixels as Uint8Array with RGBA bytes per pixel.</li>
+										<li>"canvas" - A 2D Canvas Object with the screenshot image.</li>
+									</ul>
+								</li>
+								<li><b>jpegquality</b> - The JPEG image / compression quality, from 0.0 (worst) to 1.0 (best) and 0.85 by default.
+									Only used for type="jpeg" and ignored for all other types.
+								</li>
+								<li><b>crop</b> - An optional Object with {x,y,w,h} properties to define an optional cropping of the screenshot image.
+								</li>
+								<li><b>sizeinfo</b> - An optional Object with {w,h} properties to pass to get information about the pixel size of the resulting image (useful for raw and image types).
+								</li>
+								<li><b>cache</b> - An optional empty Object where krpano can store internal buffers.
+									When doing several screenshots with the same size, this can makeScreenshot calls faster.
+									That object should be stored somewhere on application side and passed to all makeScreenshot calls.
+								</li>
+							</ul>
+						</li>
+						<li>When there will be an error, null will be returned.</li>
+						<li><u>Usage notes:</u> Even when called 'screenshot', technically this functions renders a whole new frame directly in the given size/resolution (no interpolation).<br>
+							This also allows changing all kind of settings (e.g. a different viewing direction) before doing the 'screenshot' 
+							(and then restoring them after it) to render something different to that what's currently shown on the screen.<br>
+							There is only one limitation here - only the currently loaded pano tiles/image are used. That means when trying to 
+							render a whole different view (e.g. other direction or other zoom) on a multires pano, there might be only the preview image there to render.
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="paragraph">
+		<h2><a name="examples" href="#examples" class="selflink">Examples</a></h2>
+		<div class="subparagraph">
+			Plugins with open sources:
+			<ul>
+				<li><a href="plugins/radar.html#opensource">Radar Plugin Source</a> (HTML5)</li>
+				<li><a href="plugins/postprocessing.html#top">Post-Processing Plugin Source</a> (HTML5)</li>
+				<li><a href="plugins/videoplayer.html#opensource">Videoplayer Plugin Source</a> (HTML5)</li>
+				<li><a href="https://krpano.com/forum/wbb/index.php?page=Thread&postID=52434#post52434">Text Input Plugin Source</a> (HTML5)</li>
+				<li><a href="https://krpano.com/forum/wbb/index.php?page=Thread&postID=60149#post60149">ThreeJS (3D Objects) Plugin Source</a> (HTML5)</li>
+			</ul>
+		</div>
+	</div>
+
+
+
+
+				</div>
+			</div>
+		</div>
+		<div id="krpano_footerwrapper">
+			<div id="krpano_footer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="right">Copyright &copy; krpano.com</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
