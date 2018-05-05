@@ -2,74 +2,112 @@
 /**
  * Created by PhpStorm.
  * User: apple
- * Date: 2018/5/1
- * Time: 9:55 PM
+ * Date: 2018/5/2
+ * Time: 10:26 AM
  */
 
 $result = array();
-$result['status'] = "success";
+$result['status'] = "error";
 $data = json_decode($_POST["tour"]);
 $title = $_POST["title"];
+$scene_index = $_POST["scene_index"];
 $xmlfile = '../data/' . $title . '/vtour/tour.xml';
-$dom = new DOMDocument();
-$dom->load($xmlfile);
-$krpano = $dom->getElementsByTagName("krpano");
+$tourDom = new DOMDocument();
+$tourDom->load($xmlfile);
+$sceneList = $tourDom->getElementsByTagName("scene");
+
+
 foreach ($data as $key => $value) {
-    $index = $value->index;
-    $name = $value->name;
-    $childNodes = $krpano->item(0)->childNodes;
-    foreach ($childNodes as $node) {
-        if ($node->nodeName == "#text" || $node->nodeName == "#comment") continue;
-        $nameAttributeValue = $node->getAttribute("name");
-        if ($nameAttributeValue == $name && $index == $_POST["page"]) {
-            update($value, $node, $dom);
-        }
-    }
-}
-
-
-function update($value, $item, $dom)
-{
+    $sceneIndex = $value->index;
+    $welcomeFlag = $value->welcomeFlag;
+    $sceneName = $value->name;
+    $autorotate = $value->autorotate;
     $hotSpots = $value->hotSpots;
     $fov = $value->fov;
+    $sceneItem = $sceneList->item($sceneIndex);
 
-    if ($fov != null) {
-        $tempViewNode = $item->getElementsByTagName("view");
-        foreach ($tempViewNode as $tempView) {
-            $tempView->setAttribute("fov", $value->fov);
-            $tempView->setAttribute("hlookat", $value->initH);
-            $tempView->setAttribute("vlookat", $value->initV);
+    if (!is_int($sceneIndex)) {
+        return json_encode($result);
+    }
+
+
+    //自动旋转
+    if ($autorotate) {
+        $enabled = $autorotate->enabled;
+        $v1 = $sceneItem->getElementsByTagName("autorotate");
+        $v2 = $v1->item(0);
+        if ($enabled) {
+            $v2->setAttribute("enabled", "true");
+        } else {
+            $v2->setAttribute("enabled", "false");
         }
     }
 
-    if (!$_POST["isAddHotSpot"]) return;
+    //重新命名
+    $oldSceneName = $sceneItem->getAttribute("name");
+    if ($oldSceneName != $sceneName) {
+        foreach ($sceneList as $t0) {
+            $t1 = $t0->getElementsByTagName("hotspot");
+            foreach ($t1 as $t2) {
+                $t3 = $t2->getAttribute("linkedscene");
+                if ($t3 == $oldSceneName) {
+                    $t2->setAttribute("linkedscene", $sceneName);
+                }
+            }
+        }
+        $sceneItem->setAttribute("name", $sceneName);
+    }
 
-    removeHotSpot($item);
+
+    //初始场景
+    if ($welcomeFlag) {
+        $actionList = $tourDom->getElementsByTagName("action");
+        $actionItem = $actionList->item(0);
+        $actionItem->nodeValue =
+            "if(startscene === null OR !scene[get(startscene)], 
+            copy(startscene,scene[" . $sceneIndex . "].name); );
+            loadscene(get(startscene), null, MERGE);if(startactions !== null, startactions() );js('onready');";
+    }
+
+    if ($sceneIndex != $scene_index) continue;
+
+
+    if ($fov != null) {
+        $viewList = $sceneItem->getElementsByTagName("view");
+        $viewItem = $viewList->item(0);
+        $viewItem->setAttribute("fov", $value->fov);
+        $initH = $value->initH;
+        $initV = $value->initV;
+        if ($initH) $viewItem->setAttribute("hlookat", $initH);
+        if ($initV) $viewItem->setAttribute("vlookat", $initV);
+    }
+
+    $flag = $_POST["isAddHotSpot"];
+
+    if ($flag == "false") {
+        continue;
+    }
+
+    $hotSpotsList = $sceneItem->getElementsByTagName("hotspot");
+    while ($hotSpotsList->length != 0) {
+        $sceneItem->removeChild($hotSpotsList->item(0));
+    }
+
 
     if ($hotSpots != null) {
         foreach ($hotSpots as $key => $value) {
-            $node = $dom->createElement("hotspot");
+            $node = $tourDom->createElement("hotspot");
             $node->setAttribute("ath", $value->ath);
             $node->setAttribute("atv", $value->atv);
             $node->setAttribute("linkedscene", $value->linkedscene);
             $node->setAttribute("style", $value->style);
             $node->setAttribute("dive", $value->dive);
             $node->setAttribute("name", $value->name);
-            $item->appendChild($node);
+            $sceneItem->appendChild($node);
         }
     }
 }
 
-
-function removeHotSpot($item)
-{
-    $tempHotSpotList = $item->getElementsByTagName("hotspot");
-    if ($tempHotSpotList->length == 0) return ture;
-    foreach ($tempHotSpotList as $tempHotSpot) {
-        $item->removeChild($tempHotSpot);
-    }
-    removeHotSpot($item);
-}
-
-$dom->save($xmlfile);
+$tourDom->save($xmlfile);
+$result['status'] = "success";
 echo json_encode($result);

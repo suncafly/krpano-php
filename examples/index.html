@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Krapano</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="../css/bootstrap.min.css" rel="stylesheet">-->
     <link href="../css/fileinput.min.css" media="all" rel="stylesheet"/>
     <link href="../css/font-awesome.min.css" media="all" rel="stylesheet"/>
     <link href="../themes/explorer-fa/theme.css" media="all" rel="stylesheet"/>
@@ -16,21 +16,32 @@
     <script src="../themes/explorer-fa/theme.js" type="text/javascript"></script>
     <script src="../themes/fa/theme.js" type="text/javascript"></script>
     <script src="../js/plugins/popper.min.js" type="text/javascript"></script>
-    <script src="../js/plugins/bootstrap.min.js" type="text/javascript"></script>
+    <!--<script src="../js/plugins/bootstrap.min.js" type="text/javascript"></script>-->
 </head>
 <body>
 <div class="container kv-main">
-    <div style="padding: 100px 100px 10px;">
-        <form class="bs-example bs-example-form" role="form">
-            <div class="input-group">
-                <span class="input-group-addon">项目名称</span>
-                <input id="pname" type="text" class="form-control" placeholder="this is a krapno">
-            </div>
-        </form>
-    </div>
+    <!--<div style="padding: 100px 100px 10px;">-->
+    <!--<form class="bs-example bs-example-form" role="form">-->
+    <!--<div class="input-group">-->
+    <!--<span class="input-group-addon">项目名称</span>-->
+    <!--<input id="pname" type="text" class="form-control" placeholder="this is a krapno">-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
     <form enctype="multipart/form-data">
         <div class="form-group">
-            <div  class="col-md-12">
+            <div class="col-md-12">
                 <input id="imgUpload" name="imgUpload" type="file" multiple class="file" data-overwrite-initial="false"
                        data-min-file-count="1">
             </div>
@@ -78,10 +89,11 @@
                 },
                 success: function (data) {
                     if (data.status == "success") {
+                        var temp = timestamp;
                         timestamp = 0;
                         $this.button('reset');
                         $this.attr("disabled", false);
-                        // window.location = "/demo/examples/main.html";
+                        window.location = "/demo/data/" + temp + "/vtour/tour_editor.html?title=" + temp;
                     }
                 }
             })
@@ -137,10 +149,10 @@
                     return data;
                 }
             }
-        ).on("fileuploaded", function (event, data) {
+        ).on("fileuploaded", function (event, data, index) {
             var response = data.response;
             if (response != null && response.status == 'success') {
-                alert("上传成功！");
+                console.log(index);
                 $("#publish_img").attr("disabled", false);
             } else {
                 alert('保存失败！');

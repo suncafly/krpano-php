@@ -11,7 +11,7 @@ var canLeftMove = false;
 var canRightMove = false;
 var canShowLeft = true;
 var isAddHotSpot = false;
-var _PAGE = 0;
+var scene_index = 0;
 $(function () {
 
     //右侧功能选择
@@ -76,6 +76,10 @@ $(function () {
     $("#preview").click(function () {
         var title = GetQueryString("title");
         window.location = "/demo/data/"+title + "/vtour/tour.html";
+    });
+
+    $("#mainPage").click(function(){
+        window.location = "/demo/examples/main.html";
     });
 });
 
@@ -144,7 +148,7 @@ function onready() {
 
 //场景切换，重命名模块
 function changeScene(index) {
-    _PAGE = index;
+    scene_index = index;
     krpano.call("loadscene(" + krpano.get("scene").getItem(index).name + ")");
     //当前存储对象展示
     var currentScene = sceneList[index];
@@ -468,7 +472,7 @@ function save() {
             tour: JSON.stringify(sceneList),
             title: GetQueryString("title"),
             isAddHotSpot:isAddHotSpot,
-            page:_PAGE
+            scene_index:scene_index
         },
         success: function (data) {
             if (data.status ==="success") {
@@ -485,6 +489,7 @@ function save() {
 
 //热点移动模块
 function autoMove() {
+    isAddHotSpot = true;
     krpano.call("screentosphere(mouse.x, mouse.y, mouseath, mouseatv);");
     krpano.set("hotspot[" + movingSpot.name + "].ath", krpano.get("mouseath") + movingSpot.athDis);
     krpano.set("hotspot[" + movingSpot.name + "].atv", krpano.get("mouseatv") + movingSpot.atvDis);
@@ -637,6 +642,7 @@ function hotSpotInitEvent(spotName) {
 }
 
 function removeHotSpot(name) {
+    isAddHotSpot = true;
     krpano.call("removehotspot(" + name + ")");
     updateHotSpotData();
     $("#isEdited").text('保存*');

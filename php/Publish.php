@@ -7,31 +7,24 @@
  */
 
 
-//$KRPANO_TOOL = "/usr/local/krpano-1.19-pr16/krpanotools";
-//$MAKEPANO = "makepano";
-//$CONFIG_KEY = "-config=";
-//$CONFIG = "/usr/local/krpano-1.19-pr16/templates/vtour-multires.config";
-//$_URL = "/Applications/MAMP/htdocs/demo/data/";
 include "Config.php";
-$_uuid = $_POST["timestamp"];
-$_dir = "../data/";
+$timestamp = $_POST["timestamp"];//图片目录名称，使用时间戳命名
 $result = array();
 $result['status'] = "success";
-
-if (file_exists($_dir . $_uuid)) {
-    $file = scandir($_dir . $_uuid);
-    $cmd = $KRPANO_TOOL . " " . $MAKEPANO . " " . $CONFIG_KEY . $CONFIG;
-
+//判断文件目录是否存在
+if (file_exists($_dir . $timestamp)) {
+    $file = scandir($_dir . $timestamp);
+    $cmd = $path_kr_url;
     foreach ($file as $key => $value) {
         if ($value != "." && $value != "..") {
-            $cmd = $cmd . " " . $_URL . $_uuid . "/" . $value;
+            $cmd = $cmd . " " . $img_url . $timestamp . "/" . $value;
         }
     }
     exec($cmd, $log, $status);
     $src = "../common";
-    $dst = "../data/" . $_uuid . "/vtour";
+    $dst = "../data/" . $timestamp . "/vtour";
     copyFile($src, $dst);
-    updateTourXml($_uuid);
+    updateTourXml($timestamp);
     echo json_encode($result);
 }
 
@@ -52,17 +45,29 @@ function copyFile($src, $dst)
     closedir($dir);
 }
 
+//更新tour.xml文件，添加onready方法调用
 function updateTourXml($_uuid)
 {
     $xmlfile = '../data/' . $_uuid . '/vtour/tour.xml';
     $dom = new DOMDocument(null);
     $dom->load($xmlfile);
-    $em = $dom->getElementsByTagName('action');
-    $em = $em->item(0);
-    $em->nodeValue =
+    $actionList = $dom->getElementsByTagName('action');
+    $defaultActionItem = $actionList->item(0);
+    $defaultActionItem->nodeValue =
         "if(startscene === null OR !scene[get(startscene)],
 		copy(startscene,scene[0].name); );
 		loadscene(get(startscene), null, MERGE);
 	    if(startactions !== null, startactions() );js('onready');";
+
+    $sceneList = $dom->getElementsByTagName("scene");
+    foreach ($sceneList as $sceneItem){
+        $node = $dom->createElement("autorotate");
+        $node->setAttribute("enabled", "false");
+        $node->setAttribute("waittime", "1.5");
+        $node->setAttribute("accel", "1.0");
+        $node->setAttribute("speed", "5.0");
+        $node->setAttribute("horizon", "0.0");
+        $sceneItem->appendChild($node);
+    }
     $dom->save($xmlfile);
 }
