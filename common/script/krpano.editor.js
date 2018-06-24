@@ -447,7 +447,9 @@ function updateHotSpotData() {
             hotSpotData.push(hotSpot);
         }
     });
-    sceneList[currentSceneIndex].hotSpots = hotSpotData;
+    if(sceneList[currentSceneIndex].hotSpots){
+        sceneList[currentSceneIndex].hotSpots = hotSpotData;
+    }
     hotSpotHTML = template('tplHotSpotList', dataHotSpotList);
     document.getElementById('hotSpotList').innerHTML = hotSpotHTML;
 }
@@ -480,6 +482,8 @@ function save() {
                 isAddHotSpot = false;
                 alert("保存成功");
                 $("#isEdited").text('保存');
+                var title = GetQueryString("title");
+                window.location = "/demo/data/" + title + "/vtour/tour_editor.html?title=" + title + "&random=" + Math.random();
             }
         },
         error: function () {
@@ -630,7 +634,7 @@ function hotSpotInitEvent(spotName) {
         canShowLeft = true;
         $("#isEdited").text('保存*');
     };
-    krpano.get("hotspot[" + spotName + "]").onclick = null;
+    krpano.get("hotspot[" + spotName + "]").onclick = function () {};
     krpano.get("hotspot[" + spotName + "]").onover = function () {
         if (movingSpot === {}) {
             var currentSpot = selectHotSpot();
