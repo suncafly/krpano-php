@@ -447,9 +447,10 @@ function updateHotSpotData() {
             hotSpotData.push(hotSpot);
         }
     });
-    if(sceneList[currentSceneIndex].hotSpots){
-        sceneList[currentSceneIndex].hotSpots = hotSpotData;
+    if(!sceneList[currentSceneIndex].hotSpots){
+        sceneList[currentSceneIndex].hotSpots = []
     }
+    sceneList[currentSceneIndex].hotSpots = hotSpotData;
     hotSpotHTML = template('tplHotSpotList', dataHotSpotList);
     document.getElementById('hotSpotList').innerHTML = hotSpotHTML;
 }
