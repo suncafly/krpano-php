@@ -1,0 +1,61 @@
+<krpano>
+
+    <!-- 自定义地图开始， mapcontainer是一个半透明容器container，keep为true，确保了切换场景时地图不会被移除，mapcontainer是其它子layer的父亲，bgcolor以及bgalpha是颜色和透明度的设定，通过改动align以及xy坐标可以确定地图的位置，通过改变width和height确定该矩形的宽度和高度，-->
+    <layer name="mapcontainer" keep="true" type="container" bgcolor="0x000000" bgalpha="0.5" align="righttop" x="0" y="0"
+           width="264" height="264">
+        <!-- map的url属性可以改成我们自己的地图文件，align一定是lefttop，这是为了确定热点位置，其坐标系以左上角为0点，也是为了方便我们通过ps等方法来获取热点的值。-->
+        <layer name="map" align="top" x="4" y="4" width="prop" height="256" handcursor="false"
+               scalechildren="true">
+            <!-- 雷达遮罩部分，确保了雷达的扇形不会超出范围，这里也就是地图map的范围。注意这里也应该是对齐左上角，下面的各种layer通通都是对齐左上角，不然坐标系不统一的话，就很难确定热点的位置 -->
+            <layer name="radarmask" type="container" align="righttop" width="100%" height="100%" maskchildren="true">
+
+                <!-- 雷达插件 zoder=1 在开始时为隐藏，只有激活activetespot这个action时才会显示 zorder为叠放次序 数字越大越靠前 -->
+                <layer name="radar" visible="false"
+                       url="plugins/radar.swf" alturl="plugins/radar.js"
+                       align="righttop" edge="center" zorder="1"
+                       scale="0.3"
+                       fillcolor="0xFFFFFF" fillalpha="0.8"
+                       linecolor="0xFF0000" linewidth="0.5" linealpha="0.5"
+                       headingoffset="0"
+                />
+                <include ref="/demo/map/skin/aaa.xml"/>
+                <!-- 热点 zorder=2，用style来统一处理 所有layer都载入了一个名为spot的style，注意这里spot是由0开始，而不是由1开始的，因此在一般情况下，地图点与场景一一对应，而场景的index是从0开始的，所以我们可以利用这一点提高代码的可读性-->
+                <layer name="spot0" style="spot" x="160" y="124" visible="true"/>
+                <layer name="spot1" style="spot" x="130" y="62" visible="false"/>
+                <layer name="spot2" style="spot" x="140" y="150" visible="false"/>
+
+                <!-- 激活的热点 zorder=3 开始时候隐藏，在这里是一个绿色的地图点， 表示当前的场景-->
+                <layer name="activespot" url="skin/vtourskin_mapspotactive.png" scale="0.5" oy="-17" align="righttop"
+                       edge="center" zorder="3" visible="false"/>
+            </layer>
+        </layer>
+    </layer>
+
+    <!-- 地图点中相同的代码，都写在了style里面，修改的时候只需要修改style里面的代码，提高了效率。在onclick里，先是用subtxt得出spot后面的数字，也就是index，然后检查是否点击的热点就是当前场景，因为没有必要点击当前场景的热点又载入一遍，如果是点击其他的热点，则载入其他场景，载入场景的loadscene中利用了之前得到的spotid，这样就不用每次都写场景的名字了。-->
+    <style name="spot" url="skin/vtourskin_mapspot.png" scale="0.5" oy="-17" align="righttop" edge="center" zorder="2"
+           onclick="subtxt(spotid,get(name),4,2);if(spotid != scene[get(xml.scene)].index,
+  loadscene(get(scene[get(spotid)].name),null,MERGE,BLEND(1)); );"/>
+
+    <!-- 激活热点 - %1 = 当前雷达的方向值heading -->
+    <action name="activatespot">
+        <!-- 因此绿色地图点会在每次激活时替换蓝色普通地图点，因此每次激活之前，首先保证所有蓝色地图点是可见的，如果没有下面这个代码，则会使得上一个场景的蓝色地图点消失，这里用的是一个循环语句-->
+        for(set(i,0),i LT scene.count,inc(i),
+        txtadd(spotname,'spot',get(i));
+        set(layer[get(spotname)].visible, true);
+        );
+        <!-- 将当前热点的坐标复制到雷达和激活点的坐标，直接利用当前场景的index，反过来得到layer的名字，这样就使得这个activetespot的参数只要一个就可以了-->
+        txtadd(spotidnow,'spot',get(scene[get(xml.scene)].index));
+        copy(layer[radar].x, layer[get(spotidnow)].x);
+        copy(layer[radar].y, layer[get(spotidnow)].y);
+        copy(layer[activespot].x, layer[get(spotidnow)].x);
+        copy(layer[activespot].y, layer[get(spotidnow)].y);
+
+        <!-- 将第二个参数赋值到雷达的heading -->
+        set(layer[radar].heading, %1);
+
+        <!-- 显示雷达和绿色激活热点，以及隐藏当前场景的地图点 -->
+        set(layer[radar].visible, true);
+        set(layer[activespot].visible, true);
+        set(layer[get(spotidnow)].visible, false);
+    </action>
+</krpano>

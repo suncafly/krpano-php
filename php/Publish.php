@@ -51,6 +51,13 @@ function updateTourXml($_uuid)
     $xmlfile = '../data/' . $_uuid . '/vtour/tour.xml';
     $dom = new DOMDocument(null);
     $dom->load($xmlfile);
+
+    $include = $dom->createElement("include");
+    $include->setAttribute("url", "smallmap.xml");
+    $krpanoList = $dom->getElementsByTagName("krpano");
+    $krpanoItem = $krpanoList->item(0);
+    $krpanoItem-> appendChild($include);
+
     $actionList = $dom->getElementsByTagName('action');
     $defaultActionItem = $actionList->item(0);
     $defaultActionItem->nodeValue =
@@ -60,14 +67,32 @@ function updateTourXml($_uuid)
 	    if(startactions !== null, startactions() );js('onready(0)');";
 
     $sceneList = $dom->getElementsByTagName("scene");
-    foreach ($sceneList as $sceneItem){
+    foreach ($sceneList as $sceneItem) {
         $node = $dom->createElement("autorotate");
         $node->setAttribute("enabled", "false");
         $node->setAttribute("waittime", "1.5");
         $node->setAttribute("accel", "1.0");
         $node->setAttribute("speed", "5.0");
         $node->setAttribute("horizon", "0.0");
+
+        $sceneItem->setAttribute("onstart", "activatespot(90)");
+
         $sceneItem->appendChild($node);
     }
     $dom->save($xmlfile);
+
+    $smallmap = '../data/' . $_uuid . '/vtour/smallmap.xml';
+    $mapDom = new DOMDocument();
+    $mapDom->load($smallmap);
+    $mapLayerList = $mapDom->getElementsByTagName("layer");
+    $child = $mapLayerList->item(0) ->getElementsByTagName("layer")->item(0);
+    $child = $child->getElementsByTagName("layer")->item(0);
+
+    $point = $mapDom->createElement("layer");
+    $point->setAttribute("name", "spot0");
+    $point->setAttribute("style", "spot");
+    $point->setAttribute("x", "160");
+    $point->setAttribute("y", "124");
+    $child->appendChild($point);
+    $mapDom->save($smallmap);
 }

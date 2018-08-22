@@ -75,16 +75,21 @@ $(function () {
 
     $("#preview").click(function () {
         var title = GetQueryString("title");
-        window.location = "/demo/data/"+title + "/vtour/tour.html";
+        window.location = "/demo/data/" + title + "/vtour/tour.html";
     });
 
-    $("#mainPage").click(function(){
+    $("#mainPage").click(function () {
         window.location = "/demo/examples/main.html";
     });
 });
 
 //noinspection JSUnusedGlobalSymbols
 function onready(value) {
+    krpano.get("layer").getArray().forEach(function (layer) {
+        if (layer.name == "mapcontainer") {
+            layer.visible = false;
+        }
+    });
     scene_index = value;
     //隐藏下方自带控制条
     krpano.set("layer[skin_control_bar].visible", false);
@@ -447,7 +452,7 @@ function updateHotSpotData() {
             hotSpotData.push(hotSpot);
         }
     });
-    if(!sceneList[currentSceneIndex].hotSpots){
+    if (!sceneList[currentSceneIndex].hotSpots) {
         sceneList[currentSceneIndex].hotSpots = []
     }
     sceneList[currentSceneIndex].hotSpots = hotSpotData;
@@ -475,11 +480,11 @@ function save() {
         data: {
             tour: JSON.stringify(sceneList),
             title: GetQueryString("title"),
-            isAddHotSpot:isAddHotSpot,
-            scene_index:scene_index
+            isAddHotSpot: isAddHotSpot,
+            scene_index: scene_index
         },
         success: function (data) {
-            if (data.status ==="success") {
+            if (data.status === "success") {
                 isAddHotSpot = false;
                 alert("保存成功");
                 $("#isEdited").text('保存');
@@ -635,7 +640,8 @@ function hotSpotInitEvent(spotName) {
         canShowLeft = true;
         $("#isEdited").text('保存*');
     };
-    krpano.get("hotspot[" + spotName + "]").onclick = function () {};
+    krpano.get("hotspot[" + spotName + "]").onclick = function () {
+    };
     krpano.get("hotspot[" + spotName + "]").onover = function () {
         if (movingSpot === {}) {
             var currentSpot = selectHotSpot();
