@@ -1,4 +1,11 @@
-
-krpano-1.19-pr16/*
 data/
 .idea/
+plugins/*
+php/doctrine2/*
+js/require/*
+php/phpqrcode/*
+js/plugins/bootstrap-fileinput-v4.5.1/*
+js/plugins/layui/*
+resource/*
+themes/*
+fonts/*
