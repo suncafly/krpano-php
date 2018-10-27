@@ -76,7 +76,7 @@
 			if ($temp_dir!="") 
 			{
 				//执行切图
-				exec(KRPANO_MULTI . " " . $temp_dir . "*.jpg", $log, $status);
+				exec(KRPANO_MULTI . " " . $temp_dir . "*.jpeg", $log, $status);
 				
 				//切图成功
 				if ($status == 0) {
