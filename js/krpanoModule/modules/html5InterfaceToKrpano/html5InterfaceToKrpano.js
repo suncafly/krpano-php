@@ -194,8 +194,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			initData:function(){
 				this.groupData['code'] = 1;
 				this.groupData['groups']=[];
-			},
-
 			//获取编号
 			getCodeData:function(){
 				if(typeof this.groupData['code'] != 'undefined')
