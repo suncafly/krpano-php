@@ -188,297 +188,19 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		//分组数据
 		groups: {
 
-			groupData: {},
-
-			//初始化分组数据
-			initData:function(){
-				this.groupData['code'] = 1;
-				this.groupData['groups']=[];
-			//获取编号
-			getCodeData:function(){
-				if(typeof this.groupData['code'] != 'undefined')
-				{
-					return this.groupData['code'];
-				}
-				return 0;
-			},
-
-			//更新编码信息
-			updateCodeData:function(){
-				if(typeof this.groupData['code'] != 'undefined')
-				{
-					this.groupData['code']++;
-				}
-			},
-
-			getGroupsData:function(){
-				if(typeof this.groupData['groups'] == 'undefined')
-				{
-					return null;
-				}
-				return this.groupData['groups'];
-			},
-
-			setGroupsData:function(data){
-				if(typeof data != 'undefined') {
-					this.groupData['groups'] = data;
-				}
-			},
-
-			//清除分组数据
-			clearGroupsData:function(){
-				var groups = this.getGroupsData();
-				if(groups){
-					groups.splice(0, groups.length);
-				}
-				this.setGroupsData(groups);
-			},
-
-			//获取分组数据
-			getGroupData:function(title){
-				if(typeof title != 'undefined' && title != ""){
-					var groups = this.getGroupsData();
-					if(groups){
-						return groups.find(function(x) {return x.title == title;});;
-					}
-				}
-				return null;	
-			},
-
-			//设置分组数据
-			setGroupData:function(group){
-				if(typeof group != 'undefined') {
-					var groups = this.getGroupsData();
-					if(groups){
-						var curgroup =  groups.find(function(x) {return x.title == group.title;});;
-						if(curgroup){
-							curgroup = group;
-						}
-						else{
-							groups.push(group);
-						}
-						this.setGroupsData(groups);
-					}
-				}
-			},
-
-			//删除分组数据
-			delGroupData:function(title){
-				if(typeof title != 'undefined' && title != ""){
-					var groups = this.getGroupsData();
-					if(groups){
-						//找到对应元素
-						$.each(groups,function(index,elem) {
-							if(elem['title'] == title) {
-								groups.splice(index, 1);
-							}
-						});
-						this.setGroupsData(groups);
-					}
-				}
-			},
-
-			//重命名分组
-			renameGroupData: function(oldTitle, newTitle) {
-				//参数校验
-				if(typeof oldTitle == "undefined" || oldTitle == "" || typeof newTitle == "undefined" || newTitle == "") {
-					return;
-				}
-				var groups = this.getGroupsData();
-				if(groups)
-				{
-					$.each(groups, function(index, elem) {
-						if(elem['title'] == oldTitle) {
-							elem['title'] = newTitle;
-						}
-					});
-				}
-			},
-
-			//获取场景数据
-			getScenesData:function(title){
-				if(typeof title != 'undefined' && title != ""){
-					var group = this.getGroupData(title);
-					if(group){
-						if(typeof group['scenes'] != 'undefined'){
-							return group['scenes'];
-						}
-					}
-				}
-				return null;
-			},
-
-			//设置场景数组
-			setScenesData:function(title,scenes){
-				if(typeof title != 'undefined' && title != "" && typeof scenes != 'undefined') {
-					var group = this.getGroupData(title);
-					if(group){
-						group['scenes'] = scenes;
-					}
-				}
-			},
-
-			//清除场景数据
-			clearScenesData:function(title){
-				if(typeof title != 'undefined' && title != ""){
-					var scenes = this.getScenesData(title);
-					if(scenes){
-						scenes.splice(0, scenes.length);
-					}
-				}
-			},
-
-			//获取场景数据
-			getSceneData:function(title,name){
-				if(typeof title != 'undefined' && title != "" && typeof name != 'undefined' && name != "") {
-					var scenes = this.getScenesData(title);
-					if(scenes){
-						return	scenes.find(function(x) {return x.name == name;});;
-					}
-				}
-				return null;
-			},
-
-			//设置场景数据
-			setSceneData:function(title,scene){
-				if(typeof title != 'undefined' && title != "" && typeof scene != 'undefined') {
-					var scenes = this.getScenesData(title);
-					if(scenes){
-						var curscene =  scenes.find(function(x) {return x.name == scene.name;});;
-						if(curscene){
-							curscene = scene;
-						}
-						else{
-							scenes.push(scene);
-						}
-					}
-				}
-			},
-
-			//删除场景数据
-			delSceneData:function(title,name){
-				if(typeof title != 'undefined' && title != "" && typeof name != 'undefined' && name != "") {
-					var scenes = this.getScenesData(title);
-					if(scenes){
-						//找到对应元素
-						$.each(scenes,function(index,elem) {
-							if(elem['name'] == name) {
-								scenes.splice(index, 1);
-							}
-						});
-						this.setScenesData(title,scenes);
-					}
-				}
-			},
-
-			//获取雷达数据
-			getRadarData:function(title){
-				if(typeof title != 'undefined' && title != ""){
-					var group = this.getGroupData(title);
-					if(group){
-						if(typeof group['radar'] != 'undefined'){
-							return group['radar'];
-						}
-					}
-				}
-				return null;
-			},
-
-			//设置雷达数据
-			setRadarData:function(title,radar){
-				if(typeof title != 'undefined' && title != "" && typeof name != 'undefined') {
-					var group = this.getGroupData(title);
-					if(group){
-						group['radar'] = radar;
-					}
-				}
-			},
-
-			//获取雷达点位数组
-			getRadarPoints:function(title){
-				if(typeof title != 'undefined' && title != "" ){
-					var radar = this.getRadarData(title);
-					if(radar && typeof radar['points'] !='undefined'){
-						return radar['points'];
-					}
-				}
-				return null;
-			},
-
-			//设置雷达点位数组
-			setRadarPoints:function(title,points){
-				if(typeof title != 'undefined' && title != "" && typeof points != 'undefined'){
-					var radar = this.getRadarData(title);
-					if(radar && typeof radar['points'] !='undefined'){
-						radar['points'] = points;
-					}
-				}
-			},
-
-			//清除雷达点位数据
-			clearRadarPoints:function(title){
-				if(typeof title != 'undefined' && title != "" && typeof points != 'undefined'){
-					var points = this.getRadarPoints(title);
-					if(points){
-						points.splice(0, points.length);
-					}
-				}
-			},
-
-			//获取雷达点位数据
-			getRadarPoint:function(title,name){
-				if(typeof title != 'undefined' && title != "" && typeof name != 'undefined' && name != "") {
-					var points = this.getRadarPoints(title);
-					if(points ){
-						return	points.find(function(x) {return x.name == name;});;
-					}
-				}
-				return null;
-			},
-
-			//设置雷达点位数据
-			setRadarPoint:function(title,point){
-				if(typeof title != 'undefined' && title != "" && typeof point != 'undefined') {
-					var points = this.getRadarPoints(title);
-					if(points){
-						var curpoint =  points.find(function(x) {return x.name == point.name;});;
-						if(curpoint){
-							curpoint = point;
-						}
-						else{
-							points.push(point);
-						}
-					}
-				}
-				return null;
-			},
-			
-			//删除场景数据
-			delRadarPoint:function(title,name){
-				if(typeof title != 'undefined' && title != "" && typeof name != 'undefined' && name != "") {
-					var points = this.getRadarPoints(title);
-					if(points){
-						//找到对应元素
-						$.each(points,function(index,elem) {
-							if(elem['name'] == name) {
-								points.splice(index, 1);
-							}
-						});
-					}
-				}
-			},
+			groupData: [],
 
 			//清除数据
 			clearData: function() {
-				this.clearGroupsData();
-				this.initData();
+				this.groupData.splice(0, this.groupData.length);
 			},
 
 			//更新数据
 			updateData: function(groupObj) {
-				//this.updateGroupsData(groupObj);
-				this.setGroupData(groupObj);
-				this.updateCodeData();
+
+				if(typeof(groupObj) == "object") {
+					this.groupData.push(groupObj);
+				}
 			},
 
 			//获取数据
@@ -495,10 +217,35 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			},
 			//删除数据
 			delData: function(title) {
-				this.delGroupData(title);
+				
+				if(typeof title == "undefined" || title == "") {
+					return;
+				}
+				//找到对应元素
+				$.each(this.groupData,function(index,elem) {
+					
+					if(elem['title'] == title) {
+						this.groupData.splice(index, 1);
+					}
+				});
+				
+			},
+			//重命名分组
+			renameData: function(oldTitle, newTitle) {
+				
+				//参数校验
+				if(typeof oldTitle == "undefined" || oldTitle == "" || typeof newTitle == "undefined" || newTitle == "") {
+					return;
+				}
+				
+				$.each(this.groupData, function(index, elem) {
+				
+					if(elem['title'] == oldTitle) {
+						elem['title'] = newTitle;
+					}
+				});
+				
 			}
-
-
 
 		},
 		hotspot : {
@@ -549,7 +296,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		//场景数据
 		readySavedScenes: {
 			
-			//sceneAppendList: [],
+			sceneAppendList: [],
 			
 			sceneList: [],
 			
@@ -557,7 +304,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			clearData: function() {
 	
 				this.sceneList.splice(0, this.sceneList.length);
-				//this.sceneAppendList.splice(0, this.sceneAppendList.length);
+				this.sceneAppendList.splice(0, this.sceneAppendList.length);
 			},
 			
 			//更新场景组合数据
@@ -579,194 +326,47 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			},
 			
 			//更新编辑时候追加场景
-			//updateSceneAppendList: function(sceneString) {
+			updateSceneAppendList: function(sceneString) {
 				
-			//	if(typeof sceneString != "undefined" && sceneString != "") {
+				if(typeof sceneString != "undefined" && sceneString != "") {
 					
-			//		this.sceneAppendList.push(sceneString);
+					this.sceneAppendList.push(sceneString);
 					
-			//	}
+				}
 				
-			//},
+			},
 			
 			//获取编辑时候追加场景
-			//getSceneAppendList: function() {
+			getSceneAppendList: function() {
 				
-			//	return this.sceneAppendList;
-			//},
+				return this.sceneAppendList;
+			},
 			//设置编辑时候追加场景
-			//setSceneAppendList: function(data) {
+			setSceneAppendList: function(data) {
 				
-			//	if(typeof data != "undefined") {
-			//		this.sceneAppendList = data;
-			//	}
-			//},
-			//清空编辑时候追加场景
-			//clearSceneAppendList: function(){
-			//	this.sceneAppendList.splice(0, this.sceneAppendList.length);
-			//}
+				if(typeof data != "undefined") {
+					this.sceneAppendList = data;
+				}
+			}
 		},
 	
 		//分组数据
 		readySavedGroups: {
 	
 			groupData: [],
-			//添加分组
-			addAddGroup:function(groupData){
-				if(typeof groupData != "undefined") {
-					var addGroupObject = {
-						opCode:'addGroup',
-						data:groupData
-					};
-					this.groupData.push(addGroupObject);
-				}
-			},
-
-			//删除分组
-			addSubGroup:function(groupData){
-				if(typeof groupData != "undefined") {
-					var subGroupObject = {
-						opCode:'subGroup',
-						data:groupData
-					};
-					this.groupData.push(subGroupObject);
-				}
-			},
-
-			//添加分组排序
-			addSortGroup:function(sortGroupData){
-				if(typeof sortGroupData != "undefined") {
-					var sortGroupObject = {
-						opCode:'sortGroup',
-						data:sortGroupData
-					};
-					this.groupData.push(sortGroupObject);
-				}
-			},
-
-			//重命名组名
-			addRenameGroup:function(renameData){
-				if(typeof renameData != "undefined") {
-					var renameGroupObject = {
-						opCode:'renameGroup',
-						data:renameData
-					};
-					this.groupData.push(renameGroupObject);
-				}
-			},
-
-
-			//添加场景数组
-			addAddTourScene:function(strScene){
-				if(typeof strScene != "undefined") {
-					var addTourSceneObject = {
-						opCode:'addTourScene',
-						data:strScene
-					};
-					this.groupData.push(addTourSceneObject);	
-				}
-			},
-
-			//删除场景数组
-			addSubTourScene:function(sceneData){
-				if(typeof sceneData != "undefined") {
-					var subTourSceneObject = {
-						opCode:'subTourScene',
-						data:sceneData
-					};
-					this.groupData.push(subTourSceneObject);	
-				}
-			},
-
-			//添加分组场景数组
-			addAddGroupScene:function(groupSceneData){
-				if(typeof groupSceneData != "undefined") {
-					var addGroupSceneObject = {
-						opCode:'addGroupScene',
-						data:groupSceneData
-					};
-					this.groupData.push(addGroupSceneObject);	
-				}
-			},
-
-			//删除分组场景
-			addSubGroupScene:function(groupSceneData){
-				if(typeof groupSceneData != "undefined" ) {
-					var subGroupSceneObject = {
-						opCode:'subGroupScene',
-						data:groupSceneData
-					};
-					this.groupData.push(subGroupSceneObject);	
-				}
-			},
-
-			//添加场景排序
-			addSortGroupScene:function(groupSortSceneData){
-				if(typeof groupSortSceneData != "undefined") {
-					var sortGroupSceneObject = {
-						opCode:'sortScene',
-						data:groupSortSceneData
-					};
-					this.groupData.push(sortGroupSceneObject);
-				}
-			},
-
-			//编辑雷达图
-			addEditRadar:function(groupRadarData){
-				if(typeof groupRadarData != "undefined" ) {
-					var editRadarObject = {
-						opCode:'editRadar',
-						data:groupRadarData
-					};
-					this.groupData.push(editRadarObject);
-				}
-			},
-
-			//添加雷达点
-			addAddPoint:function(groupPointData){
-				if(typeof groupPointData != "undefined") {
-					var addPointObject = {
-						opCode:'addPoint',
-						data:groupPointData
-					};
-					this.groupData.push(addPointObject);
-				}
-			},
-
-			//删除雷达点
-			addSubPoint:function(groupPointData){
-				if(typeof groupPointData != "undefined" ) {
-					var subPointObject = {
-						opCode:'subPoint',
-						data:groupPointData
-					};
-					this.groupData.push(subPointObject);
-				}
-			},
-
-			//编辑雷达点
-			addEditPoint:function(groupPointData){
-				if(typeof groupPointData != "undefined") {
-					var editPointObject = {
-						opCode:'editPoint',
-						data:groupPointData
-					};
-					this.groupData.push(editPointObject);
-				}
-			},
-
+	
 			//清除数据
 			clearData: function() {
 				this.groupData.splice(0, this.groupData.length);
 			},
 	
 			//更新数据
-			//updateData: function(groupObj) {
+			updateData: function(groupObj) {
 	
-			//	if(typeof(groupObj) == "object") {
-			//		this.groupData.push(groupObj);
-			//	}
-			//},
+				if(typeof(groupObj) == "object") {
+					this.groupData.push(groupObj);
+				}
+			},
 	
 			//获取数据
 			getData: function() {
@@ -906,8 +506,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			settings["layer[skin_btn_prev_fs].visible"] = false;
 			settings["layer[skin_btn_next].visible"] = false;
 			settings["layer[skin_btn_prev].visible"] = false;
-			//设置分组不显示
-			settings["config.show"] = 0;
 
 			var swf = baseUrl + "/" + curProjectPath + "/tour.swf";
 			
@@ -1059,22 +657,22 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				var sceneName = krpano.get("scene[get(xml.scene)].name");
 				
 				var xmlstring = '<krpano>';
-				var appendScenes = [];
+				
 				for(var scene of scenes) {
 
 					if(typeof scene['scenes'] != "undefined" || scene['scenes'] != "") {
 
 						var curScene = scene['scenes'];
-						appendScenes.push(curScene);
+						
+						//新增的场景同步到保存数据中
+						krpanoSaveData.readySavedScenes.updateSceneAppendList(curScene);
+						
 						curScene = curScene.replace(/panos\//g, globalData.getCurProjectPath() + '/panos/');
 						curScene = curScene.replace('onstart=""', 'onstart="updateradar()"');
 						xmlstring += curScene;
 
 					}
 				}
-
-				//新增的场景同步到保存数据中
-				krpanoSaveData.readySavedGroups.addAddTourScene(appendScenes);
 
 				xmlstring += '</krpano>';
 				krpano.call("loadxml(" + escape(xmlstring) + ", null, MERGE, BLEND(0.5));");
@@ -1181,8 +779,19 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			$('.panoListContainerPlanNeps').empty();
 
+			var groupData = globalKrpanoData.groups.getData();
+
 			//取出当前分组中的所有场景
-			var scenes = globalKrpanoData.groups.getScenesData(title);
+			var scenes = [];
+			$.each(groupData, function(index, elem) {
+
+				//找到了当前分组 直接返回
+				if(elem['title'] == title) {
+					scenes = elem['scenes'];
+					return true;
+				}
+			});
+
 			//遍历当前场景 初始化页面信息
 			$.each(scenes, function(index, elem) {
 
@@ -1199,7 +808,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 					//默认切换分组之后加载的是分组中第一个场景
 					if(bChangeScene) {
 						
-						sceneManager.changeScene(elem['name'], elem['index'], "");
+						this.changeScene(elem['name'], elem['index'], "");
 					}
 
 				} else {
@@ -1219,7 +828,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			var dragSceneObj = $('.panoListContainerPlanNeps').initDrap({
 				callback: function() {
 					//获取场景排列顺序
-					sceneManager.updateSceneSort();
+					this.updateSceneSort();
 				}
 			});
 
@@ -1238,28 +847,41 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 */
 		updateSceneSort: function() {
 
-			//在根据xml顺序插入
-			var scenes = [];
-			var scenesList = $('.panoListContainerPlanNeps .dads-children');
-			for(var i = 0; i < scenesList.length; i++) {
-				var scene = {
-					name: scenesList[i].getAttribute('data-sceneName'),
-					title: scenesList[i].getAttribute('data-sceneName'),
-					index: scenesList[i].getAttribute('data-sceneIndex'),
-					thumburl: scenesList[i].getAttribute('data-sceneThumburl'),
-
-				};
-				scenes.push(scene);
-			}
-			var groupSortSceneData = {
-				groupTitle:globalData.getCurGroupTitle(),
-				scenes:scenes
-			};
-			krpanoSaveData.readySavedGroups.addSortGroupScene(groupSortSceneData);
-
 			//获取当前激活显示的分组title
-			var title = globalData.getCurGroupTitle();
-			globalKrpanoData.groups.setScenesData(title,scenes);
+			var title = globalKrpanoData.groups.getCurGroupTitle();
+
+			//获取当前内存中的分组信息
+			var groupData = globalKrpanoData.groups.getData();
+
+			//找到当前分组下的场景信息 清除之后重新赋值拖拽之后的结果信息
+			$.each(groupData, function(index, elem) {
+
+				//找到当前分组
+				if(elem['title'] == title) {
+
+					//清除当前分组下的旧的场景数据
+					elem['scenes'].splice(0, elem['scenes'].length);
+
+					//在根据xml顺序插入
+					var scenesList = $('.panoListContainerPlanNeps .dads-children');
+					for(var i = 0; i < scenesList.length; i++) {
+
+						var scene = {
+							
+							name: scenesList[i].getAttribute('data-sceneName'),
+							title: scenesList[i].getAttribute('data-sceneName'),
+							index: scenesList[i].getAttribute('data-sceneIndex'),
+							thumburl: scenesList[i].getAttribute('data-sceneThumburl'),
+
+						};
+						elem['scenes'].push(scene);
+					}
+
+				}
+			})
+
+			//将修改之后的数据重新更新到内存中
+			globalKrpanoData.groups.setData(groupData);
 		},
 
 	}
@@ -1289,28 +911,15 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			var groupData = data['groupData'];
 
 			//判断是否有分组数据 如果没有则构造默认分组结构
-			if(groupData['groups'].length==0)
-			{
+			if(groupData.length == 0) {
+
 				//创建默认分组
-				var radar = {
-					'url':"",
-					'width':0,
-					'height':0,
-					'points':[]
-				};
-				var	group = {
-						'title':"默认分组",
-						'code':globalKrpanoData.groups.getCodeData(),
-						'scenes':[],
-						'radar':radar
-					};
+				var group = {};
+
+				//分组标题
+				group['title'] = "默认分组";
 
 				//分组场景 默认分组的时候将场景中所有场景加入到分组中
-				var groupData = {
-					'title':group['title'],
-					'code':group['code'],
-				};
-				krpanoSaveData.readySavedGroups.addAddGroup(groupData);
 
 				var scenes = [];
 				var sceneList = globalKrpanoData.scenes.getData();
@@ -1335,14 +944,8 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				globalKrpanoData.groups.updateData(group);
 				
 				//因为默认分组并没有在后台创建 所以此刻创建的数据在关闭项目或者切换节点的时候需要保存 所以将默认数据加载到需要保存的数据中
-				//krpanoSaveData.readySavedGroups.updateData(group);
-				var groupSceneData = {
-					groupTitle:group['title'],
-					scenes:scenes
-				};
-				krpanoSaveData.readySavedGroups.addAddGroupScene(groupSceneData);
-			}
-			 else {
+				krpanoSaveData.readySavedGroups.updateData(group);
+			} else {
 
 				//直接赋值
 				globalKrpanoData.groups.setData(groupData);
@@ -1387,7 +990,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			$('.groupListContainerPlanNeps').empty();
 
-			var groupData = globalKrpanoData.groups.getGroupsData();
+			var groupData = globalKrpanoData.groups.getData();
 
 			$(groupData).each(function(idx) {
 
@@ -1398,8 +1001,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 					html += ' 		<div class="groupItemMenu">•••</div>';
 					html += '	</div>';
 
-					//sceneManager.updateSceneView(this.title);
-					groupManger.onUpdateGroup(this.title,false);
+					sceneManager.updateSceneView(this.title);
 
 				} else {
 					html += '	<div class="groupItem" draggable="true">';
@@ -1415,7 +1017,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 				callback: function() {
 					//获取场景排列顺序
-					groupManger.updateGroupSort();
 				}
 			});
 			
@@ -1424,10 +1025,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			
 			//更新是否可以拖拽状态
 			groupManger.setDraggable();
-			//显示雷达图
-			this.showRadarPointsView(globalData.getCurGroupTitle());
-			//
-			this.showRadarPointsList(globalData.getCurGroupTitle());
 		},
 
 		/******************************************************************************
@@ -1442,26 +1039,23 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			var groupList = $('.groupListContainerPlanNeps .dads-children span');
 
-			var groupsData = globalKrpanoData.groups.getGroupsData();
+			var groupData = globalKrpanoData.groups.getData();
 
-			var sortGroupData = [];
 			for(var i = 0; i < groupList.length; i++) {
-				var sortGroup = {
-					title:groupList[i].getAttribute("title")
-				};
-				for(var j = (i + 1); j < groupsData.length; j++) {
-					if(groupsData[j].title == sortGroup['title']) {
-						var group = groupsData[i];
-						groupsData[i] = groupsData[j];
-						groupsData[j] = group;
+				var group = null;
+
+				for(var j = (i + 1); j < groupData.length; j++) {
+					if(groupData[j].title == groupList[i].getAttribute("title")) {
+						group = groupData[i];
+						groupData[i] = groupData[j];
+						groupData[j] = group;
 						group = null;
 					}
 				}
-				sortGroupData.push(sortGroup);
 			}
-			krpanoSaveData.readySavedGroups.addSortGroup(sortGroupData);
+
 			//将最新数据同步到内存中
-			globalKrpanoData.groups.setGroupsData(groupsData);
+			globalKrpanoData.groups.setData(groupData);
 
 		},
 
@@ -1513,16 +1107,20 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			var sceneList = globalKrpanoData.scenes.getData();
 			
 			//根据分组名称获取分组信息
-			var groupsData = globalKrpanoData.groups.getGroupsData();
+			var groupData = globalKrpanoData.groups.getData();
 			
-			//获得当前分组场景数据
-			var scenes = globalKrpanoData.groups.getScenesData(title);
-
 			//查询当前场景中没有加到分组里面的场景 即为新增加场景，则加入到当前分组中
-			var addScenes = [];
 			sceneList.forEach(scene => {
+
 				var bExit = false;
-				$(groupsData).each(function(idx) {
+				var scenes = null;
+				$(groupData).each(function(idx) {
+					if(null == scenes) {
+						if(this.title == title) {
+							scenes = this.scenes;
+						}
+					}
+
 					$(this.scenes).each(function(ndx) {
 						if(this.name == scene.name) {
 							bExit = true;
@@ -1538,19 +1136,14 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 						thumburl: scene.thumburl,
 					};
 					scenes.push(sc);
-					addScenes.push(sc);
 				}
 			});
 			
 			//更新分组信息
-			globalKrpanoData.groups.setScenesData(title,scenes);
+			globalKrpanoData.groups.setData(groupData);
 			
 			//更新内存中分组信息
-			var groupSceneData = {
-				groupTitle:title,
-				scenes:addScenes
-			};
-			krpanoSaveData.readySavedGroups.addAddGroupScene(groupSceneData);
+			krpanoSaveData.readySavedGroups.setData(groupData);
 		},
 
 		/******************************************************************************
@@ -1569,11 +1162,11 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			}
 			
 			//判断当前增加的分组是否已经存在
-			var groupsData = globalKrpanoData.groups.getGroupsData();
+			var groupData = globalKrpanoData.groups.getData();
 			
 			var bExit = false;
 			
-			$.each(groupsData,function(index,elem) {
+			$.each(groupData,function(index,elem) {
 				
 				if(title == elem['title']) {
 					bExit = true;
@@ -1582,29 +1175,18 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			//如果不存在则添加 存在的话则直接返回
 			if(!bExit) {
+				
 				//创建默认分组
-				var radar = {
-					'url':"",
-					'width':0,
-					'height':0,
-					'points':[]
-				};
-				var	group = {
-						'title':title,
-						'code':globalKrpanoData.groups.getCodeData(),
-						'scenes':[],
-						'radar':radar
-					};
+				var group = {};
+				group['title'] = title;
+				//添加所有场景
+				group['scenes'] = [];
 				
 				//添加到内存数据
 				globalKrpanoData.groups.updateData(group);
 				
 				//添加到保存数据
-				var groupData = {
-					'title':group['title'],
-					'code':group['code'],
-				};
-				krpanoSaveData.readySavedGroups.addAddGroup(groupData);
+				krpanoSaveData.readySavedGroups.updateData(group);
 				
 				//添加
 				var html = '';
@@ -1623,7 +1205,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				});
 				
 				//设置拖拽对象
-				globalData.setDragGroupObj(dragGroupObj);
+				globalKrpanoData.setDragGroupObj(dragGroupObj);
 				
 				//更新是否可以拖拽状态
 				groupManger.setDraggable();
@@ -1662,7 +1244,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 		renameGroup: function(oldTitle, newTitle) {
 			
-			globalKrpanoData.groups.renameGroupData(oldTitle, newTitle);
+			globalKrpanoData.groups.renameData(oldTitle, newTitle);
 
 		},
 
@@ -1674,145 +1256,10 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 * @return 
 		 *		void
 		 */
-		onUpdateGroup: function(title, bChangeScene = true) {
-			//清除雷达点位视图
-			groupManger.hideRadarPointsView(globalData.getCurGroupTitle());
-			//更新场景视图
-			sceneManager.updateSceneView(title, bChangeScene);
-			//显示雷达点位视图
-			groupManger.showRadarPointsView(title);
-			//显示雷达点列表
-			groupManger.showRadarPointsList(title);
-		},
+		onUpdateGroup: function(title) {
 
-		/******************************************************************************
-		 * Desc: 更新雷达点位位置
-		 * 
-		 * @param 
-		 *
-		 * @return 
-		 *		void
-		 */
-		updateRadarPointsPos:function(title){
-			var krpano = globalData.getKrpano();
-			if(krpano){
-				var points = globalKrpanoData.groups.getRadarPoints(title);
-				if(points){
-					var updatePoints = [];
-					points.forEach(point => {
-						var laypoint = krpano.get("layer[" + point.name + "]");
-						if(laypoint){
-							if(null!=laypoint.x&&null!=laypoint.y&&null!=laypoint.rot){
-								if(point.x != laypoint.x||point.y != laypoint.y ||point.rot != laypoint.rot){
-									point.x = laypoint.x;
-									point.y = laypoint.y;
-									point.rot = laypoint.rot;
-									updatePoints.push(point);
-								}
-							}
-						}
-					}); 
-					if(updatePoints.length>0){
-						var groupPointData = {
-							groupTitle:globalData.getCurGroupTitle(),
-							points:updatePoints
-						}
-						krpanoSaveData.readySavedGroups.addEditPoint(groupPointData);
-					}
-				}
-			}
+			groupManger.updateSceneView(title, true);
 		},
-
-		/******************************************************************************
-		 * Desc: 隐藏雷达点位视图
-		 * 
-		 * @param 
-		 *
-		 * @return 
-		 *		void
-		 */
-		hideRadarPointsView:function(title){
-			var krpano = globalData.getKrpano();
-			if(krpano){
-				var points = globalKrpanoData.groups.getRadarPoints(title);
-				if(points){
-					this.updateRadarPointsPos(title);
-					 points.forEach(point => {
-						krpano.call("removelayer(" + point.name + ")");
-					}); 
-				}
-			}
-		},
-		/******************************************************************************
-		 * Desc: 显示雷达点位视图
-		 * 
-		 * @param 
-		 *
-		 * @return 
-		 *		void
-		 */
-		showRadarPointsView:function(title)
-		{
-			var krpano = globalData.getKrpano();
-			if(krpano){
-				var radar = globalKrpanoData.groups.getRadarData(title);
-				if(radar){
-					krpano.call("SetRadarLayerMap("+radar['url']+","+radar['width']+","+radar['height']+")");
-				}
-				var points = globalKrpanoData.groups.getRadarPoints(title);
-				if(points){
-					points.forEach(point => {
-						krpano.call("AddRadarLayer("+point.name+","+point.text+","+point.scene+","+point.x+","+point.y+",draghotspot())");
-					}); 
-				}
-			}
-
-		},
-		/******************************************************************************
-		 * Desc: 显示雷达图和点列表
-		 * 
-		 * @param 
-		 *
-		 * @return 
-		 *		void
-		 */
-		showRadarPointsList:function(title){
-			var radar = globalKrpanoData.groups.getRadarData(title);
-			if(radar){
-				var sourceThumbPath = radar.url;
-				sourceThumbPath = sourceThumbPath.replace(/%SWFPATH%/g, globalData.getCurProjectPath());
-				$('.radarImageContainer').empty();
-				var html = '<img class="radarBackgroudImg" src='+sourceThumbPath+'>';	
-				$('.radarImageContainer').append(html);
-				var points = globalKrpanoData.groups.getRadarPoints(title);
-				if(points)
-				{
-					var html = '';
-					$('.krpanoEditSidebarRadarContainer .radarPointsContainer').empty();
-					points.forEach(point => {
-							html += '<div class="radarSpotItem">';
-							html += '	<div class="radarSpotItemActive"></div>';
-							html += '	<div class="radarSpotItemTitle ellipsis">'+point.name+'</div>';
-							html += '</div>';
-					}); 
-					html += '<div class="radarFlovSet">';
-					html += '</div>';	
-					$('.krpanoEditSidebarRadarContainer .radarPointsContainer').append(html);
-
-					$('.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightBody').empty();
-					$('.sidePlaneRight .sidePlaneRightContainer').css('width', '0px');
-					$('.sidePlaneRight .sidePlaneRightContainer').css('right', '-10px');
-					if(points.length>0)
-					{
-						$('.radarFlovSet').empty();
-						html = '';
-						html += '<span>调整雷达角度</span>';
-						html += '<div id="slideRadarFlovSet" class="demo-slider"></div>';
-						$('.radarFlovSet').append(html);
-					}
-				}
-			}
-		}
 	}
 
 	//=================================================================================================
@@ -2399,12 +1846,12 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 		getRadarLayerMap: function() {
 
-			//if(krpano) {
+			if(krpano) {
 
-				//var layerMap = krpano.get('layer[map]');
+				var layerMap = krpano.get('layer[map]');
 
-				//krpano.call("SetRadarLayerMap(" + radarMap.path + "," + radarMap.width + "," + radarMap.height + ")");
-			//}
+				krpano.call("SetRadarLayerMap(" + radarMap.path + "," + radarMap.width + "," + radarMap.height + ")");
+			}
 		},
 
 		/******************************************************************************
@@ -2416,8 +1863,8 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 *		void
 		 */
 		initEditRadar: function() {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
+
+			if(globalData.getKrpano()) {
 				globalData.getKrpano().call("InitEditRadar()");
 			}
 		},
@@ -2432,48 +1879,39 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 */
 
 		createRadarLayerMap: function(sourceThumbPath) {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
-				//获取宽高
-				$(function() {
-					getImageWidth(sourceThumbPath, function(w, h) {
-						var radar = globalKrpanoData.groups.getRadarData(globalData.getCurGroupTitle());
-						if(radar)
-						{
-							radar['url'] = sourceThumbPath;
-							radar['width'] = w;
-							radar['height'] = h;
-							globalKrpanoData.groups.setRadarData(globalData.getCurGroupTitle(),radar);
-							krpano.call("SetRadarLayerMap("+radar['url']+","+radar['width']+","+radar['height']+")");
-							var radarData = {
-								url:sourceThumbPath,
-								width:w,
-								height:h
-							}
-							var groupRadarData = {
-								groupTitle:globalData.getCurGroupTitle(),
-								radar:radarData
-							}
-							krpanoSaveData.readySavedGroups.addEditRadar(groupRadarData);
-						}
-					});
-				});
 
-				function getImageWidth(url, callback) {
-					var img = new Image();
-					img.src = url;
-
-					// 如果图片被缓存，则直接返回缓存数据
-					if(img.complete) {
-						callback(img.width, img.height);
-					} else {
-						// 完全加载完毕的事件
-						img.onload = function() {
-							callback(img.width, img.height);
-						}
-					}
-
-				}
+			if(globalData.getKrpano()) {
+//				//获取宽高
+//				$(function() {
+//
+//					getImageWidth('resource/PanoImgLayer/1/thumb/CR-AwPxv.jpg', function(w, h) {
+//						console.log({
+//							width: w,
+//							height: h
+//						});
+//					});
+//				});
+//
+//				function getImageWidth(url, callback) {
+//					var img = new Image();
+//					img.src = url;
+//
+//					// 如果图片被缓存，则直接返回缓存数据
+//					if(img.complete) {
+//						callback(img.width, img.height);
+//					} else {
+//						// 完全加载完毕的事件
+//						img.onload = function() {
+//							callback(img.width, img.height);
+//						}
+//					}
+//
+//				}
+//
+//				radarMap.path = sourceThumbPath;
+//				radarMap.width = 1024;
+//				radarMap.height = 768;
+//				globalData.getKrpano().call("SetRadarLayerMap(" + radarMap.path + "," + radarMap.width + "," + radarMap.height + ")");
 			}
 		},
 
@@ -2487,28 +1925,33 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 */
 
 		addRadarSpot: function(targetSceneName) {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
-
-				var radar = globalKrpanoData.groups.getRadarData(globalData.getCurGroupTitle());
-					var point = {
-						name: targetSceneName,
-						text: targetSceneName,
-						scene: targetSceneName.toLowerCase(),
-						x: radar['width']/2,
-						y: radar['height']/2,
-						rot: 0
-					};
-				globalKrpanoData.groups.setRadarPoint(globalData.getCurGroupTitle(),point);
-				krpano.call("AddRadarLayer(" + point.name + "," + point.text + "," + point.scene + "," +point.x+ "," +point.y+ ",draghotspot())");
-				//groupPointData
-				var points = [];
-				points.push(point);
-				var groupPointData = {
-					groupTitle:globalData.getCurGroupTitle(),
-					points:points
-				}
-				krpanoSaveData.readySavedGroups.addAddPoint(groupPointData);
+			
+			if(globalData.getKrpano()) {
+//				var layerobj = radarList.find(function(x) {
+//					return x.name == targetSceneName;
+//				});
+//				if(layerobj) {
+//					layerobj.text = targetSceneName;
+//					layerobj.sceneName = targetSceneName.toLowerCase();
+//					layerobj.x = 0;
+//					layerobj.y = 0;
+//					layerobj.rot = 0;
+//					layerobj.add = 0;
+//
+//					globalData.getKrpano().call("AddRadarLayer(" + layerobj.name + "," + layerobj.text + "," + layerobj.sceneName + ")");
+//				} else {
+//					var layerobj = {
+//						name: targetSceneName,
+//						text: targetSceneName,
+//						sceneName: targetSceneName.toLowerCase(),
+//						x: 0,
+//						y: 0,
+//						rot: 0,
+//						add: 1
+//					};
+//					radarList.push(layerobj);
+//					globalData.getKrpano().call("AddRadarLayer(" + layerobj.name + "," + layerobj.text + "," + layerobj.sceneName + ")");
+//				}
 			}
 		},
 
@@ -2522,10 +1965,21 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 */
 
 		subRadarSpot: function(targetSceneName) {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
-				globalKrpanoData.groups.delRadarPoint(globalData.getCurGroupTitle(),targetSceneName);
-				gkrpano.call("SubRadarLayer(" + targetSceneName + ")");
+
+			if(globalData.getKrpano()) {
+//				var layerobj = radarList.find(function(x) {
+//					return x.sceneName == targetSceneName.toLowerCase();
+//				});
+//				if(layerobj) {
+//					radarList.remove(layerobj);
+//				} else {
+//					var layerobj = {
+//						name: targetSceneName,
+//						add: -1
+//					};
+//					radarList.push(layerobj);
+//				}
+//				globalData.getKrpano().call("SubRadarLayer(" + targetSceneName + ")");
 			}
 		},
 
@@ -2538,9 +1992,16 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 *		void
 		 */
 		changeRadarAngle: function(angle) {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
-				krpano.call("RotRadarAngle(" + angle + ")");
+			
+			if(globalData.getKrpano()) {
+//				var sceneName = krpano.get("scene[get(xml.scene)].name");
+//				var layerobj = radarList.find(function(x) {
+//					return x.sceneName == sceneName;
+//				});
+//				if(layerobj) {
+//					layerobj.rot = angle;
+//				}
+//				globalData.getKrpano().call("RotRadarAngle(" + angle + ")");
 			}
 		},
 
@@ -2553,12 +2014,9 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 *		void
 		 */
 		visiableRadarLayerMap: function(bVisiable) {
-			var krpano = globalData.getKrpano();
-			if(krpano) {
-				krpano.call("SetLayerMapVisible(" + bVisiable + ")");
-			}
-			if(bVisiable){
-				groupManger.showRadarPointsList(globalData.getCurGroupTitle());
+			
+			if(globalData.getKrpano()) {
+				globalData.getKrpano().call("SetLayerMapVisible(" + bVisiable + ")");
 			}
 		},
 	}
@@ -2606,10 +2064,24 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			//分组数据 雷达数据与分组数据合并
 			function beforeSaveGroupData() {
-				var groupData = krpanoSaveData.readySavedGroups.getData();
-				if(groupData.length>0){
-					savedData['groupData'] = groupData;
+
+				if(krpano) {
+					radarList.forEach(layerobj => {
+						var lobj = krpano.get("layer[" + layerobj.name + "]");
+						layerobj.x = lobj.x;
+						layerobj.y = lobj.y;
+						layerobj.rot = lobj.rot;
+					});
 				}
+
+				var radarData = {
+
+					'radarMap': radarMap,
+					'radarList': radarList
+				}
+
+				savedData['radarData'] = radarData;
+
 				return;
 			}
 
@@ -2625,12 +2097,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 
 			//特效准备
 			function beforeSaveReadySpecialEffectData() {
-				return;
-			}
-
-			//添加场景准备
-			function beforeSaveReadyAddSceneData(){
-				//savedData['addScene'] = krpanoSaveData.readySavedScenes.getSceneAppendList();
 				return;
 			}
 
@@ -2681,7 +2147,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				//追加场景信息
 				case 'addScene':
 				
-					beforeSaveReadyAddSceneData();
+					beforeSaveReadySpecialEffectData();
 				
 					break;
 				default:
@@ -2707,14 +2173,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			if(typeof curLeftNavActived == "undefined" || curLeftNavActived == "") {
 
 				return ;
-			}
-			if(curLeftNavActived=='radar'){
-				//更新雷达点位数据
-				groupManger.updateRadarPointsPos(globalData.getCurGroupTitle());
-				curLeftNavActived = 'groups';
-			}
-			if(curLeftNavActived=='addScene'){
-				curLeftNavActived = 'groups';
 			}
 			//保存之前根据当前保存的类型做数据准备
 			var saveData = saveDataManager.beforeSaveReadyData(curLeftNavActived);
@@ -2779,11 +2237,9 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				krpanoSaveData.readySavedHotspot.clearData();
 			}
 		
-			//分组准备
-			function afterSaveReadyGroupData() {
-
-				krpanoSaveData.readySavedGroups.clearData();
-
+			//雷达准备
+			function afterSaveReadyRadarData() {
+		
 				return;
 			}
 		
@@ -2802,12 +2258,6 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				return;
 			}
 		
-			function afterSaveReadyAddSceneData(){
-				//清空数据
-				//krpanoSaveData.readySavedScenes.clearSceneAppendList();
-				return;
-			}
-
 			switch(curLeftNavActived) {
 		
 				case 'baseSet':
@@ -2828,9 +2278,9 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		
 					break;
 		
-				case 'groups':
+				case 'radar':
 		
-					afterSaveReadyGroupData();
+					afterSaveReadyRadarData();
 		
 					break;
 		
@@ -2849,18 +2299,12 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 					afterSaveReadySpecialEffectData();
 		
 					break;
-
-				case 'addScene':
-
-					afterSaveReadyAddSceneData();
-
-					break;
+		
 				default:
 					break;
 		
 			}
 		
-			return ;
 		
 		},
 	}
