@@ -1307,6 +1307,8 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 
 	function _krpanoBaseInitManager() {
 
+		$('.krpanoEditBody .krpanoEditSidebar').empty();
+		
 		$('#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano .krpanoBaseSet').empty();
 
 		var html = "";
@@ -1458,7 +1460,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 
 	function _krpanoViewAngleManager() {
 
-				
+		$('.krpanoEditBody .krpanoEditSidebar').empty();		
 		
 
 	}
@@ -1548,6 +1550,8 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 		html += '					</div>';
 		html += '				</div>';
 		html += '			</from>';
+		html += '			</div>';
+		html += '			<div class="radarPointsContainer">';
 		html += '			</div>';
 		html += '		</div>';
 		
@@ -2414,7 +2418,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 							}
 							
 							
-							
+							$('.radarImageContainer').empty();
 							var html = '';
 							var sourceThumbPath = response[0].sourceThumbPath;
 							html += '<img class="radarBackgroudImg" src='+sourceThumbPath+'>';
@@ -2542,7 +2546,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 						}
 						
 					
-						$('.krpanoEditSidebarRadarContainer').append(html);
+						$('.krpanoEditSidebarRadarContainer .radarPointsContainer').append(html);
 					
 						_closeSilderRightPlan();
 						
