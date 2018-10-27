@@ -117,7 +117,8 @@
 		            $node->setAttribute("title", $value->title);
 		            $node->setAttribute("curscenename", $value->curscenename);
 					$node->setAttribute("typevalue", $value->typevalue);
-					$node->setAttribute("onclick", "looktohotspot(get(linkedscene));loadscene(get(linkedscene),null,MERGE,BLEND(1));lookat(320.22, 1.05, 48.15);wait(BLEND);oninterrupt(break);lookto(202.65, 8.12, 105.5, smooth(100,100,200));");
+					//todo 数据写死的
+					$node->setAttribute("onclick", $value->onclick);
 		            $sceneItem->appendChild($node);
 					
 
