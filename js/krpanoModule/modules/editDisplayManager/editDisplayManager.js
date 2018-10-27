@@ -1526,6 +1526,8 @@ define(['jquery','layuiModule','bootstrap','fileInput','./../uploadOption/upload
 				
 				krpanoOnlineEditManager.buildPageHtml(projectId,projectLayerId,projectPath,projectName);
 				
+				krpanoOnlineEditManager.initReadyData();
+				
 				$('#krpanoEditContainer').css('display', 'flex');
 				
 				

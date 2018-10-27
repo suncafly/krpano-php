@@ -11,6 +11,14 @@ class FileUtil {
 	    return substr(strrchr($filename, '.'), 1); 
 	} 
 	
+	//获取文件名
+	static function getBaseFileName($filename) {
+			
+		$fileext = substr(strrchr($filename, '.'), 1);
+		$result = basename($filename,".".$fileext);
+		return $result;
+	}
+	
 
 	//生成随机文件名函数 
 	static  function random($length) 

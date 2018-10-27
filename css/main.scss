@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.top-nav {
+    margin: 0;
+    height: 68px;
+    overflow: hidden;
+    width: 100%;
+    /*background: url("../img/topNav.png");*/
+    background: linear-gradient(to right, rgba(35,27,61,0.9), #6c2939, #dd5b50,#a64d56);
+}
+/*logo图标*/
+.nav_logo {
+    float: left;    
+    padding-left: 24px;
+    padding-top: -1px;
+    margin-top: 7px;
+    height: 55px;
+}
+/*标题栏logo字体样式*/
+.top_title {
+    
+    float: left;    
+    font-size: 28px;
+    line-height: 22px;
+    margin-top: 22px;
+    color: white;
+    letter-spacing: 7px;
+    font-family: "microsoft yahei";
+    margin-right: 23px;
+    padding-left: 23px;
+}
+

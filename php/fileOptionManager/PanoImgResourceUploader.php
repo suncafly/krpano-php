@@ -8,6 +8,10 @@
  *
  *************************************************************************/
 
+require_once "krpanoConfigConstant.php";
+require_once "krpanoRegister.php";	
+require_once "KrpanoCommonOperation.php";
+
 class PanoImgResourceUploader extends fileBaseOpHandler
 {
 	
@@ -45,6 +49,34 @@ class PanoImgResourceUploader extends fileBaseOpHandler
 		return true;
 	}
 	
+	protected function panoSlice($fileNamePath,$dir) {
+		
+		
+		if(!$fileNamePath || !$dir) {
+			return array('ret'=>'error',"info"=>"切图失败，没有获取到资源");
+		}
+		
+		
+		if(!FileUtil::createDir($dir)) {
+			
+			return array('ret'=>'error',"info"=>"创建目录失败");
+	    	
+		}
+		
+		$dst_panos_dir = $dir . "/panos/";
+		
+		//创建目录
+		if(!FileUtil::make_dir($dst_panos_dir)) {
+			return array('ret'=>'error',"info"=>"创建目录失败");
+		}
+		
+						
+		$result = KrOperation::slice($fileNamePath,$dst_panos_dir);
+	
+		return $result;
+		
+	}
+	
 	
 	/**************************************************************************
 	 *
@@ -61,6 +93,8 @@ class PanoImgResourceUploader extends fileBaseOpHandler
 		
 		$thumbPath = "";
 		
+		$panoSliceRet = '';
+		
 		if (!$this->checkProps(['curEntityClass','layerid'], $post)) {
 			return array();
 		}
@@ -70,7 +104,6 @@ class PanoImgResourceUploader extends fileBaseOpHandler
 		$layerid = $post['layerid'];
 		
 		$dir = $this->uploadDir . '/' . $curEntityClass . '/' .$layerid;
-		
 		
 		$retUploader = array();
 		
@@ -91,11 +124,22 @@ class PanoImgResourceUploader extends fileBaseOpHandler
 			return; 
 		}
 		
-		//上传成功
+		//上传成功 
 		else {
 			
+			//创建缩略图
 			$thumbPath = $this->createThumb($files,$dir,$targetFileName,$targetType);
 			
+			//执行切割  生成切割之后的全景资源 已经xml场景 TODO lizhangming 20181019
+			$panoSliceRet = $this->panoSlice($fileNamePath,$dir);
+			
+			//执行切图失败 
+			if($panoSliceRet['ret'] == "error") {
+				
+				$this->setErrorResult($panoSliceRet['info']);
+				return true;
+			}
+	
 		}
 		
 		//保存信息到数据库
@@ -128,6 +172,8 @@ class PanoImgResourceUploader extends fileBaseOpHandler
 		
 		
 		$filename = $files['file']['name'];
+		$scenes = $panoSliceRet['scenes'];
+		$panosPath = $panoSliceRet['panosPath'];
 		
 		
 		$dt = new DateTime('NOW');
@@ -138,6 +184,8 @@ class PanoImgResourceUploader extends fileBaseOpHandler
         $panoImgResource->setResType("图片");
         $panoImgResource->setResFilePathInServer($fileNamePath);
 		$panoImgResource->setResThumbFilePathInServer($thumbPath);
+		$panoImgResource->setResPanoPathInServer($panosPath);
+		$panoImgResource->setResSceneString($scenes);
 		$panoImgResource->setResUploadPerson("李长明");
 		$panoImgResource->setResUploaderTime(new DateTime($t));
 		$panoImgResource->setResFileServerName($filename);

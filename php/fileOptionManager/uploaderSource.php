@@ -4,7 +4,9 @@
  * 2018年9月18号
  * 李长明
  */
- 
+
+	define('IN_T',true);
+
 	require_once "../doctrine2/bootstrap.php";
 	require_once "fileBaseOpHandler.php";
 	require_once "BasicMaterialResourceUploader.php";

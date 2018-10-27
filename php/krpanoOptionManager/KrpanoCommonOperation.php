@@ -13,7 +13,7 @@
 		 * $projectId 项目Id
 		 * $origin_dir 	切图完成后，存储图片的目录
 		*/
-		public static function slice($imgs,$projectId,$projectLayerId){
+		public static function slice($imgs,$projectId,$projectLayerId,$bAdd=false){
 			
 			//生成临时目录路径
 			$temp_dir = KRTEMP."/".date('Ymd',Common::gmtime()).Common::get_rand_number()."/";
@@ -34,14 +34,14 @@
 
 				$origin_dir = KRODRION.'/'.$projectLayerId.'/'.$projectId.'/';
 				
-				return $krpano->slicing($imgs,$temp_dir,$origin_dir,$projectId,$projectLayerId);
+				return $krpano->slicing($imgs,$temp_dir,$origin_dir,$projectId,$projectLayerId,$bAdd);
 			}
 			
 		}
 		
 		
 		//真正的切割函数,设为私有保证不被外部访问,做好封装
-		private function slicing($imgs,$temp_dir,$origin_dir,$projectId,$projectLayerId){
+		private function slicing($imgs,$temp_dir,$origin_dir,$projectId,$projectLayerId,$bAdd=false){
 	
 			$imgsmain = array();
 			
@@ -78,17 +78,29 @@
 
 			}
 			
+			$scenes = array();
 			//移动完成之后开始切图
-			if ($temp_dir!="") {
-
+			if ($temp_dir!="") 
+			{
 				//执行切图
 				exec(KRPANO_MULTI . " " . $temp_dir . "*.jpg", $log, $status);
 
 				if ($status == 0) {
+					if(!$bAdd)
+					{
+						//上传切好图的整个目录到服务器
+						$dir = $temp_dir . "vtour/";
+						$this->upload($dir, $origin_dir);
+					}
+					else
+					{
+						//仅仅是上传切的场景图
+						$dir = $temp_dir . "vtour/panos/";
+						$this->upload($dir, $origin_dir.'panos/');
+						//读取xml获取场景信息
+						$scenes = $this->getSceneInfo($temp_dir ."vtour/tour.xml");
+					}
 
-					//上传切好图的整个目录到服务器
-					$dir = $temp_dir . "vtour/";
-					$this->upload($dir, $origin_dir);
 				} else {
 					$result = array('ret' => 'error', 'info' => $log);
 					return $result;
@@ -101,11 +113,53 @@
 			}
 
 			$projectPath = 'data/krpano'.'/'.$projectLayerId.'/'.$projectId.'/'.'tour.html';
-			$result = array('ret'=>'success','info'=>$projectPath);
+			$result = array('ret'=>'success','info'=>$projectPath,'scenes'=>$scenes);
 			
 			return  $result;
 			
 		
+		}
+
+		/**************************************************************************
+		 *
+		 * 说明：获取场景信息
+		 * 作者：
+		* 时间：20181011
+		*/
+		private function getSceneInfo($radarXmlFile)
+		{
+			//打开目录xml文件
+			$con = file_get_contents($radarXmlFile);
+			//preg_match_all("/<".$x.">.*<\/".$x.">/", $con, $temp);
+			//"/\<humans\>(.*?)\<\/humans\>/s",
+			//$rets = array();
+			preg_match_all("/\<scene(.*?)\<\/scene\>/s", $con, $temp);
+			$rets = $temp[0];
+			//$arr[] = $temp[0];
+			/*$dom = new DOMDocument();
+			$dom->load($radarXmlFile);
+			$rets = array();
+			if($dom)
+			{
+				$scenes = $dom->getElementsByTagName("scene");
+				foreach ($scenes as $scene) 
+				{
+					$name = $scene->getAttribute("title");
+					$level = $scene->getElementsByTagName("level")->item(0);
+					$size = 512;
+					if($level)
+					{
+						$size = $level->getAttribute("tiledimagewidth");
+					}
+
+					$ret = array();
+					$ret['name'] = $name;
+					$ret['size'] = $size;
+					$rets[] = $ret;
+				}
+				//$dom->save($radarXmlFile);
+			}*/
+			return $rets;
 		}
 		
 		private function upload($dir,$origin_file){

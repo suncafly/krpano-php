@@ -5,11 +5,11 @@
  * 李长明
  */
  
-
+ 	define('IN_T',true);
  
 	require_once "krpanoConfigConstant.php";
-//	require_once "krpanoRegister.php";	
-//	require_once "KrpanoCommonOperation.php";
+	require_once "krpanoRegister.php";	
+	require_once "KrpanoCommonOperation.php";
 	require_once '../fileOptionManager/fileOptionManager.php';
 	require_once 'saveProjectDataOptionManager.php';
 	

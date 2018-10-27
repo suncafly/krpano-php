@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>jQuery拖放插件DAD演示-允许/禁止拖放</title>
+<link rel="stylesheet" href="css/jquery.dad.css">
+<style>
+.jq22 { width: 1000px; margin: 0 auto; font-family: arial,SimSun; font-size: 0;}
+.jq22 .item { display: inline-block; width: 180px; height: 100px; margin-right: 20px;}
+.jq22 .item1 { background-color: #1faeff;}
+.jq22 .item2 { background-color: #ff2e12;}
+.jq22 .item3 { background-color: #00c13f;}
+.jq22 .item4 { background-color: #e1b700;}
+.jq22 .item5 { background-color: #7200ac;}
+.jq22 span { display: block; height: 100px; line-height: 100px; font-size: 2rem; text-align: center; color: #fff;}
+
+.btns { width: 1000px; margin-left: auto; margin-right: auto;}
+</style>
+</head>
+
+<body>
+<h1>允许/禁止拖放</h1>
+
+<div class="jq22">
+	<div class="item item1"><span>1</span></div>
+	<div class="item item2"><span>2</span></div>
+	<div class="item item3"><span>3</span></div>
+	<div class="item item4"><span>4</span></div>
+	<div class="item item5"><span>5</span></div>
+</div>
+
+<p class="btns"><a class="btn1" href="javascript:">允许拖放</a> <a class="btn2" href="javascript:">禁止拖放</a></p>
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/jquery.dad.min.js"></script>
+<script>
+$(function(){ 
+	var n = $('.jq22').dad();
+	$('.btn1').on('click', function () {
+		n.activate();
+	});
+	$('.btn2').on('click', function () {
+		n.deactivate();
+	});
+});
+</script>
+
+
+
+
+
+
+
+
+
+<!-- 以下信息与演示无关，可不必理会 -->
+<style>
+body { margin: 0; border-left: 200px solid #ccc;}
+
+h1 { width: 1000px; margin: 40px auto; font: 32px "Microsoft Yahei";}
+.jq22 { width: 1000px; margin: 0 auto;}
+
+.menu { position: absolute; left: 0; top: 0; bottom: 0; width: 200px; padding-top: 100px; font-family: Consolas,arial,"宋体"; background-color: #ccc;}
+.menu a { display: block; height: 40px; margin: 0 0 1px 2px; padding-left: 10px; line-height: 40px; font-size: 14px; color: #333; text-decoration: none;}
+.menu a:hover { background-color: #eee;}
+.menu .cur { color: #000; background-color: #fff !important;}
+
+.vad { margin: 150px 0 10px; font-family: Consolas,arial,宋体,sans-serif; text-align:center;}
+.vad a { display: inline-block; height: 36px; line-height: 36px; margin: 0 5px; padding: 0 50px; font-size: 14px; text-align:center; color:#eee; text-decoration: none; background-color: #222;}
+.vad a:hover { color: #fff; background-color: #000;}
+.thead { width: 728px; height: 90px; margin: 0 auto; border-bottom: 40px solid transparent;}
+</style>
+
+
+<div class="menu">
+	<a href="index.html">1、水平拖放</a>
+	<a href="index2.html">2、垂直拖放</a>
+	<a href="index3.html">3、多行拖放</a>
+	<a href="index4.html">4、指定拖动区域</a>
+	<a href="index5.html">5、回调函数</a>
+	<a class="cur" href="index6.html">6、允许/禁止拖放</a>
+	<a href="index7.html">7、仿垃圾篓</a>
+	<a href="index8.html">8、仿购物车</a>
+</div>
+    <script src="http://www.jb51.net/scripts/2bc/_gg_980_90.js" type="text/javascript"></script>
+
+
+</body>
+</html>

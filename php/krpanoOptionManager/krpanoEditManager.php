@@ -38,13 +38,216 @@ class krpanoEditManager extends krpanoBaseOpHandler
 	}
 	
 	
+	/**************************************************************************
+	 *
+	 * 说明：保存场景信息
+	 * 作者：
+	 * 时间：20181022
+	 */
+	function saveScene($xmlFile,$sceneData)
+	{
+		//判断文件是否存在
+		if(!file_exists($xmlFile)) {
+			
+			return false;
+		}
+		
+		//字符串是否为空
+		if($sceneData == "") {
+			return false;
+		}
+		
+		//读文件
+		$fileContent = file_get_contents($xmlFile);
+		$fileContent = str_replace('</krpano>', '', $fileContent);
+		
+		//插入场景数据
+		$fileContent=$fileContent.$sceneData;
+		
+		//重新设置文件结尾
+		$fileContent = $fileContent.'</krpano>';
+		
+		//写入文件
+		file_put_contents($xmlFile, $fileContent);
+		
+		return true;
+	}
 	
-	
+	/**************************************************************************
+	 *
+	 * 说明：移动全景资源文件并合并场景
+	 * 作者：
+	 * 时间：20181022
+	 */
+	private function movePanosAndMergeScene($selectedImginfoList,$disDir) {
+		
+				
+		if(!$disDir) {
+			return false;
+		}
+		
+		if(count($selectedImginfoList) == 0) {
+			return false;
+		}
+
+		
+		//遍历获取全景资源路径已经场景内容	
+		$panoPathAndSceneArray = array();	
+		$sceneList = "";
+		
+		foreach($selectedImginfoList as $obj) {
+
+			$conditions = array('id' => $obj);
+			
+			$panoImgResource = $this->em->getRepository('PanoImgResource')->findOneBy($conditions);
+			
+			if($panoImgResource) {
+				
+				$resPanoPathInServer = $panoImgResource->getResPanoPathInServer();
+				$resSceneString = $panoImgResource->getResSceneString();
+				
+				$arr = array('panoPath'=>$resPanoPathInServer,'scene'=>$resSceneString);
+				$panoPathAndSceneArray[] = $arr; 
+				
+			}
+		}
+		
+		if(count($panoPathAndSceneArray) == 0) {
+			return false;
+		}
+
+		//移动公用文件到目标目录下
+		$oldDir = KRSTATIC.'/';
+		FileUtil::copyDir($oldDir, $disDir);
+		
+		
+		$scenes = "";
+		foreach($panoPathAndSceneArray as $obj) {
+			
+			$panoPath = $obj['panoPath'];
+			$sceneString = $obj['scene'];
+			
+			//移动全景资源
+			$rpos = strrpos($panoPath,"/");
+			$temp_name = substr($panoPath, $rpos==0?$rpos:$rpos+1);
+			$disPanoDir = $disDir.'panos/'.$temp_name.'/';
+			FileUtil::copyDir($panoPath, $disPanoDir);
+			
+			$scenes .= $sceneString;
+			
+		}
+		
+		//将场景内容写进目标xml文件中
+		$disTourXmlFile = $disDir.'tour.xml';
+		if($this->saveScene($disTourXmlFile,$scenes)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+		return true;
+		
+	}
 	
 	
 	/**************************************************************************
 	 *
-	 * 说明：全景切割
+	 * 说明：编辑全景的时候追加全景资源
+	 * 作者：李长明
+	 * 时间：20180926
+	 */
+	protected function appendPanoToCurProject($params) {
+		
+			
+		if (!$this->checkProps(['projectId','selectedImginfoList','projectLayerId'], $params)) {
+			return false;	
+		}
+		
+		//项目ID
+		$projectId = $params['projectId'];
+		
+		//项目所属图层
+		$projectLayerId = $params['projectLayerId'];
+		
+		//全景资源id集合
+		$selectedImginfoList = $params['selectedImginfoList'];
+		
+		
+		//移动全景资源目录到项目目录里 同时合并场景
+		$disDir = KRODRION.'/'.$projectLayerId.'/'.$projectId.'/';
+
+
+		if(count($selectedImginfoList) == 0) {
+				
+			$this->setErrorResult(array("请选择资源"));
+			return false;
+		}
+
+		
+		//遍历获取全景资源路径已经场景内容	
+		$panoPathAndSceneArray = array();	
+		$sceneList = "";
+		
+		foreach($selectedImginfoList as $obj) {
+
+			$conditions = array('id' => $obj);
+			
+			$panoImgResource = $this->em->getRepository('PanoImgResource')->findOneBy($conditions);
+			
+			if($panoImgResource) {
+				
+				$resPanoPathInServer = $panoImgResource->getResPanoPathInServer();
+				$resSceneString = $panoImgResource->getResSceneString();
+				
+				$arr = array('panoPath'=>$resPanoPathInServer,'scene'=>$resSceneString);
+				$panoPathAndSceneArray[] = $arr; 
+				
+			}
+		}
+		
+		if(count($panoPathAndSceneArray) == 0) {
+				
+			$this->setErrorResult(array("请选择资源"));
+			return false;
+		}
+
+		
+		$scenes = array();
+		foreach($panoPathAndSceneArray as $obj) {
+			
+			$panoPath = $obj['panoPath'];
+			$sceneString = $obj['scene'];
+			
+			
+			//取出文件名
+			$rpos = strrpos($panoPath,"/");
+			$temp_name = substr($panoPath, $rpos==0?$rpos:$rpos+1);
+			$panoFileName = FileUtil::getBaseFileName($temp_name);
+
+			//全景资源路径
+			$disPanoDir = $disDir.'panos/';
+			$disPanoDir = $disPanoDir .$panoFileName.'.tiles';
+			
+			//移动全景资源
+			FileUtil::copyDir($panoPath, $disPanoDir);
+			$scenes[] = array('scenes'=>$sceneString);
+		}
+	
+		$retArray = array('scenes'=>$scenes);
+		
+		$this->setSuccessResult($retArray);
+			
+		return true;
+		
+		
+		
+	}
+
+
+	/**************************************************************************
+	 *
+	 * 说明：发布项目
 	 * 作者：李长明
 	 * 时间：20180926
 	 */
@@ -52,13 +255,16 @@ class krpanoEditManager extends krpanoBaseOpHandler
 	protected function addPushProject($params)
 	{
 
-		if (!$this->checkProps(['selectedImginfoList','projectName','projectTypeVal','projectTypeName','projectLayerId'], $params)) {
+		if(!$this->checkProps(['selectedImginfoList','projectLayerId','projectName','projectTypeVal','projectTypeName'], $params)) {
 			return false;
 		}
-		
+
 		//全景资源id集合
 		$selectedImginfoList = $params['selectedImginfoList'];
-		
+
+		//项目所属图层
+		$projectLayerId = $params['projectLayerId'];
+
 		//项目名称
 		$projectName = $params['projectName'];
 		
@@ -67,17 +273,14 @@ class krpanoEditManager extends krpanoBaseOpHandler
 		
 		//项目类型Id
 		$projectTypeId = $params['projectTypeVal'];
-		
-		//项目所属图层
-		$projectLayerId = $params['projectLayerId'];
-		
-		
+
 		//这里缺少项目图层 到时候补上 当下用默认图层代替
 		$conditions = array('id' => $projectLayerId);
 		
 		$projectLayer = $this->em->getRepository('ProjectLayer')->findOneBy($conditions);
 
 		if(!$projectLayer) {
+			
 			$this->setErrorResult(array());
 			return true;
 		}
@@ -88,10 +291,10 @@ class krpanoEditManager extends krpanoBaseOpHandler
 		$projectType = $this->em->getRepository('ProjectType')->findOneBy($conditions);
 
 		if(!$projectType) {
+			
 			$this->setErrorResult(array());
 			return true;
 		}
-		
 		
 		//新建项目插入到数据库中
 		$dt = new DateTime('NOW');	
@@ -108,10 +311,8 @@ class krpanoEditManager extends krpanoBaseOpHandler
 		$project->setProjectLayerInfo($projectLayer);
 		$project->setProjectTypeInfo($projectType);
 		
-
 		$this->em->persist($project);
 		$this->em->flush();
-		
 		
 		//新建成功之后返回的Id
 		$projectId = $project->getId();
@@ -120,81 +321,54 @@ class krpanoEditManager extends krpanoBaseOpHandler
 			$this->setErrorResult(array());
 			return true;
 		}
-		
-		//获取全景资源路径
-		$imgPathArray = array();
-		foreach($selectedImginfoList as $obj) {
 
-			$conditions = array('id' => $obj);
+		//移动全景资源目录到项目目录里 同时合并场景
+		$disDir = KRODRION.'/'.$projectLayerId.'/'.$projectId.'/';
+		$moveRet = $this->movePanosAndMergeScene($selectedImginfoList,$disDir);
 			
-			$panoImgResource = $this->em->getRepository('PanoImgResource')->findOneBy($conditions);
+		$conditions = array('id' => $projectId);
+		$project = $this->em->getRepository('Project')->findOneBy($conditions);
+		if(!$project) {
 			
-			if($panoImgResource) {
-				
-				$resFilePathInServer = $panoImgResource->getResFilePathInServer();
-				
-				$arr = array('imgPath'=>$resFilePathInServer);
-				$imgPathArray[] = $arr; 
-				
-			}
+			$this->setErrorResult("没有找到该项目");
+			return true;
 		}
 		
-		
-		//执行切图
-		$ret = $this->slice($imgPathArray,$projectId,$projectLayerId);
-		
-		
-		
-		//执行切图失败 
-		if($ret == "error") {
-			
-			$conditions = array('id' => $projectId);
-		
-			$project = $this->em->getRepository('Project')->findOneBy($conditions);
-			if(!$project) {
-				
-				$this->setErrorResult($ret['info']);
-				return true;
-			}
-			
+	
+		//移动文件失败 
+		if(!$moveRet) {
+
 			$this->em->remove($project);
 			
 			$this->em->flush();
-			
-			
-			$this->setErrorResult($ret['info']);
+
+			$this->setErrorResult("发布项目失败");
 			return true;
 			
 		}
 		
-		//执行切图成功 这里预留修改xml
+		//成功
 		else {
 			
-			//项目所属类型标签
-			$conditions = array('id' => $projectId);
-		
-			$project = $this->em->getRepository('Project')->findOneBy($conditions);
-			if(!$project) {
-				$this->setErrorResult($ret['info']);
-				return true;
-			}
+			$projectPath = 'data/krpano'.'/'.$projectLayerId.'/'.$projectId.'/'.'tour.html';
 			
-			$project->setProjectPathInServer($ret['info']);
+			$project->setProjectPathInServer($projectPath);
 			$createTime = $project->getCreateTime();
 			$createTime = $createTime->format("Y-m-d H:i:s");
 
 			$this->em->flush();
 			
-			$retArray = array('projectId'=>$projectId,'projectPath'=>$ret['info'],'createTime'=>$createTime);
+			$retArray = array('projectId'=>$projectId,'projectPath'=>$projectPath,'createTime'=>$createTime);
 			
 			$this->setSuccessResult($retArray);
+			
 			return true;
 			
 		}
 	}
 
 
-	protected function slice($imgPathArray,$projectId,$projectLayerId) {
+	protected function slice($imgPathArray,$projectId,$projectLayerId,$bAdd=false) {
 		
 		if(count($imgPathArray) == 0) {
 			return array('ret'=>'error',"info"=>"切图失败，没有获取到资源");
@@ -212,7 +386,7 @@ class krpanoEditManager extends krpanoBaseOpHandler
 		}
 			
 				
-		$result = KrOperation::slice($imgPathArray,$projectId,$projectLayerId);
+		$result = KrOperation::slice($imgPathArray,$projectId,$projectLayerId,$bAdd);
 	
 		return $result;
 		
@@ -251,6 +425,57 @@ class krpanoEditManager extends krpanoBaseOpHandler
 			
 		$this->setSuccessResult($ret);
 		
+		return true;
+	}
+
+	//获取分组信息
+	protected function getGroupInfo($params)
+	{
+		if (!$this->checkProps(['projectXml'], $params)) {
+			return false;
+		}
+
+		$projectXml = $params['projectXml'];
+
+		$tourXmlFile = '../../' .$projectXml.'/tour.xml' ;
+		$groupDatas = array();
+		if(file_exists($tourXmlFile)) 
+		{
+			$dom = new DOMDocument();
+			$dom->load($tourXmlFile);
+			//读取分组信息
+			$config = $dom->getElementsByTagName("config");
+			if($config->length>0)
+			{
+				//存在分组信息
+				$thumbs = $config->item(0)->getElementsByTagName("thumbs");
+				if($thumbs->length>0)
+				{
+					$thumb = $thumbs->item(0);
+					$categorys = $thumb->getElementsByTagName("category"); 
+					foreach($categorys as $k => $category)
+					{
+						$groupData = array();
+						$groupData['name'] = $category->getAttribute("name");
+						$groupData['title'] = $category->getAttribute("title");
+						//$groupData['scenes'] = array();
+						$panos = $category->getElementsByTagName('pano');
+						$scenes = array();
+						foreach($panos as $p=>$pano)
+						{
+							$scene = array();
+							$scene['name'] = $pano->getAttribute("name");
+							$scene['title'] = $pano->getAttribute("title");
+							$scenes[] = $scene;
+						}
+						
+						$groupData['scenes'] = $scenes;
+						$groupDatas[] = $groupData;
+					}
+				}
+			}
+		}
+		$this->setSuccessResult(array('groupData'=>$groupDatas));
 		return true;
 	}
 }

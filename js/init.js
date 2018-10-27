@@ -29,6 +29,8 @@ requirejs.config({
 		
 		rightKeyMenuModule:'rightKeyMenu/contextMenu',
 		
+		dragFlexModule: 'dargFlex/jquery.dad.min',
+		
 		
 		
 	},
@@ -67,6 +69,10 @@ requirejs.config({
 		rightKeyMenuModule: {
 			deps: ['jquery','css!rightKeyMenu/contextMenu'],
 			exports: "rightKeyMenuModule"
+		},
+		
+		dragFlexModule: {
+			deps: ['jquery','css!dargFlex/jquery.dad'],
 		}
 
 		
@@ -74,7 +80,8 @@ requirejs.config({
 	}
 });
 
-define(['jquery','bootstrap','layuiModule','fileInput','explorerfa','filelocalZh','themeFa','rightKeyMenuModule','mainModule'], function($,bootstrap, layuiModule, fileInput, explorerfa, filelocalZh, themeFa, rightKeyMenuModule,mainModule) {
+define(['jquery','bootstrap','layuiModule','fileInput','explorerfa','filelocalZh','themeFa','rightKeyMenuModule','mainModule'], function($,bootstrap, layuiModule, fileInput, explorerfa, filelocalZh, themeFa, rightKeyMenuModule,mainModule,dragFlexModule) {
+	
 	
 	
 	

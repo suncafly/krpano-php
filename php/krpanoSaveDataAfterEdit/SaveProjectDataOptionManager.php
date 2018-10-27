@@ -200,16 +200,8 @@
 			}
 
 			
-			//获取分组数据
-			if(isset($saveSceneData['groupData']))
-			{
-				$groupData = $saveSceneData['groupData'];
-				//保存分组数据
-				if($groupData)
-				{
-					$this->saveGroupInfo($groupData);
-				}
-			}
+			
+
 			
 			
 			
@@ -429,61 +421,6 @@
 			$nodeScene->appendChild($nodeImage);
 			$krpanos->item(0)->appendChild($nodeScene);
 		}*/
-	}
-
-	//保存分组数据
-	function saveGroupInfo($saveGroupData) {
-		//$tourXmlFile = $this->workDir .'/tour.xml';		
-		//获取当前xml里面的场景节点
-		$config = $this->tourDom->getElementsByTagName("config");
-		if($config->length>0)
-		{
-			$config = $config->item(0);
-			//存在场景分组
-			$thumbs = $config->getElementsByTagName("thumbs");
-			if($thumbs->length>0)
-			{
-				$config->removeChild($thumbs->item(0));
-			}
-		}
-		else
-		{
-			//不存在场景分组
-			$config = $this->tourDom->createElement("config");
-			$config->setAttribute("thumb",'123');
-			$this->tourDom->getElementsByTagName("krpano")->item(0)->appendChild($config);
-		}
-		$thumbs = $this->tourDom->createElement("thumbs");
-		$thumbs->setAttribute("title",'全景列表');
-		$thumbs->setAttribute("show_thumb",1);
-		$config->appendChild($thumbs);
-		//添加新分组
-		//$saveGroupData group[]
-		$count = 0;
-		foreach ($saveGroupData as $group) 
-		{
-			//<category name="category0" title="146" thumb="">
-			$category = $this->tourDom->createElement("category");
-			$category->setAttribute("name",'category'.$count);
-			$category->setAttribute("title",$group['title']);
-			$category->setAttribute("thumb",'');
-			if(isset($group['scenes']))
-			{
-				foreach($group['scenes'] as $scene)
-				{
-					//<pano name="scene_CR-x8qqs"   title="scene_CR-x8qqs"/>
-					$pano = $this->tourDom->createElement("pano");
-					$pano->setAttribute("name",$scene['name']);
-					$pano->setAttribute("title",$scene['title']);
-					//
-					$category->appendChild($pano);
-				}
-			}
-			$thumbs->appendChild($category);
-			$count++;
-
-		}
-		
 	}
 
 }
