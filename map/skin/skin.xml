@@ -1,0 +1,137 @@
+<krpano>
+
+	<!--缩略图-->
+	<layer name="thumb_bg" align="leftbottom" edge="leftbottom" x="10" y="10" keep="true" url="thumb_bg.png" handcursor="false" alpha="1"
+		   onover="tween(alpha,1);"
+		   onout="tween(alpha,0.8);"
+			
+	>
+		<!--左箭头-->
+		<layer name="leftbtn" align="left" edge="center" x="15" keep="true" url="jt1.png" ondown="thumb_scrollby(1);" />
+		<!--右箭头-->
+		<layer name="rightbtn" align="right" edge="center" x="15" keep="true" url="jt1.png" rotate="180" ondown="thumb_scrollby(-1);"/>
+		
+		<!--收起按钮-->
+		<layer name="shouqi" align="right" edge="center" x="-20" keep="true" url="jt2.png" onclick="thumb_shouqi();"/>
+		
+		
+		<layer name="t_1_btn" align="lefttop" edge="leftbottom" x="0"   y="-5" alpha="0.5" keep="true" url="btn_01.png" onclick="thum_group_current(t_1);"/>
+		<layer name="t_2_btn" align="lefttop" edge="leftbottom" x="80"  y="-5" alpha="0.5" keep="true" url="btn_03.png" onclick="thum_group_current(t_2);"/>
+		<layer name="t_3_btn" align="lefttop" edge="leftbottom" x="160" y="-5" alpha="0.5" keep="true" url="btn_05.png" onclick="thum_group_current(t_3);"/>
+		<layer name="t_4_btn" align="lefttop" edge="leftbottom" x="240" y="-5" alpha="0.5" keep="true" url="btn_07.png" onclick="thum_group_current(t_4);"/>
+		<layer name="t_5_btn" align="lefttop" edge="leftbottom" x="320" y="-5" alpha="0.5" keep="true" url="btn_09.png" onclick="thum_group_current(t_5);"/>		
+		
+	</layer>
+	
+	
+	
+	<!--地图-->
+	<layer name="map_bg" align="righttop" edge="righttop" x="10" y="10" keep="true" url="a_03.png" handcursor="false" alpha="1"
+		   onover="tween(alpha,1);"
+		   onout="tween(alpha,0.8);">
+		   
+		   <!--放大按钮-->
+			<layer name="fangda_btn" align="leftbottom" edge="leftbottom" x="10" y="10" keep="true" url="a_12.png" zorder="2" ondown="map_zoom(0.03);" />
+		   <!--缩小按钮-->
+			<layer name="suoxiao_btn" align="leftbottom" edge="leftbottom" x="60" y="10" keep="true" url="a_14.png" zorder="2" ondown="map_zoom(-0.03);" />
+			
+			<!--关闭-->
+			<layer name="guanbi_btn" align="lefttop" edge="center" x="-30" y="30" keep="true" url="a_06.png" onclick="map_shouqi();" />	
+			
+			<!--分组按钮-->
+			<layer name="map_1384998676963_btn" align="lefttop" edge="righttop" x="-10" y="80" keep="true" alpha="0.5" url="a_09.png" onclick="map_group_current(map_1384998676963);" />	
+			<layer name="map_1384998690467_btn" align="lefttop" edge="righttop" x="-10" y="160" keep="true" alpha="0.5" url="a_17.png" onclick="map_group_current(map_1384998690467);" />
+			<layer name="map_1384998697279_btn" align="lefttop" edge="righttop" x="-10" y="240" keep="true" alpha="0.5" url="a_21.png" onclick="map_group_current(map_1384998697279);" />
+	
+	
+	</layer>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--缩略图收起弹出-->
+	<action name="thumb_shouqi">
+	
+		if(layer[thumb_bg].x == 10,
+			set(rotate,180);
+			tween(layer[thumb_bg].x,-512);,
+			set(rotate,0);
+			tween(layer[thumb_bg].x,10);
+			
+		
+		);
+	</action>
+	
+	
+	<!--地图收起弹出-->
+	<action name="map_shouqi">
+	
+		if(layer[map_bg].x == 10,
+			set(rotate,180);
+			tween(layer[map_bg].x,-320);,
+			set(rotate,0);
+			tween(layer[map_bg].x,10);
+		);
+	</action>
+	
+	
+	
+	<!--缩略图组切换事件   一般用于控制 切换按钮 效果的控制  例如缩略图分组的当前状态-->
+	<action name="on_thum_group_change">
+		if(thum_current_name,
+			txtadd(btn_name,get(thum_current_name),'_btn');
+			tween(layer[get(btn_name)].alpha,1);
+			set(layer[get(btn_name)].enabled,false);
+			
+		
+		);
+	 
+	
+		if(old_thum_current_name,
+			txtadd(old_btn_name,get(old_thum_current_name),'_btn');
+			tween(layer[get(old_btn_name)].alpha,0.5);
+			set(layer[get(old_btn_name)].enabled,true);
+			
+		);
+
+		
+	</action>
+	
+	
+	<!--缩略图组切换事件   一般用于控制 切换按钮 效果的控制  例如地图分组的当前状态-->
+	<action name="on_map_group_change">
+		
+		if(old_map_current_name,
+			txtadd(map_old_btn_name,get(old_map_current_name),'_btn');
+			tween(layer[get(map_old_btn_name)].alpha,0.5);
+			set(layer[get(map_old_btn_name)].enabled,true);
+		
+		);
+		
+		if(map_current_name,
+			txtadd(map_btn_name,get(map_current_name),'_btn');
+			tween(layer[get(map_btn_name)].alpha,1);
+			set(layer[get(map_btn_name)].enabled,false);
+		
+		);
+		
+		
+		
+	
+	</action>
+	
+	<!--全局事件-->
+	<events name="skin_events_jk2d8j3h" keep="true" 
+			on_thum_group_change="on_thum_group_change();"
+			on_map_group_change="on_map_group_change();"
+	/>
+	
+	
+	
+	
+
+</krpano>

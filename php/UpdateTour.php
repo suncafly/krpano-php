@@ -161,6 +161,7 @@ foreach ($data as $key => $value) {
             $clyaer->setAttribute("type", "container");
             $clyaer->setAttribute("css", "text-align:center; color:#FFFFFF; font-family:tahoma; font-weight:normal; font-size:25px;");
             $clyaer->setAttribute("origin", "cursor");
+            $clyaer->setAttribute("align", "center");
             $clyaer->setAttribute("url", "%SWFPATH%/plugins/textfield.swf");
             $player->appendChild($clyaer);
             $sceneItem->appendChild($player);

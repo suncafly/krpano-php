@@ -1,0 +1,276 @@
+<krpano onstart="loadscene(get(scene[0].name), null, MERGE);">
+
+    <include url="/demo/map/showpano/thum_core.xml"/><!--缩略图内核-->
+    <include url="/demo/map/showpano/map_core.xml"/><!--地图内核-->
+
+    <include url="/demo/map/skin/skin.xml"/><!--皮肤布局-->
+
+
+    <!--缩略图边框样式-->
+    <style name="thumb_edge_style"
+           url="/demo/map/skin/thumb_type.png"
+           crop="0|0|50|50"
+           onovercrop="50|0|50|50"
+           ondowncrop="100|0|50|50"
+           selectedcrop="150|0|50|50"
+           scale9grid="3|3|44|44"
+    />
+
+
+    <style name="thumb_txt_style"
+           width="102"
+           height="20"
+           css="text-align:center; color:#000000; font-family:Arial; font-size:12px;"
+           backgroundalpha="0.5"
+           backgroundcolor="0xffffff"
+           align="bottom"
+           y="3"
+    />
+
+    <style name="thumb_txt_selected_style"
+           width="100%"
+           height="20"
+           css="text-align:center; color:#000000; font-family:Arial; font-size:12px;"
+           backgroundalpha="0.5"
+           backgroundcolor="0xff0000"
+           align="bottom"
+    />
+
+
+    <thumblayer name="thumbnails"
+
+                align="center"
+                edge="center"
+                x="0"
+                y="0"
+                width="450"
+                thumb_w="108"
+                thumb_h="90"
+                thumb_spacing="5"
+
+                bgalpha="0"
+                bgcolor="0x00FFFF"
+
+                parent="thumb_bg"
+
+                edge_style="thumb_edge_style"
+                txt_style="thumb_txt_style"
+                txt_selected_style="thumb_txt_selected_style"
+
+
+    >
+        <thum_group name="t_1" current="true">
+            <thumb name="thumb_1384998492443" prefix="前缀（" suffix="）后缀" scene="scene_1383896852076"/>
+            <thumb name="thumb_1384998494421" prefix="前缀(" suffix=")后缀" scene="scene_1383896852661"/>
+            <thumb name="thumb_1384998496503" prefix="前缀（" suffix="）后缀" scene="scene_1383896853193"/>
+            <thumb name="thumb_1384998498041" prefix="前缀（" suffix="）后缀" scene="scene_1383896853682"/>
+            <thumb name="thumb_1384998499630" prefix="前缀（" suffix="）后缀" scene="scene_1383896854199"/>
+            <thumb name="thumb_1384998501327" prefix="前缀（" suffix="）后缀" scene="scene_1383896854778"/>
+            <thumb name="thumb_1384998503213" prefix="前缀（" suffix="）后缀" scene="scene_1383896855288"/>
+            <thumb name="thumb_1384998504933" prefix="前缀（" suffix="）后缀" scene="scene_1383896855439"/>
+        </thum_group>
+        <thum_group name="t_2" current="false">
+            <thumb name="thumb_1384998510059" prefix="前缀（" suffix="）后缀" scene="scene_1383896855576"/>
+            <thumb name="thumb_1384998511762" prefix="前缀（" suffix="）后缀" scene="scene_1383896855734"/>
+            <thumb name="thumb_1384998513334" prefix="前缀（" suffix="）后缀" scene="scene_1383896856522"/>
+            <thumb name="thumb_1384998514980" prefix="前缀（" suffix="）后缀" scene="scene_1383896857079"/>
+            <thumb name="thumb_1384998516827" prefix="前缀（" suffix="）后缀" scene="scene_1383896857231"/>
+            <thumb name="thumb_1384998518681" prefix="前缀（" suffix="）后缀" scene="scene_1383896857426"/>
+            <thumb name="thumb_1384998520420" prefix="前缀（" suffix="）后缀" scene="scene_1383896857905"/>
+            <thumb name="thumb_1384998522611" prefix="前缀（" suffix="）后缀" scene="scene_1383896858452"/>
+            <thumb name="thumb_1384998524163" prefix="前缀（" suffix="）后缀" scene="scene_1383896858951"/>
+            <thumb name="thumb_1384998526048" prefix="前缀（" suffix="）后缀" scene="scene_1383896859386"/>
+            <thumb name="thumb_1384998529178" prefix="前缀（" suffix="）后缀" scene="scene_1383896860013"/>
+        </thum_group>
+        <thum_group name="t_3" current="false">
+            <thumb name="thumb_1384998532551" prefix="前缀（" suffix="）后缀" scene="scene_1383896860565"/>
+            <thumb name="thumb_1384998535220" prefix="前缀（" suffix="）后缀" scene="scene_1383896861003"/>
+            <thumb name="thumb_1384998536859" prefix="前缀（" suffix="）后缀" scene="scene_1383896861411"/>
+            <thumb name="thumb_1384998538548" prefix="前缀（" suffix="）后缀" scene="scene_1383896861780"/>
+            <thumb name="thumb_1384998540256" prefix="前缀（" suffix="）后缀" scene="scene_1383896861883"/>
+            <thumb name="thumb_1384998542149" prefix="前缀（" suffix="）后缀" scene="scene_1383896862499"/>
+            <thumb name="thumb_1384998544295" prefix="前缀（" suffix="）后缀" scene="scene_1383896862992"/>
+            <thumb name="thumb_1384998545891" prefix="前缀（" suffix="）后缀" scene="scene_1383896863500"/>
+            <thumb name="thumb_1384998547471" prefix="前缀（" suffix="）后缀" scene="scene_1383896863966"/>
+            <thumb name="thumb_1384998549372" prefix="前缀（" suffix="）后缀" scene="scene_1383896864371"/>
+            <thumb name="thumb_1384998550872" prefix="前缀（" suffix="）后缀" scene="scene_1383896864875"/>
+            <thumb name="thumb_1384998552352" prefix="前缀（" suffix="）后缀" scene="scene_1383896865277"/>
+            <thumb name="thumb_1384998553908" prefix="前缀（" suffix="）后缀" scene="scene_1383896865704"/>
+            <thumb name="thumb_1384998556997" prefix="前缀（" suffix="）后缀" scene="scene_1383896866116"/>
+        </thum_group>
+        <thum_group name="t_4" current="false">
+            <thumb name="thumb_1384998560498" prefix="前缀（" suffix="）后缀" scene="scene_1383896866513"/>
+            <thumb name="thumb_1384998562594" prefix="前缀（" suffix="）后缀" scene="scene_1383896866952"/>
+            <thumb name="thumb_1384998564460" prefix="前缀（" suffix="）后缀" scene="scene_1383896867455"/>
+            <thumb name="thumb_1384998566199" prefix="前缀（" suffix="）后缀" scene="scene_1383896867949"/>
+            <thumb name="thumb_1384998567611" prefix="前缀（" suffix="）后缀" scene="scene_1383896868069"/>
+            <thumb name="thumb_1384998569485" prefix="前缀（" suffix="）后缀" scene="scene_1383896868482"/>
+            <thumb name="thumb_1384998571158" prefix="前缀（" suffix="）后缀" scene="scene_1383896868906"/>
+            <thumb name="thumb_1384998573028" prefix="前缀（" suffix="）后缀" scene="scene_1383896869315"/>
+            <thumb name="thumb_1384998574490" prefix="前缀（" suffix="）后缀" scene="scene_1383896869752"/>
+            <thumb name="thumb_1384998576096" prefix="前缀（" suffix="）后缀" scene="scene_1383896870142"/>
+            <thumb name="thumb_1384998577693" prefix="前缀（" suffix="）后缀" scene="scene_1383896870541"/>
+            <thumb name="thumb_1384998579214" prefix="前缀（" suffix="）后缀" scene="scene_1383896870642"/>
+            <thumb name="thumb_1384998580719" prefix="前缀（" suffix="）后缀" scene="scene_1383896871035"/>
+            <thumb name="thumb_1384998582122" prefix="前缀（" suffix="）后缀" scene="scene_1383896871456"/>
+            <thumb name="thumb_1384998586227" prefix="前缀（" suffix="）后缀" scene="scene_1383896871867"/>
+            <thumb name="thumb_1384998588171" prefix="前缀（" suffix="）后缀" scene="scene_1383896872252"/>
+            <thumb name="thumb_1384998589903" prefix="前缀（" suffix="）后缀" scene="scene_1383896872660"/>
+            <thumb name="thumb_1384998591316" prefix="前缀（" suffix="）后缀" scene="scene_1383896873228"/>
+            <thumb name="thumb_1384998593138" prefix="前缀（" suffix="）后缀" scene="scene_1383896873657"/>
+            <thumb name="thumb_1384998594601" prefix="前缀（" suffix="）后缀" scene="scene_1383896874065"/>
+            <thumb name="thumb_1384998596727" prefix="前缀（" suffix="）后缀" scene="scene_1383896874474"/>
+            <thumb name="thumb_1384998598391" prefix="前缀（" suffix="）后缀" scene="scene_1383896875424"/>
+            <thumb name="thumb_1384998599843" prefix="前缀（" suffix="）后缀" scene="scene_1383896875839"/>
+            <thumb name="thumb_1384998601802" prefix="前缀（" suffix="）后缀" scene="scene_1383896876331"/>
+        </thum_group>
+        <thum_group name="t_5" current="false">
+            <thumb name="thumb_1384998607775" prefix="前缀（" suffix="）后缀" scene="scene_1383896876815"/>
+            <thumb name="thumb_1384998609899" prefix="前缀（" suffix="）后缀" scene="scene_1383896877327"/>
+            <thumb name="thumb_1384998613660" prefix="前缀（" suffix="）后缀" scene="scene_1383896877776"/>
+            <thumb name="thumb_1384998616174" prefix="前缀（" suffix="）后缀" scene="scene_1383896878197"/>
+            <thumb name="thumb_1384998617995" prefix="前缀（" suffix="）后缀" scene="scene_1383896878680"/>
+            <thumb name="thumb_1384998619707" prefix="前缀（" suffix="）后缀" scene="scene_1383896879156"/>
+            <thumb name="thumb_1384998621150" prefix="前缀（" suffix="）后缀" scene="scene_1383896879633"/>
+            <thumb name="thumb_1384998622954" prefix="前缀（" suffix="）后缀" scene="scene_1383896880103"/>
+            <thumb name="thumb_1384998624674" prefix="前缀（" suffix="）后缀" scene="scene_1383896880534"/>
+            <thumb name="thumb_1384998626583" prefix="前缀（" suffix="）后缀" scene="scene_1383896880989"/>
+            <thumb name="thumb_1384998628484" prefix="前缀（" suffix="）后缀" scene="scene_1383896881542"/>
+            <thumb name="thumb_1384998629868" prefix="前缀（" suffix="）后缀" scene="scene_1383896882133"/>
+            <thumb name="thumb_1384998631438" prefix="前缀（" suffix="）后缀" scene="scene_1383896882608"/>
+            <thumb name="thumb_1384998633074" prefix="前缀（" suffix="）后缀" scene="scene_1383896882726"/>
+            <thumb name="thumb_1384998634460" prefix="前缀（" suffix="）后缀" scene="scene_1383896882820"/>
+            <thumb name="thumb_1384998636500" prefix="前缀（" suffix="）后缀" scene="scene_1383896882913"/>
+            <thumb name="thumb_1384998638217" prefix="前缀（" suffix="）后缀" scene="scene_1383896883004"/>
+            <thumb name="thumb_1384998639620" prefix="前缀（" suffix="）后缀" scene="scene_1383896883108"/>
+            <thumb name="thumb_1384998641106" prefix="前缀（" suffix="）后缀" scene="scene_1383896883233"/>
+            <thumb name="thumb_1384998642692" prefix="前缀（" suffix="）后缀" scene="scene_1383896883736"/>
+            <thumb name="thumb_1384998644305" prefix="前缀（" suffix="）后缀" scene="scene_1383896883835"/>
+            <thumb name="thumb_1384998645968" prefix="前缀（" suffix="）后缀" scene="scene_1383896883936"/>
+            <thumb name="thumb_1384998647557" prefix="前缀（" suffix="）后缀" scene="scene_1383896884049"/>
+            <thumb name="thumb_1384998649129" prefix="前缀（" suffix="）后缀" scene="scene_1383896884152"/>
+        </thum_group>
+    </thumblayer>
+
+
+    <!--地图热点样式-->
+    <style name="map_spot_type" keep="true" url="/demo/map/skin/hs_url.png" align="lefttop" edge="bottom"
+           crop="0|0|30|34"
+           onovercrop="30|0|30|34"
+           ondowncrop="60|0|30|34"
+           selectedcrop="60|0|30|34"
+
+    />
+
+
+    <!--地图雷达样式-->
+    <style name="map_radar_style"
+           url="/demo/map/plugins/radar.swf"
+           alturl="/demo/map/plugins/radar.js"
+           align="lefttop"
+           edge="center"
+           scale="1"
+           headingoffset="90.0"
+           fillcolor="0x3F3F3F"
+           fillalpha="0.5"
+    />
+
+
+    <!--鼠标文字悬停样式1-->
+    <textstyle name="textstyle1"
+               font="Arial" fontsize="18"
+               bold="true" italic="true"
+               textcolor="0x000000"
+               background="false" border="false"
+               blendmode="layer"
+               effect="glow(0xFFFFFF,0.85,4,4);dropshadow(2,45,0x000000,4,1);"
+               origin="cursor" edge="bottom"
+               xoffset="15" yoffset="-5"
+               showtime="0.1" fadeintime="0.1" fadetime="0.1"
+    />
+
+    <!--鼠标文字悬停样式2-->
+    <textstyle name="textstyle2"
+               font="Arial" fontsize="24"
+               bold="false" italic="true"
+               textcolor="0xff0000"
+               background="false" border="false"
+               blendmode="layer"
+               effect="glow(0xFFFFFF,0.85,4,4);dropshadow(2,45,0x000000,4,1);"
+               origin="cursor" edge="bottom"
+               xoffset="15" yoffset="-5"
+               showtime="0.1" fadeintime="0.1" fadetime="0.1"
+    />
+
+
+    <maplayer name="maps"
+
+
+              width="300"
+              height="300"
+              y="0"
+              x="0"
+
+              align="center"
+              edge="center"
+
+              bgcolor="0x00FFFF"
+              bgalpha="0.3"
+              parent="map_bg"
+              zorder="1"
+
+    >
+
+        <map_group name="map_1384998676963" url="/demo/map/image/map.jpg" map_min_zoom="0.3" map_max_zoom="1" zoom="0.5"
+                   current="true">
+            <spot name="spot_1384998704984" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="629" lng="101" heading="0" scene="scene_1383896852076"/>
+            <spot name="spot_1384998742657" style="map_spot_type" textstyle="textstyle2" prefix="哈哈（" suffix="）吼吼"
+                  lat="476" lng="487" heading="0" scene="scene_1383896852661"/>
+            <spot name="spot_1384998794616" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）搜搜"
+                  lat="671" lng="429" heading="0" scene="scene_1383896853682"/>
+            <spot name="spot_1384999941331" style="map_spot_type" textstyle="textstyle2" prefix="前缀（" suffix="）嘎嘎"
+                  lat="619" lng="242" heading="0" scene="scene_1383896855734"/>
+            <spot name="spot_1384999945134" style="map_spot_type" textstyle="textstyle1" prefix="hehe（" suffix="）呵呵"
+                  lat="690" lng="366" heading="0" scene="scene_1383896856522"/>
+        </map_group>
+        <map_group name="map_1384998690467" url="/demo/map/image/map_1.jpg" map_min_zoom="0.3" map_max_zoom="1"
+                   zoom="0.5"
+                   current="false">
+            <spot name="spot_1384999974141" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="135" lng="742" heading="0" scene="scene_1383896857231"/>
+            <spot name="spot_1384999978652" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="153" lng="519" heading="0" scene="scene_1383896857426"/>
+            <spot name="spot_1384999989261" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="591" lng="423" heading="0" scene="scene_1383896858452"/>
+            <spot name="spot_1384999997063" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="686" lng="681" heading="0" scene="scene_1383896858951"/>
+            <spot name="spot_1385000002139" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="227" lng="443" heading="0" scene="scene_1383896859386"/>
+            <spot name="spot_1385000007399" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="595" lng="822" heading="0" scene="scene_1383896860013"/>
+            <spot name="spot_1385000012258" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="349" lng="895" heading="0" scene="scene_1383896860565"/>
+            <spot name="spot_1385002229305" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="191" lng="760" heading="0" scene="scene_1383896863966"/>
+        </map_group>
+        <map_group name="map_1384998697279" url="/demo/map/image/map_2.jpg" map_min_zoom="0.3" map_max_zoom="1"
+                   zoom="0.5"
+                   current="false">
+            <spot name="spot_1385000026662" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="114" lng="796" heading="0" scene="scene_1383896883108"/>
+            <spot name="spot_1385000114235" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="475" lng="726" heading="0" scene="scene_1383896883233"/>
+            <spot name="spot_1385000115540" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="475" lng="726" heading="0" scene="scene_1383896883835"/>
+            <spot name="spot_1385000117206" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="475" lng="726" heading="0" scene="scene_1383896883936"/>
+            <spot name="spot_1385000118670" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="475" lng="726" heading="0" scene="scene_1383896884049"/>
+            <spot name="spot_1385000121053" style="map_spot_type" textstyle="textstyle1" prefix="前缀（" suffix="）后缀"
+                  lat="475" lng="726" heading="0" scene="scene_1383896884152"/>
+        </map_group>
+    </maplayer>
+
+
+</krpano>
