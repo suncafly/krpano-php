@@ -48,7 +48,7 @@
 				return false;
 			}
 			
-			if (!array_key_exists('opCode', $data)) {
+			if (!array_key_exists('curOptionType', $data)) {
 				return false;
 			}
 			

@@ -431,14 +431,14 @@ class krpanoEditManager extends krpanoBaseOpHandler
 	//获取分组信息
 	protected function getGroupInfo($params)
 	{
-		$groupDatas = array();
 		if (!$this->checkProps(['projectXml'], $params)) {
-			$this->setSuccessResult(array('groupData'=>$groupDatas));
 			return false;
 		}
-		$projectXml = $params['projectXml'];
-		$tourXmlFile = '../../' .$projectXml.'/tour.xml' ;
 
+		$projectXml = $params['projectXml'];
+
+		$tourXmlFile = '../../' .$projectXml.'/tour.xml' ;
+		$groupDatas = array();
 		if(file_exists($tourXmlFile)) 
 		{
 			$dom = new DOMDocument();
@@ -447,90 +447,35 @@ class krpanoEditManager extends krpanoBaseOpHandler
 			$config = $dom->getElementsByTagName("config");
 			if($config->length>0)
 			{
-				$groupDatas['code'] = $config->item(0)->getAttribute("code");
-				$groupDatas['groups'] = array();
 				//存在分组信息
 				$thumbs = $config->item(0)->getElementsByTagName("thumbs");
 				if($thumbs->length>0)
 				{
 					$thumb = $thumbs->item(0);
 					$categorys = $thumb->getElementsByTagName("category"); 
-					if($categorys->length>0){
-						foreach($categorys as $k => $category)
+					foreach($categorys as $k => $category)
+					{
+						$groupData = array();
+						$groupData['name'] = $category->getAttribute("name");
+						$groupData['title'] = $category->getAttribute("title");
+						//$groupData['scenes'] = array();
+						$panos = $category->getElementsByTagName('pano');
+						$scenes = array();
+						foreach($panos as $p=>$pano)
 						{
-							$groupData = array();
-							$groupData['name'] = $category->getAttribute("name");
-							$groupData['title'] = $category->getAttribute("title");
-							$groupData['code'] = $category->getAttribute("code");
-							//$groupData['scenes'] = array();
-							$panos = $category->getElementsByTagName('pano');
-							$scenes = array();
-							foreach($panos as $p=>$pano)
-							{
-								$scene = array();
-								$scene['name'] = $pano->getAttribute("name");
-								$scene['title'] = $pano->getAttribute("title");
-								$scene['thumburl'] = $pano->getAttribute("thumburl");
-								$scene['index'] = $pano->getAttribute("index");
-								$scenes[] = $scene;
-							}
-							$radars = $category->getElementsByTagName('radar');
-							$radar = $radars->item(0);
-							$radarData = array();
-							$radarData['url'] = $radar->getAttribute("url");
-							$radarData['width'] = $radar->getAttribute("width");
-							$radarData['height'] = $radar->getAttribute("height");
-							$scenepoints = $radar->getElementsByTagName('point');
-							$points = array();
-							foreach($scenepoints as $p=>$scenepoint)
-							{
-								$point = array();
-								$point['name'] = $scenepoint->getAttribute("name");
-								$point['x'] = $scenepoint->getAttribute("x");
-								$point['y'] = $scenepoint->getAttribute("y");
-								$point['rot'] = $scenepoint->getAttribute("rot");
-								$point['text'] = $scenepoint->getAttribute("text");
-								$point['scene'] = $scenepoint->getAttribute("scene");
-								$points[] = $point;
-							}
-							$radarData['points'] = $points;
-							$groupData['scenes'] = $scenes;
-							$groupData['radar'] = $radarData;
-							$groupDatas['groups'][] = $groupData;
+							$scene = array();
+							$scene['name'] = $pano->getAttribute("name");
+							$scene['title'] = $pano->getAttribute("title");
+							$scenes[] = $scene;
 						}
+						
+						$groupData['scenes'] = $scenes;
+						$groupDatas[] = $groupData;
 					}
-				}
-				else
-				{
-					$groupDatas['code'] = 1;
 				}
 			}
 		}
-		//获取雷达点位信息
-		//$radarXmlFile = '../../' .$projectXml.'/skin/radar.xml' ;
-		//合并
-		//getRadarInfo($radarXmlFile,$groupDatas);
-		//返回
 		$this->setSuccessResult(array('groupData'=>$groupDatas));
 		return true;
 	}
-
-	/*//读取雷达点位信息
-	protected function getRadarInfo($params)
-	{
-		if (!$this->checkProps(['projectXml'], $params)) {
-			return false;
-		}
-		$projectXml = $params['projectXml'];
-		$radarXmlFile = '../../' .$projectXml.'/skin/radar.xml' ;
-
-		$RadarData = array();
-		if(file_exists($radarXmlFile)) 
-		{
-			$dom = new DOMDocument();
-			$dom->load($tourXmlFile);
-			//开始读取
-
-		}
-	}*/
 }
