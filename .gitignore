@@ -1,4 +1,7 @@
-
-krpano-1.19-pr16/*
-data/
 .idea/
+projectStep/
+resource/
+static/
+plugins/
+data/
+temp/

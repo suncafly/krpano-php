@@ -1,0 +1,1991 @@
+@charset "UTF-8";
+
+/*页面全局设置*/
+
+html,
+body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	min-width: 1180px;
+	font-family: "microsoft yahei";
+	overflow-x: hidden;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+
+/*去掉样式本身的右边缩进*/
+
+.container-fluid,
+.row {
+	margin-right: 0px !important;
+	padding-right: 0px !important;
+}
+.btn-primary {
+	color: #fff !important;
+	background-color: #4caf50 !important;
+	border-color: #4aab4e !important;
+}
+
+.btn-primary:hover {
+	color: #fff;
+	background-color: #409343;
+	border-color: #38813b;
+}
+
+input[type=checkbox],
+input[type=radio] {
+	margin: 5px 0 0;
+	margin-top: 0\9;
+	line-height: normal;
+}
+
+
+/**********************************************页面标题栏以及顶部导航样式   20180913 李长明 begin****************************************/
+
+#homeHeader {
+	height: 68px;
+}
+
+
+/*页面标题栏*/
+
+#homeHeader .top-nav {
+	position: absolute;
+	margin: 0;
+	height: 68px;
+	overflow: hidden;
+	width: 100%;
+	background: linear-gradient(to right, rgba(35, 27, 61, 0.9), #6c2939, #dd5b50, #a64d56);
+}
+
+
+/*logo图标*/
+
+#homeHeader .nav_logo {
+	float: left;
+	padding-left: 24px;
+	padding-top: -1px;
+	margin-top: 7px;
+	height: 55px;
+}
+
+
+/*标题栏logo字体样式*/
+
+#homeHeader .top_title {
+	float: left;
+	margin-top: 22px;
+	margin-right: 23px;
+	padding-left: 23px;
+	font-family: "microsoft yahei";
+	font-size: 28px;
+	letter-spacing: 7px;
+	line-height: 22px;
+	color: white;
+}
+
+
+/*顶部导航*/
+
+#homeHeader .top-nav ul.nav-tabs {
+	border: none;
+}
+
+
+/*顶部每个列表的样式*/
+
+#homeHeader .top-nav ul.nav-tabs li {
+	display: block;
+	line-height: 68px;
+	text-align: center;
+	margin-left: 20px;
+	vertical-align: middle;
+	height: 68px;
+	font-size: 20px;
+	color: white;
+	letter-spacing: 7px;
+	font-family: "microsoft yahei";
+}
+
+
+
+/*顶部每个列表的样式 伪类*/
+
+.top-nav ul.nav-tabs li:hover {
+	border-bottom: 3px solid #ff8721;
+}
+
+
+/*顶部到导航列表a标签样式*/
+
+#homeHeader .top-nav ul.nav-tabs li a {
+	display: block;
+	color: white;
+	letter-spacing: 7px;
+	font-family: "microsoft yahei";
+}
+
+
+/*顶部到导航列表a标签样式伪类*/
+
+.top-nav ul.nav-tabs li a:hover {
+	text-decoration: none;
+	color: #ff8721;
+}
+
+
+/**********************************************页面标题栏以及顶部导航样式    20180913 李长明 end****************************************/
+
+
+/**********************************************资源管理平台相关  20180913 李长明 begin************************************************/
+
+/*资源类型头部菜单*/
+
+#system-resourceManager .resource-nav-list {
+	background-color: #fff;
+	border-bottom: 1px solid #d8d8d8;
+	height: 50px;
+	margin-bottom: 15px;
+}
+
+
+/*资源管理标题*/
+
+#system-resourceManager .resource-nav-list .name {
+	font-size: 20px;
+	text-align: center;
+	margin-top: 0.5rem;
+	color: #353535;
+}
+
+
+/*资源管理 类型列表*/
+
+#system-resourceManager .resource-nav-list ul {
+	width: 100%;
+	height: 50px;
+	border: 0;
+}
+
+
+/*资源管理 样式*/
+
+#system-resourceManager .resource-nav-list .nav-tabs .nav-link {
+	border: 0;
+	border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+}
+
+#system-resourceManager .resource-nav-list ul li a {
+	color: #353535;
+	font-size: 15px;
+}
+
+#system-resourceManager .resource-nav-list ul li a.nav-link {
+	display: block;
+	padding: 0.7rem 1rem;
+}
+
+#system-resourceManager .resource-nav-list ul li:hover {
+	border-bottom: 1px solid #4caf50;
+}
+
+#system-resourceManager .resource-nav-list ul li a:hover {
+	color: #4CAF50;
+}
+
+#system-resourceManager .resource-nav-list ul li a.active {
+	color: #4CAF50;
+	border-bottom: 1px solid #4caf50;
+}
+
+#system-resourceManager .resource-nav-list .up_btn {
+	float: right;
+	margin-right: 17px;
+	margin-top: 0.5rem;
+	font-size: 13px;
+}
+
+#system-resourceManager .resource-nav-list .btn-primary {
+	color: #fff;
+	background-color: #4caf50;
+	border-color: #4aab4e;
+}
+
+#system-resourceManager .resource-content {}
+
+#system-resourceManager .resource-content .tab-content {
+	width: 100%;
+	margin-top: 2rem;
+}
+
+
+/*左侧每个列表的样式*/
+
+#system-resourceManager .resource-content nav.menu {
+	text-align: center;
+}
+
+#system-resourceManager .resource-content nav.menu .icon-plus-sign img {
+	position: absolute;
+	left: 3rem;
+}
+
+#system-resourceManager .resource-content nav.menu>.btn {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
+
+#system-resourceManager .resource-content nav.menu>.btn+.nav {
+	margin-top: 15px;
+}
+
+#system-resourceManager .resource-content nav.menu.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+#system-resourceManager .resource-content nav.menu>.nav>li {
+	width: 100%;
+	float: none;
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+	display: block;
+	background-color: #f3f3f3;
+}
+
+#system-resourceManager .resource-content nav.menu>.nav>li.selected {
+	
+	background: url(../img/left-nav/selected.png) no-repeat left center;
+	
+}
+
+#system-resourceManager .resource-content nav.menu .nav>li>a {
+	text-align: center;
+	border: 1px solid #dddddd;
+	position: relative;
+	display: block;
+	padding: 8px 15px;
+	color: #353535;
+}
+#system-resourceManager .resource-content nav.menu .nav>li>a span.pull-right{
+	float: right;
+}
+
+#system-resourceManager .resource-content nav.menu .nav>li>a span.pull-right img {
+	margin-left: 6px;
+}
+
+#system-resourceManager .resource-content nav.menu .nav>li>a:hover,
+#system-resourceManager .resource-content nav.menu .nav>li>a:focus {
+	text-decoration: none;
+	color: #2c6a2f;
+}
+
+#system-resourceManager .resource-content .pano_optionPlan {
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+	min-height: 685px;
+	min-width: 950px;
+}
+
+#system-resourceManager .resource-content .pano_option {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+#system-resourceManager .resource-content  .checkbox {
+	text-align: center;
+	margin-top: 0.5rem;
+}
+
+#system-resourceManager .resource-content  .cards {
+	
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-right: -10px;
+	margin-left: -10px;
+	max-height: 600px;
+	overflow-y: auto;
+}
+#system-resourceManager .resource-content .cards .layer {
+	display: none;
+}
+#system-resourceManager .resource-content  .cards .layer.selected {
+	display: flex;
+}
+#system-resourceManager .resource-content  .cards .layer {
+	width: 100%;
+}
+#system-resourceManager .resource-content  .cards .layer>div img:hover{
+	    border: 3px solid #ffbd10;
+}
+
+#system-resourceManager .resource-content  .card {
+	text-decoration: none;
+	position: relative;
+	display: block;
+	padding: 0;
+	margin-bottom: 20px;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+	-webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+	-o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+	transition: all .4s cubic-bezier(.175, .885, .32, 1);
+}
+
+#system-resourceManager .resource-content  .cards .pano_checkbox {
+	position: absolute;
+	top: 5px;
+	z-index: 100;
+	left: 20px;
+}
+#system-resourceManager .resource-content  .cards .more{
+	/*display: none;*/
+	width: 24px;
+	text-align: right;
+}
+#system-resourceManager .resource-content .cards .moreInfo:hover {
+	display: initial;
+}
+
+#system-resourceManager .resource-content  .card:hover {
+	text-decoration: none;
+	/*color: #fff;*/
+	/*background-color: #409343;*/
+}
+#pranoimg .btn-file {
+	float: right;
+	margin-right: 12px;
+	margin-top: 10px;
+}
+.uploaderBtn{
+	position: relative;
+	width: 98;
+	margin: 10px;
+	margin-top: 67px;
+}
+
+
+
+
+
+/**********************************************资源管理平台相关  20180913 李长明 end**************************************************/
+
+
+
+/**********************************************编辑预览发布平台  20180913 李长明 begin************************************************/
+
+
+
+#system-editPushManager .edit-nav-list {
+	background-color: #fff;
+	border-bottom: 1px solid #d8d8d8;
+	height: 50px;
+	margin-bottom: 15px;
+}
+
+
+/*资源管理标题*/
+
+#system-editPushManager .edit-nav-list .name {
+	font-size: 20px;
+	text-align: center;
+	margin-top: 0.5rem;
+	color: #353535;
+}
+
+
+/*资源管理 类型列表*/
+
+#system-editPushManager .edit-nav-list ul {
+	width: 100%;
+	height: 50px;
+	border: 0;
+}
+
+
+/*资源管理 样式*/
+
+#system-editPushManager .edit-nav-list .nav-tabs .nav-link {
+	border: 0;
+	border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+}
+
+#system-editPushManager .edit-nav-list ul li a {
+	color: #353535;
+	font-size: 15px;
+}
+
+#system-editPushManager .edit-nav-list ul li a.nav-link {
+	display: block;
+	padding: 0.7rem 1rem;
+}
+
+#system-editPushManager .edit-nav-list ul li:hover {
+	border-bottom: 1px solid #4caf50;
+}
+
+#system-editPushManager .edit-nav-list ul li a:hover {
+	color: #4CAF50;
+}
+
+#system-editPushManager .edit-nav-list ul li a.active {
+	color: #4CAF50;
+	border-bottom: 1px solid #4caf50;
+}
+
+#system-editPushManager .edit-content {}
+
+#system-editPushManager .edit-content .tab-content {
+	width: 100%;
+	margin-top: 2rem;
+}
+
+/*左侧每个列表的样式*/
+
+
+#system-editPushManager .edit-content .left {
+	
+	margin-top: 2rem;
+	position: absolute;
+	left: 8px;
+	top: 118px;
+	bottom: 50px;
+	width: 300px;
+}
+#system-editPushManager .edit-content .left .projectLayer {
+	
+}
+#system-editPushManager .edit-content .right {
+	
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+	padding: 10px;
+	margin-top: 2rem;
+	position: absolute;
+	left: 320px;
+	top: 118px;
+    bottom: 65px;
+	right: 27px;
+	overflow: auto;
+	
+}
+#system-editPushManager .edit-content .right .inner{
+	min-height: 650px;
+	min-width: 1000px;
+}
+
+#system-editPushManager .edit-content .right .inner .projectManager>div {
+	display: none;
+}
+
+#system-editPushManager .edit-content .right .inner .projectManager>div.selected {
+	display: initial;
+}
+
+
+
+
+#system-editPushManager .edit-content nav.menu {
+	text-align: center;
+}
+
+#system-editPushManager .edit-content nav.menu .icon-plus-sign img {
+	position: absolute;
+	left: 3rem;
+}
+
+#system-editPushManager .edit-content nav.menu>.btn {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
+
+#system-editPushManager .edit-content nav.menu>.btn+.nav {
+	margin-top: 15px;
+}
+
+#system-editPushManager .edit-content nav.menu.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+#system-editPushManager .edit-content nav.menu>.nav>li {
+	width: 100%;
+	float: none;
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+	display: block;
+	background-color: #f3f3f3;
+}
+
+#system-editPushManager .edit-content nav.menu>.nav>li.selected {
+	background: url(../img/left-nav/selected.png) no-repeat left center;
+}
+
+#system-editPushManager .edit-content nav.menu .nav>li>a {
+	text-align: center;
+	border: 1px solid #dddddd;
+	position: relative;
+	display: block;
+	padding: 8px 15px;
+	color: #353535;
+}
+
+#system-editPushManager .edit-content nav.menu .nav>li>a span.pull-right {
+	float: right;
+}
+
+#system-editPushManager .edit-content nav.menu .nav>li>a span.pull-right img {
+	margin-left: 6px;
+}
+
+#system-editPushManager .edit-content nav.menu .nav>li>a:hover,
+#system-editPushManager .edit-content nav.menu .nav>li>a:focus {
+	text-decoration: none;
+	color: #2c6a2f;
+}
+
+#system-editPushManager .edit-content .pano_optionPlan {
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+	min-height: 685px;
+	min-width: 950px;
+}
+#system-editPushManager .edit-content .projectManager {
+	width: 100%;
+	border-top: 6px solid #e9e9e9;
+	overflow: auto;
+	max-height: 600px;
+	
+}
+#system-editPushManager .edit-content .projectManager ul{
+	border-bottom: 1px solid #e9e9e9;
+	height: 70px;
+	overflow: hidden;
+	padding: 15px 0;
+	position: relative;
+	width: 100%;
+}
+#system-editPushManager .edit-content .projectManager ul:hover {
+	background-color: #f7f7f7;
+}
+
+#system-editPushManager .edit-content .projectManager ul li{
+	float: left;
+	padding-left: 10px;
+}
+#system-editPushManager .edit-content .projectManager ul li a{
+	color: inherit;
+	text-decoration: none;
+}
+#system-editPushManager .edit-content .projectManager ul li .checkBoxContainer{
+	margin-top: 10px;
+}
+
+#system-editPushManager .edit-content .projectManager ul li .listProimg {
+    background-color: #efefef;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+}
+#system-editPushManager .edit-content .projectManager ul li h3{
+	-webkit-box-align: center;
+	align-items: center;
+	color: #333;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0;
+	max-width: 700px;
+	padding-bottom: 14px;
+}
+#system-editPushManager .edit-content .projectManager ul li h3 span.listChannel{
+    margin-right: 10px;
+}
+#system-editPushManager .edit-content .projectManager ul li h3 a.ellipsis {
+	display: inline-block;
+	max-width: 520px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+}
+#system-editPushManager .edit-content .projectManager ul li h3 a.listPerview{
+	color: #00f;
+	/*display: none;*/
+	font-size: 14px;
+	margin-left: 1rem;
+}
+#system-editPushManager .edit-content .projectManager ul li div.ListDesc {
+    color: #7a7a7a;
+    font-size: 12px;
+    position: relative;
+}
+#system-editPushManager .edit-content .projectManager ul li.listBtnGroup {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+#system-editPushManager .edit-content .projectManager ul li.listBtnGroup a.listBtn {
+	color: #333;
+	margin-left: 1rem;
+}
+
+
+
+
+
+
+
+
+
+#projectPanoImgInfo nav.menu {
+	text-align: center;
+	margin-left: 10px;
+	margin-top: 3rem;
+}
+
+#projectPanoImgInfo nav.menu .icon-plus-sign img {
+	position: absolute;
+	left: 3rem;
+}
+
+#projectPanoImgInfo nav.menu>.btn {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
+
+#projectPanoImgInfo nav.menu>.btn+.nav {
+	margin-top: 15px;
+}
+
+#projectPanoImgInfo nav.menu.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+#projectPanoImgInfo nav.menu>.nav>li {
+	width: 100%;
+	float: none;
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+	display: block;
+	background-color: #f3f3f3;
+}
+
+#projectPanoImgInfo nav.menu>.nav>li.selected {
+	background: url(../img/left-nav/selected.png) no-repeat left center;
+}
+
+#projectPanoImgInfo nav.menu .nav>li>a {
+	text-align: center;
+	border: 1px solid #dddddd;
+	position: relative;
+	display: block;
+	padding: 8px 15px;
+	color: #353535;
+}
+
+#projectPanoImgInfo nav.menu .nav>li>a:hover,
+#projectPanoImgInfo nav.menu .nav>li>a:focus {
+	text-decoration: none;
+	color: #2c6a2f;
+}
+
+
+#panoImgDisplayContentInfo {
+	
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+	padding: 10px;
+	margin-top: 2rem;
+	overflow: auto;
+	max-height: 400px;
+}
+
+#panoImgDisplayContentInfo .layer {
+	display: none;
+	width: 100%;
+}
+
+#panoImgDisplayContentInfo .layer.selected {
+	display: flex;
+}
+
+
+.panoResourceCurLayerInfo {
+	display: inline-block;
+	font-size: 12px;
+	margin-bottom: 20px;
+	margin-left: 16px;
+	position: relative;
+	width: 100px;
+}
+.panoResourceCurLayerInfoImg {
+	background-color: #ddd;
+	cursor: pointer;
+	height: 100px;
+	margin-bottom: 6px;
+	position: relative;
+	width: 100px;
+}
+.ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+}
+
+#panoImgDisplayContentInfo .panoResourceCurLayerInfo .panoResourceCurLayerInfoImg img.selected {
+	border: 3px solid rgb(255, 189, 16);
+}
+.projectPanoContent .panoImgListDisCon {
+	-webkit-box-align: center;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	float: left;
+	margin-right: 30px;
+}
+.projectPanoContent .panoImgListDisCon .panoImgListDisConSub{
+	
+	-webkit-box-pack: justify;
+	background-color: #fff;
+	border: 1px solid #e9e9e9;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 120px;
+	justify-content: space-between;
+	margin-top: 20px;
+	padding: 20px 40px 20px 20px;
+	position: relative;
+	width: 400px;
+}
+.projectPanoContent .panoImgListDisCon .panoImgListDisConSub .panoImgListDisConSubClose {
+	color: #bdbdbd;
+	cursor: pointer;
+	font-size: 18px;
+	position: absolute;
+	right: 15px;
+	top: 10px;
+	user-select: none;
+}
+.projectPanoContent .panoImgListDisCon .panoImgListDisConSub .panoImgListDisConSubImg{
+	height: 80px;
+	position: relative;
+	width: 80px;
+}
+.projectPanoContent .panoImgListDisCon .panoImgListName{
+	width: 240px;
+}
+.projectPanoContent .panoImgListDisCon .panoImgListName .panoImgListNameContent{
+	line-height: 78px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bottom {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 50px;
+	background: black;
+}
+
+
+
+#system-editPushManager .edit-content .left {
+	margin-top: 2rem;
+	position: absolute;
+	left: 8px;
+	top: 118px;
+	bottom: 50px;
+	width: 300px;
+}
+
+.left{}
+
+.right {
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+	padding: 10px;
+	margin-top: 2rem;
+	position: absolute;
+	left: 320px;
+	top: 118px;
+	bottom: 65px;
+	right: 27px;
+	overflow: auto;
+}
+
+.right .inner {
+	min-height: 650px;
+	min-width: 1000px;
+}
+
+
+
+
+/**********************************************编辑预览发布平台  20180913 李长明 end**************************************************/
+
+
+
+
+/**********************************************全景在线制作平台  20180928 李长明 start**************************************************/
+/*整个容器*/
+
+#krpanoEditContainer input.layui-input {
+	background-color: #2c2c2c;
+	border-color: #525252!important;
+	color: #fff!important;
+}
+#krpanoEditContainer .layui-btn {
+	background-color: #427afb!important;
+}
+#krpanoEditContainer .layui-textarea {
+	background-color: #2c2c2c;
+	border-color: #525252!important;
+	color: #fff!important;
+}
+#krpanoEditContainer .layui-form-select dl dd.layui-this  {
+	
+	background-color: white!important;
+	color: #333;!important;
+}
+#krpanoEditContainer .layui-form-select dl dd {
+	color: #333;!important;
+	
+}
+
+#krpanoEditContainer {
+	
+	display: none;
+	-webkit-box-orient: vertical;
+	background-color: #333;
+	color: #fff;
+	flex-flow: column nowrap;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+/*头部布局*/
+#krpanoEditContainer .krpanoEditHeader {
+	
+	-webkit-box-flex: 0;
+	-webkit-box-ordinal-group: 2;
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	flex: 0 0 40px;
+	order: 1;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer {
+	-webkit-box-align: center;
+	-webkit-box-pack: justify;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	justify-content: space-between;
+	
+	color: #fff;
+	height: 100%;
+	line-height: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+	position: relative;
+	width: 100%
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer a{
+	
+	-webkit-box-align: center;
+	-webkit-user-select: none;
+	align-items: center;
+	color: #aaa;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	user-select: none;
+	text-decoration: none;
+	background-color: transparent;
+}
+
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer a img{
+	
+	height: 25px;
+	width: 24px;
+	margin-right: 5px;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerProjectName {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerOptionBtn {
+	-webkit-box-align: center;
+	-webkit-box-pack: justify;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	justify-content: space-between;
+	width: 120px;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerOptionBtn span{
+	
+	-webkit-box-align: center;
+	-webkit-user-select: none;
+	align-items: center;
+	color: #aaa;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	user-select: none;
+	line-height: 20px;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerOptionBtn span img{
+	height: 20px;
+	width: 20px;
+	margin-right: 5px;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerOptionBtn a {
+	-webkit-box-align: center;
+	-webkit-user-select: none;
+	align-items: center;
+	color: #aaa;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	user-select: none;
+	text-decoration: none;
+	background-color: transparent;
+}
+#krpanoEditContainer .krpanoEditHeader .krpanoEditHeaderContainer .headerOptionBtn a img{
+	height: 24px;
+	width: 22px;
+	margin-right: 5px;
+}
+
+/*内容区布局*/
+#krpanoEditContainer .krpanoEditBody {
+	-webkit-box-flex: 1;
+	-webkit-box-ordinal-group: 3;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: auto;
+	order: 2;
+}
+
+/*内容区-左侧功能菜单布局*/
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar{
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+	
+	-webkit-box-flex: 0;
+	-webkit-box-ordinal-group: 2;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: 0 0 50px;
+	order: 1;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	overflow: scroll;
+	margin-right: -17px;
+	margin-bottom: -17px;s
+}
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar .edittoolBarContainer{
+	padding-top: 15px;
+}
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar .edittoolBarContainer a{
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar .edittoolBarContainer a .toolBarList{
+	
+	-webkit-box-align: center;
+	-webkit-box-direction: normal;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: center;
+	align-items: center;
+	color: #aaa;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-flow: column nowrap;
+	font-size: 12px;
+	height: 50px;
+	justify-content: center;
+}
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar .edittoolBarContainer a>div.toolbarMatch {
+	background: #427afb;
+	color: #fff;
+}
+#krpanoEditContainer .krpanoEditBody .krpanoEditToolBar .edittoolBar .edittoolBarContainer a .toolbarIcon{
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 16px;
+	justify-content: center;
+	margin-bottom: 5px;
+	width: 16px;
+}
+/*内容区-中间全景展示布局*/
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter {
+	-webkit-box-direction: normal;
+	-webkit-box-flex: 1;
+	-webkit-box-ordinal-group: 3;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: auto;
+	flex-flow: column nowrap;
+	order: 2;
+	position: relative;
+}
+
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano{
+	
+	height: 100%;
+	width: 100%;
+	-webkit-box-flex: 1;
+	-webkit-box-ordinal-group: 2;
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	flex: auto;
+	order: 1;
+	position: relative;
+}
+
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano .krpanoBaseSet {
+	-webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .7);
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .7);
+	height: 100%;
+	overflow: hidden;
+	/*position: relative;*/
+	width: 100%;
+	z-index: 8000;
+}
+.krpanoBaseSet .globalBaseSetFrom {
+	bottom: 0;
+	left: 0;
+	padding: 40px 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.krpanoBaseSet .globalBaseSetFrom .fromPlan{
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 900px;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .base .backImgThumb{
+	background-color: #4b4b4b;
+	border-radius: 5px;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .5);
+	flex: 0 0 200px;
+	height: 200px;
+	margin-right: 20px;
+	overflow: hidden;
+	position: relative;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .base .baseInfoFrom {
+	-webkit-box-direction: normal;
+	-webkit-box-flex: 1;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: 1 auto;
+	flex-flow: column nowrap;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .name{
+	-webkit-box-flex: 1;
+	flex: 1 auto;
+	font-size: 16px;
+	margin-bottom: 20px;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .global .layui-form-item {
+	margin: 0px 10px;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .switchSet .layui-form-item .layui-form-label {
+	float: left;
+	display: block;
+	padding: 9px 15px;
+	width: 118px;
+	font-weight: 400;
+	line-height: 20px;
+	text-align: right;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .switchSet .layui-form-item .layui-input-inline {
+	float: left;
+	width: 73px;
+	margin-right: 10px;
+}
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .base,
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .global,
+.krpanoBaseSet .globalBaseSetFrom .fromPlan .switchSet
+{
+	display: flex;
+	margin-bottom: 35px;
+}
+
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano .krpanoBaseSet.selected {
+	
+	display: none;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano .krpanoPanoContent.selected{
+	display: none;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterPano .krpanoPanoContent {
+	
+	height: 100%;
+	padding: 15px;
+	position: absolute;
+	width: 100%;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterCategory {
+	
+	-webkit-box-direction: normal;
+	-webkit-box-flex: 0;
+	-webkit-box-ordinal-group: 3;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: 0 0 150px;
+	flex-flow: column nowrap;
+	order: 2;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterCategory .groupList{
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+	-webkit-box-flex: 0;
+	-webkit-box-ordinal-group: 2;
+	background-color: #2c2c2c;
+	flex: 0 0 35px;
+	order: 1;
+}
+
+#krpanoEditContainer .groupList .groupChangeIcon
+{
+	width:25px;
+	height:25px;
+	float:left;
+	margin: 5px;
+}
+
+#krpanoEditContainer .groupList .groupChangeIcon img{
+	width:25px;
+	height:25px;
+}
+
+.groupList .groupListContainer {
+	margin-left:35px;
+	margin-right:250px;
+	bottom: 0;
+	left: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	
+}
+
+.groupList .groupListContainer .groupListContainerPlan {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.groupList .groupListContainer .groupListContainerPlan .groupListContainerPlanList{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	overflow-x: scroll;
+	/*margin-right: -17px;*/
+	margin-bottom: -17px;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps{
+	
+	-webkit-box-direction: normal;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	flex-flow: row nowrap;
+	/*height: 110px;*/
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-top: 8px;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps .groupItem{
+
+	-webkit-box-align: center;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: center;
+    align-items: center;
+    background-color: #303030;
+    border-radius: 3px 3px 0 0;
+    color: #777;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 12px;
+    height: 25px;
+    justify-content: center;
+    margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps .groupItem .groupItemSpan{
+	cursor: default;
+    margin-right: 10px;
+	max-width: 150px;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps .groupItem .ellipsis{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps .groupItem .groupItemMenu{
+	-webkit-box-align: center;
+    -webkit-box-pack: center;
+    -webkit-user-select: none;
+    align-items: center;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    user-select: none;
+}
+
+.groupList .groupListContainer .groupListContainerPlan  .groupListContainerPlanList .groupListContainerPlanNeps .groupItemActive{
+	background-color: #4b4b4b;
+	color: #fff;
+}
+
+
+#krpanoEditContainer .groupList .groupNewButton
+{
+	margin: 10px;
+	width:74px;
+	height:20px;
+	float:right;
+}
+
+#krpanoEditContainer .groupList .groupNewButton img{
+	width:74px;
+	height:20px;
+}
+
+#krpanoEditContainer .groupList .dragSwitchSet
+{
+	float:right;
+	height:30px;
+}
+
+
+#krpanoEditContainer .groupList .dragSwitchSet .layui-form-item
+{
+	width:150px;
+}
+
+#krpanoEditContainer .groupList .dragSwitchSet .layui-form-label
+{
+	padding: 9px 5px;
+	height:30px;
+	width:70px;
+}
+
+#krpanoEditContainer .groupList .dragSwitchSet .layui-input-inline
+{
+	width:70px;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditCenter .krpanoEditCenterCategory .panoList{
+	
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+	-webkit-box-flex: 1;
+	-webkit-box-ordinal-group: 3;
+	flex: auto;
+	height: 100%;
+	order: 2;
+	overflow-y: hidden;
+	width: 100%;
+	
+	
+}
+.panoList  .panoListAddScene
+{
+	-webkit-box-align: center;
+    -webkit-box-flex: 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: center;
+    align-items: center;
+    border: 1px dotted #777;
+    border-radius: 3px;
+    color: #aaa;
+    cursor: pointer;
+    flex: 0 0 70px;
+    flex-flow: column nowrap;
+    font-size: 12px;
+	height: 70px;
+	width: 70px;
+	justify-content: center;
+	display: flex;
+	margin:8px 15px;
+}
+
+.panoList .panoListContainer {
+	margin-left:75px;
+	bottom: 0;
+	left: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	
+}
+.panoList .panoListContainer .panoListContainerPlan {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+.panoList .panoListContainer .panoListContainerPlan .panoListContainerPlanList{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	overflow: scroll;
+	margin-right: -17px;
+	margin-bottom: -17px;
+}
+.panoList .panoListContainer .panoListContainerPlan  .panoListContainerPlanList .panoListContainerPlanNeps{
+	
+	-webkit-box-direction: normal;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	flex-flow: row nowrap;
+	height: 110px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-top: 8px;
+}
+.panoListContainerPlanNeps .list{
+	-webkit-box-align: center;
+	-webkit-box-direction: normal;
+	-webkit-box-flex: 0;
+	-webkit-box-orient: vertical;
+	align-items: center;
+	color: #aaa;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex: 0 0 70px;
+	flex-flow: column nowrap;
+	font-size: 12px;
+	margin-right: 20px;
+	position: relative;
+}
+.panoListContainerPlanNeps  .list .panoItemThumb{
+	background-color: #4b4b4b;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .7);
+	height: 70px;
+	margin-bottom: 8px;
+	position: relative;
+	width: 70px;
+	cursor: pointer;
+}
+.panoListContainerPlanNeps  .list .panoItemThumb.active{
+	border: 2px solid #fbd14b;
+	
+}
+.panoListContainerPlanNeps  .list .panoItemThumb .more{
+	background-color: rgba(51, 51, 51, .8);
+	border-radius: 2px;
+	bottom: 3px;
+	color: #fff;
+	font-size: 10px;
+	height: 18px;
+	position: absolute;
+	right: 3px;
+	width: 18px;
+	z-index: 600;
+}
+.panoListContainerPlanNeps  .list p {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+	cursor: default;
+	line-height: 16px;
+	text-align: center;
+	width: 70px;
+}
+
+
+
+/*内容区-右侧内容选择布局*/
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditSidebar {
+	border-color: #4b4b4b #000 #000 #4b4b4b;
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+	-webkit-box-flex: 0;
+	-webkit-box-ordinal-group: 4;
+	flex: 0 0 230px;
+	order: 3;
+	width: 230px;
+}
+
+#krpanoEditContainer .krpanoEditBody .krpanoEditSidebar .krpanoEditSidebarHotspotContainer,
+#krpanoEditContainer .krpanoEditBody .krpanoEditSidebar .krpanoEditSidebarRadarContainer
+{
+	
+	padding: 10px;
+}
+
+
+
+
+
+/*右侧弹出内容区样式*/
+.sidePlaneRight {
+	
+	background: rgba(51, 51, 51, .7);
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.sidePlaneRight .sidePlaneRightContainer {
+	-ms-flex-flow: column nowrap;
+	-webkit-box-direction: normal;
+	-webkit-box-orient: vertical;
+	-webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .5);
+	background: #fff;
+	background-color: #333;
+	bottom: 0;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .5);
+	color: #fff;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-flow: column nowrap;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 0px;
+	transition:width 0.3s;
+	-moz-transition:width 0.3s; /* Firefox 4 */
+	-webkit-transition:width 0.3s; /* Safari and Chrome */
+	-o-transition:width 0.3s; /* Opera */
+	
+	
+	right: -10px;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightHeader{
+	-webkit-box-align: center;
+	align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-flex: 0;
+	-webkit-box-pack: center;
+	border-bottom: 1px solid #000;
+	flex: 0 0 40px;
+	justify-content: center;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightHeader .sidePlaneRightHeaderTitle{
+	-webkit-box-flex: 1;
+	flex: 1 auto;
+	font-size: 16px;
+	padding-left: 15px;
+}
+
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightHeader .sidePlaneRightHeaderClose {
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	align-items: center;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 35px;
+	justify-content: center;
+	width: 35px;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightHeader .sidePlaneRightHeaderClose img{
+	height: 12px;
+	width: 12px;
+}
+
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightBody {
+	-webkit-box-flex: 1;
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #4b4b4b;
+	flex: 1 auto;
+	position: relative;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightFooter {
+	
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	border-top: 1px solid #4b4b4b;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	padding: 0 15px;
+	position: absolute;
+	width: 100%;
+	bottom: 9px;
+	padding: 10px;
+	
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightFooter  .sidePlaneRightFooterBtn{
+	
+	background-color: #427afb;
+	color: #fff;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-user-select: none;
+	align-items: center;
+	border-radius: 4px;
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	height: 30px;
+	justify-content: center;
+	user-select: none;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightRadarFooter {
+	
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	border-top: 1px solid #4b4b4b;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	padding: 0 15px;
+	position: absolute;
+	width: 100%;
+	bottom: 9px;
+	padding: 10px;
+}
+.sidePlaneRight .sidePlaneRightContainer .sidePlaneRightRadarFooter .sidePlaneRightRadarFooterBtn{
+	background-color: #427afb;
+	color: #fff;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-user-select: none;
+	align-items: center;
+	border-radius: 4px;
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	height: 30px;
+	justify-content: center;
+	user-select: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*添加热点*/
+.hotsoptTypeContainer {
+	padding: 20px 8px 30px;
+}
+.hotsoptTypeContainer .hotsoptTypeContainerList {
+	margin-top: 20px;
+}
+.hotsoptTypeContainerList .hotspotTypeText {
+	-webkit-box-align: center;
+	align-items: center;
+	background-image: linear-gradient(90deg, hsla(0, 0%, 100%, .3) 4%, hsla(0, 0%, 100%, 0) 98%);
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 40px;
+	padding-left: 15px;
+	margin-bottom: 10px;
+}
+.hotsoptTypeContainer .hotsoptTypeContainerList .typeList{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 170px;
+	border-bottom: 1px solid #000;
+}
+.typeListContainer {
+	-webkit-box-pack: justify;
+	display: flex;
+	justify-content: space-between;
+	-webkit-box-direction: normal;
+	-webkit-box-orient: horizontal;
+	overflow-x: hidden;
+	flex-flow: row wrap;
+}
+.typeListContainer .hotspotIcon {
+	cursor: pointer;
+	height: 35px;
+	margin-bottom: 15px;
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 35px;
+}
+.typeListContainer .hotspotIcon.active {
+	outline-offset: -2px;
+	outline: rgb(255, 189, 16) solid 2px;
+}
+.hotspotSwitchHeader{
+	
+	-webkit-box-align: center;
+	align-items: center;
+	display: flex;
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+.hotspotSwitchHeader .title{
+	-webkit-box-flex: 1;
+	flex: 1 1 auto;
+}
+.hotsoptTypeContainer .sceneList {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: auto;
+	min-height: 0px;
+	max-height: 270px;
+}
+.sceneList .hotspotSceneListContainer{
+	position: relative;
+	overflow: scroll;
+	margin-right: -17px;
+	margin-bottom: -17px;
+	min-height: 17px;
+	max-height: 287px;
+}
+
+.sceneList .radarSceneListContainer {
+	position: relative;
+	overflow: auto;
+	margin-bottom: -17px;
+	margin-left: 17px;
+	min-height: 17px;
+	max-height: 800px;
+	overflow-x: hidden;
+}
+
+.sceneList .hotspotSwitchPanoList {
+	-webkit-box-pack: justify;
+	display: flex;
+	justify-content: space-between;
+	-webkit-box-direction: normal;
+	-webkit-box-orient: horizontal;
+	flex-flow: row wrap;
+}
+.hotspotSwitchPanoListItem {
+	cursor: pointer;
+	margin-bottom: 10px;
+	width: 65px;
+}
+.hotspotSwitchPanoListItem .thumb {
+	background-color: rgb(75, 75, 75);
+	height: 65px;
+	margin-bottom: 5px;
+	width: 65px;
+}
+.hotspotSwitchPanoListItem .thumb.active{
+	outline-offset: -2px;
+	outline: rgb(255, 189, 16) solid 2px;
+}
+.hotspotSwitchPanoListItem .itemName {
+	font-size: 12px;
+	text-align: center;
+}
+
+.sidebarHotspotItem {
+	
+	-webkit-box-align: center;
+	align-items: center;
+	background-color: #3a3a3a;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 40px;
+	line-height: 20px;
+	margin-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.sidebarHotspotItem:hover {
+	background-color: #6b6b6b;
+}
+
+.sidebarHotspotItem  .sidebarHotspotItemIcon {
+	-webkit-box-flex: 0;
+	flex: 0 0 22px;
+	height: 22px;
+	width: 22px;
+}
+.sidebarHotspotItem  .sidebarHotspotItemName {
+	-webkit-box-flex: 0;
+	flex: 0 0 60px;
+	height: 22px;
+	width: 60px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	min-height: 1em;
+}
+.sidebarHotspotItem  .sidebarHotspotItemTypeName {
+	-webkit-box-flex: 0;
+	color: #aaa;
+	flex: 0 0 60px;
+	font-size: 12px;
+	text-align: right;
+}
+
+
+/*通用的资源面板*/
+#resourceListInfo nav.menu {
+	text-align: center;
+	margin-left: 10px;
+	margin-top: 3rem;
+}
+
+#resourceListInfo nav.menu .icon-plus-sign img {
+	position: absolute;
+	left: 3rem;
+}
+
+#resourceListInfo nav.menu>.btn {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
+
+#resourceListInfo nav.menu>.btn+.nav {
+	margin-top: 15px;
+}
+
+#resourceListInfo nav.menu.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+#resourceListInfo nav.menu>.nav>li {
+	width: 100%;
+	float: none;
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+	display: block;
+	background-color: #f3f3f3;
+}
+
+#resourceListInfo nav.menu>.nav>li.selected {
+	background: url(../img/left-nav/selected.png) no-repeat left center;
+}
+
+#resourceListInfo nav.menu .nav>li>a {
+	text-align: center;
+	border: 1px solid #dddddd;
+	position: relative;
+	display: block;
+	padding: 8px 15px;
+	color: #353535;
+}
+
+#resourceListInfo nav.menu .nav>li>a:hover,
+#resourceListInfo nav.menu .nav>li>a:focus {
+	text-decoration: none;
+	color: #2c6a2f;
+}
+
+/*雷达相关*/
+.radarImageContainer {
+	height: 200px;
+	margin-top: 10px;
+	width: 200px;
+}
+.radarSidebarSandtable {
+	
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	align-items: center;
+	background-color: #2c2c2c;
+	border: 1px solid #525252;
+	border-radius: 3px;
+	color: #aaa;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 200px;
+	justify-content: center;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.radarBackgroudDel {
+	cursor: pointer;
+	height: 30px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 30px;
+}
+.radarSpotItem {
+	cursor: default;
+	-webkit-box-align: center;
+	-webkit-user-select: none;
+	align-items: center;
+	background-color: #3a3a3a;
+	cursor: pointer;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 40px;
+	margin-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	user-select: none;
+	max-height: 300px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.radarSpotItem .radarSpotItemActive {
+	
+	background-color: #5f5f5f;
+	border-radius: 50%;
+	height: 10px;
+	margin-right: 10px;
+	width: 10px;
+}
+.radarSpotItem .radarSpotItemActive.active {
+	background-color: #fbd14b;
+}
+.radarSpotItem .radarSpotItemTitle {
+	width: 150px;
+}
+.radarFlovSet {
+	
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	border-top: 1px solid #4b4b4b;
+	display: -ms-flexbox;
+	position: absolute;
+	width: 100%;
+	bottom: 9px;
+	padding: 10px;
+}
+.radarFlovSet span {
+	display: block;
+	line-height: 30px;
+	height: 30px;
+	margin-bottom: 10px;
+}
+/**********************************************全景在线制作平台  20180928 李长明 end**************************************************/
+
+
