@@ -105,6 +105,17 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 			html5InterfaceToKrpano.addHotSpotLinkUrl(newHotSpotName,curSceneIndex,curSceneName,title, linkStr, linkOpenTyle,skin_hotspot_style,hotspotTypeValue);
 		},
 
+        _addHotSpotTextContent :function(newHotSpotName,curSceneIndex, curSceneName, title, content,skin_hotspot_style,hotspotTypeValue) {
+            if(typeof title == "undefined" || title == "" ||
+                typeof content == "undefined" || content == "" ||
+                typeof skin_hotspot_style == "undefined" || skin_hotspot_style == "") {
+                return;
+            }
+            html5InterfaceToKrpano.addHotSpotTextContent(newHotSpotName,curSceneIndex,curSceneName,title, content,skin_hotspot_style,hotspotTypeValue);
+        },
+
+
+
 		/******************************************************************************
 		 * Desc: 初始化全景场景
 		 * 
@@ -640,7 +651,31 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 		 *		void
 		 */
 		function  _initHotspotTextData(curHotspotObj) {
-			
+            var content = curHotspotObj.content;
+            var title = curHotspotObj.title;
+            $('.hostspotTypeSelectDisplayContent').empty();
+            var html = '';
+            html += '<form class="layui-form" >';
+            html += '	<div class="layui-form-item">';
+            html += '		<div class="textTitle">';
+            html += '			<input type="text" name="title" required  lay-verify="required" placeholder="填写标题" autocomplete="off" class="layui-input">';
+            html += '		</div>';
+            html += '	</div>';
+            html += '	<div class="layui-form-item">';
+            html += '		<div class="textContent">';
+            html += '			 <textarea name="hotSpotTextContent" placeholder="填写文字内容" class="layui-textarea"></textarea>';
+            html += '		</div>';
+            html += '	</div>';
+            html += '</form>';
+            $('.hostspotTypeSelectDisplayContent').append(html);
+            $('.textTitle input').val(title);
+            $('.text_content textarea').val(content);
+            //热点切换事件监听
+            layui.use(['laydate', 'form'], function() {
+                laydate = layui.laydate;
+                form = layui.form;
+                form.render();
+            });
 		}
 		
 		/******************************************************************************
@@ -797,13 +832,19 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 				 *		void
 				 */
 				function _initHotspotImgLink() {
-				
-					$('.hostspotTypeSelectDisplayContent').empty();
-				
-					var html = "<p>图片热点类型正在努力开发中！</p>";
-				
-					$('.hostspotTypeSelectDisplayContent').append(html);
-				
+                    $('.hostspotTypeSelectDisplayContent').empty();
+                    var html = "";
+                    html += '		<div class="krpanoEditSidebarRadarContainer1">';
+                    html += '			<form class="layui-form" >';
+                    html += '				<div class="layui-form-item">';
+                    html += '					<div class="layui-input-inline">';
+                    html += '					 	<button class="layui-btn radarSelectImg1" type="button"style="margin-left: 28px;;"><i class="icon-plus-sign"></i>选择图片 </button>';
+                    html += '					</div>';
+                    html += '				</div>';
+                    html += '			</from>';
+                    html += '			<div class="radarImageContainer1 radarSidebarSandtable1"></div>';
+                    html += '		</div>';
+                    $('.hostspotTypeSelectDisplayContent').append(html);
 				}
 				
 				/******************************************************************************
@@ -815,11 +856,11 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 				 *		void
 				 */
 				function _initHotspotVideoLink() {
-				
+
 					$('.hostspotTypeSelectDisplayContent').empty();
-				
+
 					var html = "<p>视屏热点类型正在努力开发中！</p>";
-				
+
 					$('.hostspotTypeSelectDisplayContent').append(html);
 				}
 				
@@ -832,13 +873,22 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 				 *		void
 				 */
 				function _initHotspotTextLink() {
-				
-					$('.hostspotTypeSelectDisplayContent').empty();
-				
-					var html = "<p>文本热点类型正在努力开发中！</p>";
-				
-					$('.hostspotTypeSelectDisplayContent').append(html);
-				
+                    $('.hostspotTypeSelectDisplayContent').empty();
+                    var html = '';
+                    html += '<form class="layui-form" >';
+                    html += '	<div class="layui-form-item">';
+                    html += '		<div class="textTitle">';
+                    html += '			<input type="text" name="title" required  lay-verify="required" placeholder="填写标题" autocomplete="off" class="layui-input">';
+                    html += '		</div>';
+                    html += '	</div>';
+                    html += '	<div class="layui-form-item">';
+                    html += '		<div class="text_content">';
+                    // <textarea class="pano-textarea pano-textarea-dark HotspotText_textarea_b2L-rN" placeholder="填写文字内容"></textarea>
+                    html += '			<textarea  name="content" required  lay-verify="required" placeholder="填写文字内容"  class="layui-input"></textarea>';
+                    html += '		</div>';
+                    html += '	</div>';
+                    html += '</form>';
+                    $('.hostspotTypeSelectDisplayContent').append(html);
 				}
 				
 				/******************************************************************************
@@ -2006,14 +2056,27 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 					 *		void
 					 */
 					function _initHotspotImgLink() {
-				
-						$('.hostspotTypeSelectDisplayContent').empty();
-				
-						var html = "<p>图片热点类型正在努力开发中！</p>";
-				
-						$('.hostspotTypeSelectDisplayContent').append(html);
-						
-						
+                        $('.hostspotTypeSelectDisplayContent').empty();
+                        var html = "";
+                        html += '		<div class="krpanoEditSidebarRadarContainer1">';
+                        html += '			<form class="layui-form" >';
+                        html += '				<div class="layui-form-item">';
+                        html += '					<div class="layui-input-inline">';
+                        html += '					 	<button class="layui-btn radarSelectImg1" type="button"style="margin-left: 28px;;"><i class="icon-plus-sign"></i>选择图片 </button>';
+                        html += '					</div>';
+                        html += '				</div>';
+                        html += '			</from>';
+                        html += '			<div class="radarImageContainer1 radarSidebarSandtable1"></div>';
+                        html += '		</div>';
+                        $('.hostspotTypeSelectDisplayContent').append(html);
+
+
+
+
+
+                        //初始化雷达
+                        // html5InterfaceModule._initEditRadar();
+                        // html5InterfaceModule._visiableRadarLayerMap(true);
 					}
 				
 					/******************************************************************************
@@ -2042,13 +2105,21 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 					 *		void
 					 */
 					function _initHotspotTextLink() {
-				
-						$('.hostspotTypeSelectDisplayContent').empty();
-				
-						var html = "<p>文本热点类型正在努力开发中！</p>";
-				
-						$('.hostspotTypeSelectDisplayContent').append(html);
-				
+                        $('.hostspotTypeSelectDisplayContent').empty();
+                        var html = '';
+                        html += '<form class="layui-form" >';
+                        html += '	<div class="layui-form-item">';
+                        html += '		<div class="textTitle">';
+                        html += '			<input type="text" name="title" required  lay-verify="required" placeholder="填写标题" autocomplete="off" class="layui-input">';
+                        html += '		</div>';
+                        html += '	</div>';
+                        html += '	<div class="layui-form-item">';
+                        html += '		<div class="textContent">';
+                        html += '			 <textarea name="hotSpotTextContent" placeholder="填写文字内容" class="layui-textarea"></textarea>';
+                        html += '		</div>';
+                        html += '	</div>';
+                        html += '</form>';
+                        $('.hostspotTypeSelectDisplayContent').append(html);
 					}
 				
 					/******************************************************************************
@@ -2297,8 +2368,29 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 					
 					//完成添加文字热点
 					function _finishHotspotTextLink(newHotSpotName,curSceneName,curSceneIndex,skin_hotspot_style,hotspotTypeValue) {
-						
-					}
+
+                        //标题
+                        var title = $('.textTitle').find('input').val();
+
+                        //连接
+                        var content = $('.textContent').find('textarea').val();
+
+
+                        //获取当前场景
+                        var curSceneElem = $('.panoListContainerPlanNeps .list .panoItemThumb.active');
+
+                        if(curSceneElem.length > 0) {
+
+                            curSceneName = curSceneElem.parent('div').attr('data-scenename');
+                            curSceneIndex = curSceneElem.parent('div').attr('data-sceneindex');
+
+                        } else {
+                            layer.msg('请选择当前场景');
+                            return;
+                        }
+
+                        html5InterfaceModule._addHotSpotTextContent(newHotSpotName,curSceneIndex, curSceneName, title, content,skin_hotspot_style,hotspotTypeValue);
+                    }
 					
 					//完成添加音频热点
 					function _finishHotspotVoiceLink(newHotSpotName,curSceneName,curSceneIndex,skin_hotspot_style,hotspotTypeValue) {
@@ -2389,7 +2481,41 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './../uploadOption/up
 					
 				})
 			}
-			
+
+
+			function initRadarHandler1111() {
+				$(document).on("unclcik",'.krpanoEditSidebarRadarContainer1 .radarSelectImg1' );
+                $(document).on('click', '.krpanoEditSidebarRadarContainer1 .radarSelectImg1', function(evt) {
+                    var opt = {
+                        openResourceType: 'BasicMaterialLayer',
+                        title: "从资源库中选择",
+                        before: function() {
+                        },
+                        success: function(response,resourceIndex) {
+                            layer.close(resourceIndex);
+                            //初始化雷达信息
+                            $('.radarImageContainer').empty();
+                            //参数校验
+                            if(typeof response == "undefined" || response.length == 0) {
+                                return;
+                            }
+                            if(response.length != 1) {
+                                layer.msg('每次只能选择一个');
+                                return;
+                            }
+
+                            $('.radarImageContainer1').empty();
+                            var html = '';
+                            var sourceThumbPath = response[0].sourceThumbPath;
+                            html += '<img class="radarBackgroudImg1" src='+sourceThumbPath+'>';
+                            $('.radarImageContainer1').append(html);
+                        },
+                    }
+                    openSourceTypeManager.openCurSource(opt);
+                });
+            }
+
+
 			function initRadarHandler() {
 				
 				

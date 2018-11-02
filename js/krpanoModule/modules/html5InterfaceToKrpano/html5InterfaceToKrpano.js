@@ -514,19 +514,31 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		
 			//更新数据
 			updateData: function(hotSpotObj) {
-				var targetIndex = -1;
-				if(typeof(hotSpotObj) == "object") {
-					
-					$.each(this.hotSpotList,function(index,elem) {
-						if(elem['index'] == hotSpotObj['index']) {
-							targetIndex = index;
-						}
-					});
-					if(targetIndex != -1) {
-						this.hotSpotList.splice(targetIndex, 1);
-					}
-					this.hotSpotList.push(hotSpotObj);
-				}
+                if(typeof(hotSpotObj) == "object") {
+                    if(typeof(hotSpotObj) == "object") {
+                        var targetIndex = -1;
+                        $.each(this.hotSpotList, function(index, elem) {
+                            if(elem['index'] == hotSpotObj['index']) {
+                                targetIndex = index;
+                                var hotspots = elem.hotspots;
+                                var status = true;
+                                for (var i = hotspots.length - 1; i >= 0; i--){
+                                    if(hotspots[i].name ==  hotSpotObj.hotspots[0]["name"]){
+                                        status = false;
+                                        hotspots[i] = hotSpotObj.hotspots[0];
+                                    }
+                                }
+                                if(status){
+                                    hotspots.push(hotSpotObj.hotspots[0])
+                                }
+                            }
+                        });
+                        if(targetIndex == -1){
+                            this.hotSpotList.push(hotSpotObj);
+                        }
+                    }
+
+                }
 			},
 		
 			//获取数据
@@ -815,18 +827,27 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			updateData: function(hotSpotObj) {
 		
 				if(typeof(hotSpotObj) == "object") {
-					var targetIndex = -1;
 					if(typeof(hotSpotObj) == "object") {
-					
+                        var targetIndex = -1;
 						$.each(this.hotSpotList, function(index, elem) {
 							if(elem['index'] == hotSpotObj['index']) {
-								targetIndex = index;
+                                targetIndex = index;
+								var hotspots = elem.hotspots;
+								var status = true;
+								for (var i = hotspots.length - 1; i >= 0; i--){
+									if(hotspots[i].name ==  hotSpotObj.hotspots[0]["name"]){
+										status = false;
+                                        hotspots[i] = hotSpotObj.hotspots[0];
+									}
+								}
+								if(status){
+									hotspots.push(hotSpotObj.hotspots[0])
+								}
 							}
 						});
-						if(targetIndex != -1) {
-							this.hotSpotList.splice(targetIndex, 1);
+						if(targetIndex == -1){
+                            this.hotSpotList.push(hotSpotObj);
 						}
-						this.hotSpotList.push(hotSpotObj);
 					}
 					
 				}
@@ -1868,7 +1889,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			if(typeof hotspotName == "undefined") {
 				return;
 			}
-			
+
 			var krpano = globalData.getKrpano();
 
 			hotSpot.ath = krpano.get("hotspot[" + hotspotName + "].ath");
@@ -1881,7 +1902,8 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			hotSpot.curscenename = krpano.get("hotspot[" + hotspotName + "].curscenename");
 			hotSpot.hotspotlink = krpano.get("hotspot[" + hotspotName + "].hotspotlink");
 			hotSpot.dive = krpano.get("hotspot[" + hotspotName + "].dive");
-			
+			hotSpot.linkopentype = krpano.get("hotspot[" + hotspotName + "].linkopentype");//连接打开类型
+			hotSpot.content = krpano.get("hotspot[" + hotspotName + "].content");//连接打开类型
 			return hotSpot;
 
 		},
@@ -1936,21 +1958,37 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 					everySpot.name !== "skin_webvr_prev_scene" &&
 					everySpot.name !== "skin_webvr_next_scene") {
 					var hotspotName = everySpot.name;
-					var sceneName = krpano.get("hotspot[" + everySpot.name + "].curscenename");
-					var typevalue = krpano.get("hotspot[" + everySpot.name + "].typevalue");
+					var sceneName = krpano.get("hotspot[" + hotspotName + "].curscenename");
+					var typevalue = krpano.get("hotspot[" + hotspotName + "].typevalue");
+
 					if(curSceneName != sceneName) {
 						return false;
 					} else {
-
+                        var index = krpano.get('scene[get(xml.scene)].index');
 						var curStyle = krpano.get('style[' + everySpot.style + '].url');
-						var hotspotObj = {};
-						hotspotObj.curscenename = sceneName;
-						hotspotObj.name = everySpot.name
-						hotspotObj.url = curStyle;
-						hotspotObj.typevalue = typevalue;
-					
-
-						var htmlHotspotTypeText = ''
+                        var hotSpot = {};
+                        hotSpot.curscenename = sceneName;
+                        hotSpot.name = everySpot.name
+                        hotSpot.url = curStyle;
+                        hotSpot.typevalue = typevalue;
+                        hotSpot.ath = krpano.get("hotspot[" + hotspotName + "].ath");
+                        hotSpot.atv = krpano.get("hotspot[" + hotspotName + "].atv");
+                        hotSpot.linkedscene = krpano.get("hotspot[" + hotspotName + "].linkedscene");
+                        hotSpot.style = krpano.get("hotspot[" + hotspotName + "].style");
+                        hotSpot.title = krpano.get("hotspot[" + hotspotName + "].title");
+                        hotSpot.hotspotlink = krpano.get("hotspot[" + hotspotName + "].hotspotlink");
+                        hotSpot.dive = krpano.get("hotspot[" + hotspotName + "].dive");
+                        hotSpot.linkopentype = krpano.get("hotspot[" + hotspotName + "].linkopentype");
+                        hotSpot.content = krpano.get("hotspot[" + hotspotName + "].content");
+                        var hotspotObj = {
+                            'index': index,
+                            'hotspots': [hotSpot]
+                        }
+                        //更新内存中全局数据
+                        globalKrpanoData.hotspot.updateData(hotspotObj);
+						//将新加节点保存在热点信息中
+                        krpanoSaveData.readySavedHotspot.updateData(hotspotObj);
+                        var htmlHotspotTypeText = ''
 
 						switch(typevalue) {
 
@@ -2100,6 +2138,9 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			hotSpot.curscenename = krpano.get("hotspot[" + newHotSpotName + "].curscenename");
 			hotSpot.hotspotlink = krpano.get("hotspot[" + newHotSpotName + "].hotspotlink");
 			hotSpot.dive = krpano.get("hotspot[" + newHotSpotName + "].dive");
+			hotSpot.linkopentype = krpano.get("hotspot[" + newHotSpotName + "].linkopentype");
+			hotSpot.content = krpano.get("hotspot[" + newHotSpotName + "].content");
+			hotSpot.onclick = krpano.get("hotspot[" + newHotSpotName + "].onclick");
 			hotSpotData.push(hotSpot);
 			
 			var index = krpano.get('scene[get(xml.scene)].index');
@@ -2108,7 +2149,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 				'index': index,
 				'hotspots': hotSpotData
 			}
-			
+
 			//更新内存中全局数据
 			globalKrpanoData.hotspot.updateData(hotspotObj);
 			
@@ -2354,7 +2395,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		 * @return 
 		 *		void
 		 */
-		addHotSpotLinkUrl: function(newHotSpotName, curSceneIndex, curSceneName, title, linkStr, linkOpenTyle, skin_hotspot_style, hotspotTypeValue) {
+		addHotSpotLinkUrl: function(newHotSpotName, curSceneIndex, curSceneName, title, linkStr, linkOpenType, skin_hotspot_style, hotspotTypeValue) {
 
 			var krpano = globalData.getKrpano();
 			
@@ -2386,7 +2427,9 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			krpano.set("hotspot[" + newHotSpotName + "].hotspotlink", linkStr);
 			krpano.set("hotspot[" + newHotSpotName + "].linkedscene", '');
 			krpano.set("hotspot[" + newHotSpotName + "].typevalue", hotspotTypeValue);
-			
+			krpano.set("hotspot[" + newHotSpotName + "].linkopentype", linkOpenType);
+			krpano.set("hotspot[" + newHotSpotName + "].content", content);
+
 			//注册热点事件
 			hotspotManger.hotSpotInitEvent(newHotSpotName);
 
@@ -2394,6 +2437,47 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 			hotspotManger.updateHotSpotData(newHotSpotName);
 
 		},
+
+		addHotSpotTextContent: function(newHotSpotName,curSceneIndex,curSceneName,title, content,skin_hotspot_style,hotspotTypeValue) {
+
+			var krpano = globalData.getKrpano();
+
+			var param = {};
+
+
+			// 计算中间位置的球面坐标
+
+			krpano.set("halfHeight", krpano.get("stageheight") / 2);
+			krpano.set("halfWidth", krpano.get("stagewidth") / 2);
+
+			krpano.call("screentosphere(halfWidth,halfHeight,init_h,init_v);");
+
+			var init_h = krpano.get("init_h");
+			var init_v = krpano.get("init_v");
+
+			hotspotManger.removeHotspotByName(newHotSpotName);
+
+			var title = title;
+
+			krpano.call("addhotspot(" + newHotSpotName + ");");
+
+			krpano.get("hotspot[" + newHotSpotName + "]").loadstyle(skin_hotspot_style);
+			krpano.set("hotspot[" + newHotSpotName + "].ath", init_h);
+			krpano.set("hotspot[" + newHotSpotName + "].atv", init_v);
+			krpano.set("hotspot[" + newHotSpotName + "].title", title);
+			krpano.set("hotspot[" + newHotSpotName + "].style", skin_hotspot_style);
+			krpano.set("hotspot[" + newHotSpotName + "].curscenename", curSceneName);
+			krpano.set("hotspot[" + newHotSpotName + "].linkedscene", '');
+			krpano.set("hotspot[" + newHotSpotName + "].typevalue", hotspotTypeValue);
+			krpano.set("hotspot[" + newHotSpotName + "].content", content);
+
+			//注册热点事件
+			hotspotManger.hotSpotInitEvent(newHotSpotName);
+
+			//保存全局数据
+			hotspotManger.updateHotSpotData(newHotSpotName);
+
+		}
 	}
 
 	//=================================================================================================
@@ -3036,6 +3120,13 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		hotspotManger.addHotSpotLinkUrl(newHotSpotName, curSceneIndex, curSceneName, title, linkStr, linkOpenTyle, skin_hotspot_style, hotspotTypeValue);
 	}
 
+	function _addHotSpotTextContent(newHotSpotName,curSceneIndex,curSceneName,title, content,skin_hotspot_style,hotspotTypeValue) {
+
+		hotspotManger.addHotSpotTextContent(newHotSpotName,curSceneIndex,curSceneName,title, content,skin_hotspot_style,hotspotTypeValue);
+	}
+
+
+
 	/******************************************************************************
 	 * Desc: 改变热点显隐性信息
 	 * 
@@ -3325,6 +3416,7 @@ define(['jquery', 'layuiModule', 'bootstrap', 'fileInput', './tour', './../Utils
 		//热点相关
 		addHotSpot: _addHotSpot,
 		addHotSpotLinkUrl: _addHotSpotLinkUrl,
+        addHotSpotTextContent: _addHotSpotTextContent,
 		changeHotspotVisible: _changeHotspotVisible,
 		getCurSceneHotspotList: _getCurSceneHotspotList,
 		getHotspotDataByName: _getHotspotDataByName,
